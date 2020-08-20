@@ -7,21 +7,27 @@ public class ImportDescriptor {
     private final int maxId;
     private final int version;
 
+    public ImportDescriptor(String importName, int maxId, int version) {
+        this.importName = importName;
+        this.maxId = maxId;
+        this.version = version;
+    }
+
     public ImportDescriptor(SymbolTable symbolTable) {
         this.importName = symbolTable.getName();
         this.maxId = symbolTable.getMaxId();
         this.version = symbolTable.getVersion();
     }
 
-    final int getVersion() {
+    public int getVersion() {
         return version;
     }
 
-    final int getMaxId() {
+    public int getMaxId() {
         return maxId;
     }
 
-    final String getImportName() {
+    public String getImportName() {
         return importName;
     }
 }
