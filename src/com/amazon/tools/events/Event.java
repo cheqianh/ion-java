@@ -1,16 +1,13 @@
-package tools.events;
+package com.amazon.tools.events;
 
 import com.amazon.ion.IonType;
 import com.amazon.ion.IonValue;
 import com.amazon.ion.SymbolToken;
-import com.amazon.ion.IonException;
 import com.amazon.ion.IonWriter;
 
 import com.amazon.ion.system.IonBinaryWriterBuilder;
 import com.amazon.ion.system.IonTextWriterBuilder;
-import tools.cli.ProcessContext;
-import tools.errorReport.ErrorDescription;
-import tools.errorReport.ErrorType;
+import com.amazon.tools.cli.ProcessContext;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -39,8 +36,7 @@ public class Event {
 
     public void writeOutput(IonWriter ionWriterForErrorReport,
                             ProcessContext processContext) throws IOException {
-        int updatedEventIndex = writeOutput(processContext.getIonWriter(), ionWriterForErrorReport,
-                processContext.getFileName(),processContext.getEventIndex());
+        int updatedEventIndex = writeOutput(processContext.getIonWriter(),processContext.getEventIndex());
 
         processContext.setEventIndex(updatedEventIndex);
     }
@@ -49,10 +45,7 @@ public class Event {
      * write Event structure to Event Stream and return the updated eventIndex.
      */
     public int writeOutput(IonWriter ionWriterForOutput,
-                           IonWriter ionWriterForErrorReport,
-                           String fileName,
                            int eventIndex) throws IOException {
-        try {
             ionWriterForOutput.stepIn(IonType.STRUCT);
 
             if (this.eventType != null) {
@@ -151,11 +144,6 @@ public class Event {
             }
 
             ionWriterForOutput.stepOut();
-        } catch (IonException e) {
-            new ErrorDescription(ErrorType.WRITE, e.getMessage(), fileName, eventIndex)
-                    .writeOutput(ionWriterForErrorReport);
-            System.exit(IO_ERROR_EXIT_CODE);
-        }
 
         //event index + 1 if we write OutputStream successfully.
         return eventIndex + 1;
