@@ -331,9 +331,7 @@ public class IonJavaCli {
                     compareContext.setEventStreamFirst(eventsFirst);
                     compareContext.setEventStreamSecond(eventsSecond);
 
-                    if (comparisonType == ComparisonType.EQUIVS
-                            || comparisonType == ComparisonType.EQUIVS_TIMELINE
-                            || comparisonType == ComparisonType.NON_EQUIVS) {
+                    if (comparisonType != ComparisonType.BASIC) {
                         if (compareEquivs(compareContext) ^
                                 (comparisonType == ComparisonType.EQUIVS
                                         || comparisonType == ComparisonType.EQUIVS_TIMELINE)) {
@@ -341,7 +339,7 @@ public class IonJavaCli {
                                     ComparisonResultType.EQUAL : ComparisonResultType.NOT_EQUAL;
                             writeReport(compareContext, ionWriterForOutput, type);
                         }
-                    } else if (comparisonType == ComparisonType.BASIC) {
+                    } else {
                         if (!compare(compareContext, 0, eventsFirst.size() - 1,
                                 0, eventsSecond.size() - 1)) {
                             writeReport(compareContext, ionWriterForOutput, ComparisonResultType.NOT_EQUAL);
@@ -546,7 +544,9 @@ public class IonJavaCli {
 
             for (int m = 0; m < pairsFirst.size(); m++) {
                 for (int n = 0; n < pairsSecond.size(); n++) {
-                    if (m == n) continue;
+                    if (compareContext.getType() == ComparisonType.NON_EQUIVS) {
+                        if (m == n) continue;
+                    }
                     Pair pairFirst = pairsFirst.get(m);
                     Pair pairSecond = pairsSecond.get(n);
                     if (compare(compareContext, pairFirst.left, pairFirst.right, pairSecond.left, pairSecond.right) ^
