@@ -22,9 +22,9 @@
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>
-    A Java CLI used for ion-test-driver
+    A CLI that implements the standard interface defined by ion-test-driver.
   </description>
-  <url>https://github.com/amzn/ion-java/</url>
+  <url>https://github.com/amzn/ion-java/ion-java-cli</url>
 
   <licenses>
     <license>
@@ -65,7 +65,7 @@
     <dependency>
       <groupId>com.amazon.ion</groupId>
       <artifactId>ion-java</artifactId>
-      <version>1.7.0</version>
+      <version>[1.7.0,)</version>
     </dependency>
   </dependencies>
 
