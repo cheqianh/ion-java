@@ -24,7 +24,7 @@
   <description>
     A CLI that implements the standard interface defined by ion-test-driver.
   </description>
-  <url>https://github.com/amzn/ion-java/ion-java-cli</url>
+  <url>https://github.com/amzn/ion-java/tree/master/ion-java-cli</url>
 
   <licenses>
     <license>
