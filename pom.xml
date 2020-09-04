@@ -82,12 +82,6 @@
       <version>1.1.1</version>
       <scope>test</scope>
     </dependency>
-    <!-- ion-java/tools/cli dependencies -->
-    <dependency>
-      <groupId>args4j</groupId>
-      <artifactId>args4j</artifactId>
-      <version>2.33</version>
-    </dependency>
   </dependencies>
 
   <build>
