@@ -345,7 +345,7 @@ public class IonJavaCli {
                             writeReport(compareContext, ionWriterForOutput, ComparisonResultType.NOT_EQUAL);
                         }
                     }
-                } catch (IonException | NullPointerException e) {
+                } catch (Exception e) {
                     new ErrorDescription(ErrorType.STATE, e.getMessage(), path + ';' + compareToPath,
                             -1).writeOutput(ionWriterForErrorReport);
                 }
@@ -715,7 +715,8 @@ public class IonJavaCli {
     }
 
     private static boolean isSameSymbolTokenArray(SymbolToken[] symbolTokenArrayX, SymbolToken[] symbolTokenArrayY) {
-        if (symbolTokenArrayX == null && symbolTokenArrayY == null) {
+        if ((symbolTokenArrayX == null || symbolTokenArrayX.length == 0)
+                && (symbolTokenArrayY == null || symbolTokenArrayY.length == 0)) {
             return true;
         } else if (symbolTokenArrayX != null && symbolTokenArrayY != null) {
             if (symbolTokenArrayX.length == symbolTokenArrayY.length) {
@@ -855,6 +856,14 @@ public class IonJavaCli {
         SymbolTable curTable = ionReader.getSymbolTable();
 
         do {
+            if (ionReader.isNullValue()) {
+                IonValue value = ION_SYSTEM.newValue(ionReader);
+                value.clearTypeAnnotations();
+                events.add(new Event(EventType.SCALAR, ionReader.getType(), ionReader.getFieldNameSymbol(),
+                        ionReader.getTypeAnnotationSymbols(), value, null, ionReader.getDepth()));
+                continue;
+            }
+
             if (!isSameSymbolTable(ionReader.getSymbolTable(), curTable)) {
                 curTable = ionReader.getSymbolTable();
                 ImportDescriptor[] imports = symbolTableToImports(curTable.getImportedTables());
