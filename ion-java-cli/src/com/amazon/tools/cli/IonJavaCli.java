@@ -216,7 +216,7 @@ public class IonJavaCli {
             processContext.setLastEventType(event.getEventType());
             if (event.getEventType() == EventType.CONTAINER_START) {
                 if (isEmbeddedEvent(event)) {
-                    count = embeddedEventToIon(processContext, args, event.getIonType());
+                    count = embeddedEventToIon(processContext, args, count, event.getIonType());
                 } else {
                     IonType type = event.getIonType();
                     setFieldName(event, processContext.getIonWriter());
@@ -238,13 +238,13 @@ public class IonJavaCli {
 
     private static int embeddedEventToIon(ProcessContext processContext,
                                            CommandArgs args,
+                                           int count,
                                            IonType ionType) throws IOException {
         processContext.getIonWriter().addTypeAnnotation(EMBEDDED_STREAM_ANNOTATION);
         processContext.getIonWriter().stepIn(ionType);
         List<Event> events =  processContext.getEventStream();
         int depth = 1;
         boolean finish = false;
-        int count = 0;
         while (++count < events.size()) {
             StringBuilder out = new StringBuilder();
             ProcessContext embeddedContext = new ProcessContext(null,0,null, null,
