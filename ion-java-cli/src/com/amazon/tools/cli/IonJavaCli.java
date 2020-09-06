@@ -39,6 +39,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class IonJavaCli {
     private static final int CONSOLE_WIDTH = 120; // Only used for formatting the USAGE message
@@ -51,6 +52,7 @@ public class IonJavaCli {
     private static final IonSystem ION_SYSTEM = IonSystemBuilder.standard().build();
     private static final String EMBEDDED_STREAM_ANNOTATION = "embedded_documents";
     private static final String EVENT_STREAM = "$ion_event_stream";
+    private static final Pattern ION_VERSION_MARKER_REGEX = Pattern.compile("^\\$ion_[0-9]+_[0-9]+$");
 
     public static void main(final String[] args) {
         CommandArgs parsedArgs = new CommandArgs();
@@ -967,6 +969,10 @@ public class IonJavaCli {
         }
     }
 
+    private static boolean isIonVersionMarker(String text) {
+        return text != null && ION_VERSION_MARKER_REGEX.matcher(text).matches();
+    }
+
     private static Event ionStreamToEvent(IonReader ionReader) throws IllegalStateException {
         if (ionReader.getType() == null) throw new IllegalStateException("Can't convert ionReader null type to Event");
         IonType ionType = ionReader.getType();
@@ -984,6 +990,9 @@ public class IonJavaCli {
             eventType = EventType.SCALAR;
             value = ION_SYSTEM.newValue(ionReader);
             value.clearTypeAnnotations();
+            if (isIonVersionMarker(value.toString())) {
+                value.setTypeAnnotationSymbols(_Private_Utils.newSymbolToken("$ion_user_value", 0));
+            }
         }
 
         return new Event(eventType, ionType, fieldName, annotations, value, imports, depth);
