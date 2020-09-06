@@ -754,6 +754,7 @@ public class IonJavaCli {
 
     public static boolean isEventStream(IonReader ionReader) {
         return ionReader.next() != null
+                && !ionReader.isNullValue()
                 && ionReader.getType() == IonType.SYMBOL
                 && EVENT_STREAM.equals(ionReader.symbolValue().getText());
     }
