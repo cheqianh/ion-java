@@ -328,6 +328,7 @@ public class IonJavaCli {
                     boolean isSecondEventStream = isEventStream(ionReaderSecond);
                     List<Event> eventsFirst = getEventStream(ionReaderFirst, isFirstEventStream, CommandType.COMPARE);
                     List<Event> eventsSecond = getEventStream(ionReaderSecond, isSecondEventStream, CommandType.COMPARE);
+
                     compareContext.setEventStreamFirst(eventsFirst);
                     compareContext.setEventStreamSecond(eventsSecond);
 
@@ -788,7 +789,7 @@ public class IonJavaCli {
                 events.add(event);
             }
         } else {
-            events = ionStreamToEventStream(ionReader);
+            events = ionStreamToEventStream(ionReader, commandType);
             events.add(new Event(EventType.STREAM_END, null, null, null,
                     null, null, 0));
         }
@@ -850,7 +851,7 @@ public class IonJavaCli {
         }
     }
 
-    private static List<Event> ionStreamToEventStream(IonReader ionReader) throws IOException {
+    private static List<Event> ionStreamToEventStream(IonReader ionReader, CommandType commandType) throws IOException {
         List<Event> events = new ArrayList<>();
         if (ionReader.getType() == null ) return events;
         SymbolTable curTable = ionReader.getSymbolTable();
@@ -867,8 +868,11 @@ public class IonJavaCli {
             if (!isSameSymbolTable(ionReader.getSymbolTable(), curTable)) {
                 curTable = ionReader.getSymbolTable();
                 ImportDescriptor[] imports = symbolTableToImports(curTable.getImportedTables());
-                events.add(new Event(EventType.SYMBOL_TABLE, null, null, null,
-                        null, imports, 0));
+
+                if (commandType != CommandType.COMPARE) {
+                    events.add(new Event(EventType.SYMBOL_TABLE, null, null, null,
+                            null, imports, 0));
+                }
             }
 
             if (isEmbeddedStream(ionReader)) {
@@ -887,7 +891,7 @@ public class IonJavaCli {
                     String stream = ionReader.stringValue();
                     try (IonReader tempIonReader = IonReaderBuilder.standard().build(stream)) {
                         while (tempIonReader.next() != null) {
-                            List<Event> append = ionStreamToEventStream(tempIonReader);
+                            List<Event> append = ionStreamToEventStream(tempIonReader, commandType);
                             events.addAll(append);
                         }
                     }
@@ -909,7 +913,7 @@ public class IonJavaCli {
 
                 //recursive call
                 ionReader.next();
-                List<Event> append = ionStreamToEventStream(ionReader);
+                List<Event> append = ionStreamToEventStream(ionReader, commandType);
                 events.addAll(append);
                 //write a Container_End event and step out
                 events.add(new Event(EventType.CONTAINER_END, curType, null, null,
@@ -1109,8 +1113,6 @@ public class IonJavaCli {
             case SCALAR:
                 if (ionType == null || textValue == null || binaryValue == null || depth == -1) {
                     throw new IonException("Invalid SCALAR: missing field(s)");
-                } else if (IonType.isContainer(ionType)) {
-                    throw new IonException("Invalid SCALAR: ion_type error");
                 } else if (imports != null) {
                     throw new IonException("Invalid SCALAR: imports must only be present with SYMBOL_TABLE "
                             + "events");
