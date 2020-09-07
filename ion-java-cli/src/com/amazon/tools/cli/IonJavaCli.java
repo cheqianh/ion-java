@@ -175,8 +175,7 @@ public class IonJavaCli {
             ) {
                 processContext.setFileName(path);
 
-                boolean isEventStream = isEventStream(ionReader);
-                List<Event> events = getEventStream(ionReader, isEventStream, CommandType.PROCESS);
+                List<Event> events = getEventStream(ionReader, CommandType.PROCESS);
 
                 processContext.setEventStream(events);
                 processContext.setEventIndex(0);
@@ -326,10 +325,8 @@ public class IonJavaCli {
                         if (path.equals(compareToPath)) { continue; }
                     }
 
-                    boolean isFirstEventStream = isEventStream(ionReaderFirst);
-                    boolean isSecondEventStream = isEventStream(ionReaderSecond);
-                    List<Event> eventsFirst = getEventStream(ionReaderFirst, isFirstEventStream, CommandType.COMPARE);
-                    List<Event> eventsSecond = getEventStream(ionReaderSecond, isSecondEventStream, CommandType.COMPARE);
+                    List<Event> eventsFirst = getEventStream(ionReaderFirst, CommandType.COMPARE);
+                    List<Event> eventsSecond = getEventStream(ionReaderSecond, CommandType.COMPARE);
 
                     compareContext.setEventStreamFirst(eventsFirst);
                     compareContext.setEventStreamSecond(eventsSecond);
@@ -779,10 +776,11 @@ public class IonJavaCli {
     }
 
     private static List<Event> getEventStream(IonReader ionReader,
-                                              boolean isEventStream,
                                               CommandType commandType) throws IOException {
-        List<Event> events = new ArrayList<>();
+        SymbolTable curTable = ionReader.getSymbolTable();
+        boolean isEventStream = isEventStream(ionReader);
 
+        List<Event> events = new ArrayList<>();
         if (isEventStream) {
             while (ionReader.next() != null) {
                 Event event = eventStreamToEvent(ionReader);
@@ -792,7 +790,7 @@ public class IonJavaCli {
                 events.add(event);
             }
         } else {
-            events = ionStreamToEventStream(ionReader, commandType);
+            events = ionStreamToEventStream(ionReader, commandType, curTable);
             events.add(new Event(EventType.STREAM_END, null, null, null,
                     null, null, 0));
         }
@@ -854,11 +852,11 @@ public class IonJavaCli {
         }
     }
 
-    private static List<Event> ionStreamToEventStream(IonReader ionReader, CommandType commandType) throws IOException {
+    private static List<Event> ionStreamToEventStream(IonReader ionReader,
+                                                      CommandType commandType,
+                                                      SymbolTable curTable) throws IOException {
         List<Event> events = new ArrayList<>();
         if (ionReader.getType() == null ) return events;
-        SymbolTable curTable = ionReader.getSymbolTable();
-
         do {
             if (ionReader.isNullValue()) {
                 IonValue value = ION_SYSTEM.newValue(ionReader);
@@ -877,7 +875,6 @@ public class IonJavaCli {
                             null, imports, 0));
                 }
             }
-
             if (isEmbeddedStream(ionReader)) {
                 //get current Ion type and depth
                 IonType curType = ionReader.getType();
@@ -893,8 +890,10 @@ public class IonJavaCli {
                     }
                     String stream = ionReader.stringValue();
                     try (IonReader tempIonReader = IonReaderBuilder.standard().build(stream)) {
+                        SymbolTable symbolTable = tempIonReader.getSymbolTable();
                         while (tempIonReader.next() != null) {
-                            List<Event> append = ionStreamToEventStream(tempIonReader, commandType);
+                            List<Event> append =
+                                    ionStreamToEventStream(tempIonReader, commandType, symbolTable);
                             events.addAll(append);
                         }
                     }
@@ -916,7 +915,7 @@ public class IonJavaCli {
 
                 //recursive call
                 ionReader.next();
-                List<Event> append = ionStreamToEventStream(ionReader, commandType);
+                List<Event> append = ionStreamToEventStream(ionReader, commandType, curTable);
                 events.addAll(append);
                 //write a Container_End event and step out
                 events.add(new Event(EventType.CONTAINER_END, curType, null, null,
