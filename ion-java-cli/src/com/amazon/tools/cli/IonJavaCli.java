@@ -262,6 +262,8 @@ public class IonJavaCli {
                         writeIonByType(event, embeddedContext.getIonWriter());
                     } else if (event.getEventType() == EventType.CONTAINER_START) {
                         depth++;
+                        setFieldName(event, embeddedContext.getIonWriter());
+                        setAnnotations(event, embeddedContext.getIonWriter());
                         embeddedContext.getIonWriter().stepIn(event.getIonType());
                     } else if (event.getEventType() == EventType.CONTAINER_END) {
                         depth--;
