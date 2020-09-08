@@ -360,6 +360,7 @@ public class IonJavaCli {
                 } catch (Exception e) {
                     new ErrorDescription(ErrorType.STATE, e.getMessage(), path + ';' + compareToPath,
                             -1).writeOutput(ionWriterForErrorReport);
+                    System.exit(IO_ERROR_EXIT_CODE);
                 }
             }
         }
