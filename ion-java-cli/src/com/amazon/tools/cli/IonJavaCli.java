@@ -434,6 +434,7 @@ public class IonJavaCli {
             i++;
             j++;
         }
+        if (i <= endI || j <= endJ) return false;
         return true;
     }
 
@@ -807,11 +808,15 @@ public class IonJavaCli {
             readContext.getEventStream().add(new Event(EventType.STREAM_END, null, null, null,
                     null, null, 0));
         }
-        validateEventStream(readContext.getEventStream());
+
+        if (commandType == CommandType.PROCESS) {
+            validateEventStream(readContext.getEventStream());
+        }
         return;
     }
 
     private static void validateEventStream(List<Event> events) {
+        if (events.size() == 0) return;
         if (events.get(events.size() - 1).getEventType() != EventType.STREAM_END) {
             throw new IonException("Invalid event stream: event stream end without STREAM_END event");
         }
