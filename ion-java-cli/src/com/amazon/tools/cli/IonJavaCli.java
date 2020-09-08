@@ -1275,7 +1275,7 @@ public class IonJavaCli {
     }
 
     static class ReadContext {
-        private List<Event> eventStream;
+        final private List<Event> eventStream;
         private ErrorType state;
 
         public ReadContext(List<Event> eventStream) {
