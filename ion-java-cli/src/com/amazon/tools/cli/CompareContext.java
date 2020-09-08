@@ -27,8 +27,8 @@ public class CompareContext {
     public void reset(String file, String compareToFile){
         this.setFile(file);
         this.setCompareToFile(compareToFile);
-        this.setFileEventIndex(1);
-        this.setCompareToFileEventIndex(1);
+        this.setFileEventIndex(-1);
+        this.setCompareToFileEventIndex(-1);
         this.message = null;
         this.eventStreamFirst = null;
         this.eventStreamSecond = null;

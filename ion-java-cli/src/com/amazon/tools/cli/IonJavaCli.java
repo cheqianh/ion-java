@@ -76,7 +76,7 @@ public class IonJavaCli {
         }
 
         ProcessContext processContext = commandType == CommandType.PROCESS ? new ProcessContext(null, -1,
-                null, null, null) : null;
+                null, ErrorType.READ, null) : null;
         try (
                 //Initialize output stream, never return null. (default value: STDOUT)
                 OutputStream outputStream = initOutputStream(parsedArgs, SYSTEM_OUT_DEFAULT_VALUE, processContext);
@@ -175,11 +175,10 @@ public class IonJavaCli {
                 try {
                     getEventStream(ionReader, CommandType.PROCESS, readContext);
                 } catch (IonException | NullPointerException e) {
-                    new ErrorDescription(processContext.getState(), e.getMessage(), processContext.getFileName(),
+                    new ErrorDescription(readContext.getState(), e.getMessage(), processContext.getFileName(),
                             processContext.getEventIndex()).writeOutput(ionWriterForErrorReport);
                     finish = true;
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
                     new ErrorDescription(ErrorType.STATE, e.getMessage(), processContext.getFileName(),
                             processContext.getEventIndex()).writeOutput(ionWriterForErrorReport);
                     finish = true;
@@ -434,7 +433,10 @@ public class IonJavaCli {
             i++;
             j++;
         }
-        if (i <= endI || j <= endJ) return false;
+        if (i <= endI || j <= endJ) {
+            setReportInfo(i , j, "two event streams have different size", compareContext);
+            return false;
+        }
         return true;
     }
 
@@ -781,10 +783,14 @@ public class IonJavaCli {
                                     ComparisonResultType type) throws IOException {
         new ComparisonResult(type,
                 new ComparisonContext(compareContext.getFile(),
-                        compareContext.getEventStreamFirst().get(compareContext.getFileEventIndex()),
+                        (compareContext.getFileEventIndex() >= compareContext.getEventStreamFirst().size()
+                                || compareContext.getFileEventIndex() < 0) ? null :
+                                compareContext.getEventStreamFirst().get(compareContext.getFileEventIndex()),
                         compareContext.getFileEventIndex()),
                 new ComparisonContext(compareContext.getCompareToFile(),
-                        compareContext.getEventStreamSecond().get(compareContext.getCompareToFileEventIndex()),
+                        (compareContext.getCompareToFileEventIndex() >= compareContext.getEventStreamSecond().size()
+                                || compareContext.getCompareToFileEventIndex() < 0) ? null :
+                                compareContext.getEventStreamSecond().get(compareContext.getCompareToFileEventIndex()),
                         compareContext.getCompareToFileEventIndex()),
                 compareContext.getMessage()).writeOutput(ionWriter);
     }
@@ -796,6 +802,7 @@ public class IonJavaCli {
         boolean isEventStream = isEventStream(ionReader);
 
         if (isEventStream) {
+            readContext.setState(ErrorType.WRITE);
             while (ionReader.next() != null) {
                 Event event = eventStreamToEvent(ionReader);
                 if (event.getEventType() == EventType.SYMBOL_TABLE && commandType == CommandType.COMPARE) {
@@ -804,6 +811,7 @@ public class IonJavaCli {
                 readContext.getEventStream().add(event);
             }
         } else {
+            readContext.setState(ErrorType.READ);
             ionStreamToEventStream(ionReader, commandType, curTable, readContext);
             readContext.getEventStream().add(new Event(EventType.STREAM_END, null, null, null,
                     null, null, 0));
@@ -1267,17 +1275,23 @@ public class IonJavaCli {
 
     static class ReadContext {
         private List<Event> eventStream;
+        private ErrorType state;
 
         public ReadContext(List<Event> eventStream) {
             this.eventStream = eventStream;
+            this.state = ErrorType.READ;
         }
 
         public List<Event> getEventStream() {
             return eventStream;
         }
 
-        public void setEventStream(List<Event> eventStream) {
-            this.eventStream = eventStream;
+        public ErrorType getState() {
+            return state;
+        }
+
+        public void setState(ErrorType state) {
+            this.state = state;
         }
     }
 

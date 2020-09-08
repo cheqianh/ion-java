@@ -44,9 +44,11 @@ public class ComparisonResult {
         ionWriter.stepIn(IonType.STRUCT);
         ionWriter.setFieldName("location");
         ionWriter.writeString(comparisonContext.getLocation());
-        ionWriter.setFieldName("event");
-        comparisonContext.getEvent().writeOutput(ionWriter, -1);
-        ionWriter.setFieldName("eventIndex");
+        if (comparisonContext.getEvent() != null) {
+            ionWriter.setFieldName("event");
+            comparisonContext.getEvent().writeOutput(ionWriter, -1);
+        }
+        ionWriter.setFieldName("event_index");
         ionWriter.writeInt(comparisonContext.getEventIndex());
         ionWriter.stepOut();
     }
