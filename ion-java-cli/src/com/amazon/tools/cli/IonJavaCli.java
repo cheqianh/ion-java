@@ -829,6 +829,9 @@ public class IonJavaCli {
 
     private static void validateEventStream(List<Event> events) {
         if (events.size() == 0) return;
+        if (events.get(events.size() - 1).getEventType() != EventType.STREAM_END) {
+            throw new IonException("Invalid event stream: event stream end without STREAM_END event");
+        }
 
         int depth = 0;
         int i = -1;
