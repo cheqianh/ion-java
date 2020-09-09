@@ -1070,12 +1070,12 @@ public class IonJavaCli {
                     ionReader.stepIn();
                     while (ionReader.next() != null) {
                         ionReader.stepIn();
-                        String text = "";
+                        String text = null;
                         int sid = 0;
                         while (ionReader.next() != null) {
                             switch (ionReader.getFieldName()) {
                                 case "text":
-                                    text = ionReader.stringValue();
+                                    text = ionReader.isNullValue() ? null : ionReader.stringValue();
                                     break;
                                 case "sid":
                                     sid = ionReader.intValue();
@@ -1086,7 +1086,7 @@ public class IonJavaCli {
                         annotationsList.add(annotation);
                         ionReader.stepOut();
                     }
-                    annotations = annotationsList.toArray(new SymbolToken[0]);
+                    annotations = annotationsList.toArray(SymbolToken.EMPTY_ARRAY);
                     ionReader.stepOut();
                     break;
                 case "value_text":
