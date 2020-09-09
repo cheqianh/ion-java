@@ -335,13 +335,18 @@ public class IonJavaCli {
                     if (comparisonType == ComparisonType.BASIC) {
                         if (path.equals(compareToPath)) { continue; }
                     }
-                    ReadContext readContextFirst = new ReadContext(new ArrayList<>());
-                    ReadContext readContextSecond = new ReadContext(new ArrayList<>());
-                    getEventStream(ionReaderFirst, CommandType.COMPARE, readContextFirst);
-                    getEventStream(ionReaderSecond, CommandType.COMPARE, readContextSecond);
 
-                    compareContext.setEventStreamFirst(readContextFirst.getEventStream());
-                    compareContext.setEventStreamSecond(readContextSecond.getEventStream());
+                    try {
+                        ReadContext readContextFirst = new ReadContext(new ArrayList<>());
+                        ReadContext readContextSecond = new ReadContext(new ArrayList<>());
+                        getEventStream(ionReaderFirst, CommandType.COMPARE, readContextFirst);
+                        getEventStream(ionReaderSecond, CommandType.COMPARE, readContextSecond);
+                        compareContext.setEventStreamFirst(readContextFirst.getEventStream());
+                        compareContext.setEventStreamSecond(readContextSecond.getEventStream());
+                    } catch (Exception e) {
+                        //We exit immediately For compare mode.
+                        System.exit(IO_ERROR_EXIT_CODE);
+                    }
 
                     if (comparisonType != ComparisonType.BASIC) {
                         if (compareEquivs(compareContext) ^
@@ -352,8 +357,8 @@ public class IonJavaCli {
                             writeReport(compareContext, ionWriterForOutput, type);
                         }
                     } else {
-                        if (!compare(compareContext, 0, readContextFirst.getEventStream().size() - 1,
-                                0, readContextSecond.getEventStream().size() - 1)) {
+                        if (!compare(compareContext, 0, compareContext.getEventStreamFirst().size() - 1,
+                                0, compareContext.getEventStreamSecond().size() - 1)) {
                             writeReport(compareContext, ionWriterForOutput, ComparisonResultType.NOT_EQUAL);
                         }
                     }
@@ -818,17 +823,12 @@ public class IonJavaCli {
                     null, null, 0));
         }
 
-        if (commandType == CommandType.PROCESS) {
-            validateEventStream(readContext.getEventStream());
-        }
+        validateEventStream(readContext.getEventStream());
         return;
     }
 
     private static void validateEventStream(List<Event> events) {
         if (events.size() == 0) return;
-        if (events.get(events.size() - 1).getEventType() != EventType.STREAM_END) {
-            throw new IonException("Invalid event stream: event stream end without STREAM_END event");
-        }
 
         int depth = 0;
         int i = -1;
