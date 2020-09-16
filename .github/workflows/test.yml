@@ -16,7 +16,7 @@ jobs:
         run: python --version
 
       - name: download python3
-        run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" && brew install python
+        run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" && brew reinstall python
 
       - name: version
         run: python --version
