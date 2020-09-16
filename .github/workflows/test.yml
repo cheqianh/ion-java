@@ -13,23 +13,5 @@ jobs:
           ref: cicd-test
           path: /home/runner/work/ion-java/ion-java/ion-test-driver
 
-      - name: cd
-        run: cd /home/runner/work/ion-java/ion-java/ion-test-driver
-
-      - name: ls
-        run: ls
-
-      - name: cd
-        run: cd ./ion-test-driver
-
-      - name: ls
-        run: ls
-
-      - name: cd
-        run: cd ./ion-test-driver
-
-      - name: ls
-        run: ls
-
-#      - name: run ion-test-driver
-#        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py
+      - name: run ion-test-driver
+        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py
