@@ -18,5 +18,8 @@ jobs:
       - name: set up python3
         run: . venv/bin/activate && pip install -r requirements.txt && pip install -r requirements.txt
 
-      - name: run ion-test-driver
-        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py
+      - name: ls
+        run: ls ion-test-driver/amazon/iontest
+
+#      - name: run ion-test-driver
+#        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py
