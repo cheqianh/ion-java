@@ -1,0 +1,10 @@
+name: Greetings
+
+on: [pull_request, issues]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - id: hello
+        run: pwd
