@@ -13,7 +13,10 @@ jobs:
           ref: cicd-test
 
       - name: set up python3
-        run: python3 -m venv ./venv && . venv/bin/activate && pip install -r requirements.txt && pip install -r requirements.txt && pip install six
+        run: python3 -m venv ./venv && . venv/bin/activate && pip install -r requirements.txt && pip install -r requirements.txt
+
+      - name: download six
+        run: pip install six
 
       - name: ls
         run: ls ./venv/lib
