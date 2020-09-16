@@ -8,6 +8,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
+        with:
+          repository: amzn/ion-test-driver
 
       - name: ls
         run: ls
