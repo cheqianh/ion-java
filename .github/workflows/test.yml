@@ -1,4 +1,4 @@
-name: Ion-test-driver
+name: Greetings
 
 on:
   push:
