@@ -15,14 +15,17 @@ jobs:
       - name: version
         run: python --version
 
+      - name: download python3
+        run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" && brew install python
+
+      - name: version
+        run: python --version
+
       - name: set up python3
         run: python3 -m venv ./venv && . venv/bin/activate && pip install -r requirements.txt && pip install -r requirements.txt
 
       - name: download six
         run: pip install --ignore-install six
-
-      - name: version
-        run: python --version
 
       - name: ls
         run: ls ./venv/lib/python3.8/site-packages
