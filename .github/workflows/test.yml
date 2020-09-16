@@ -1,14 +1,14 @@
 name: Greetings
 
-on: [push, issues]
+on: [pull_request, issues]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - id: hello
+      - name: hello
         run: pwd
-      - id: download
+      - name: download
         run: echo $GITHUB_WORKSPACE
       - name: Checkout
         uses: actions/checkout@master
