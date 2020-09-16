@@ -11,12 +11,19 @@ jobs:
         with:
           repository: cheqianh/ion-test-driver
           ref: cicd-test
+          path: /home/runner/work/ion-java/ion-test-driver
 
       - name: cd
-        run: cd /home/runner/work/ion-test-driver
+        run: cd /home/runner/work/ion-java
 
-      - name: pwd
-        run: pwd
+      - name: ls
+        run: ls
+
+      - name: cd
+        run: cd /home/runner/work/ion-java/ion-java
+
+      - name: ls
+        run: ls
 
       - name: run ion-test-driver
         run: python3 amazon/iontest/ion_test_driver.py
