@@ -24,5 +24,8 @@ jobs:
       - name: ls
           run: ls
 
+      - name: pwd
+          run: pwd
+
       - name: run ion-test-driver
         run: python3 amazon/iontest/ion_test_driver.py
