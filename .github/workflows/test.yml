@@ -11,7 +11,7 @@ jobs:
         with:
           repository: cheqianh/ion-test-driver
           ref: cicd-test
-          path: /home/runner/work/ion-java/ion-java/ion-test-driver
+          path: /home/runner/work/ion-java/ion-java
 
       - name: cd
         run: cd /home/runner/work/ion-java/ion-java/ion-test-driver
