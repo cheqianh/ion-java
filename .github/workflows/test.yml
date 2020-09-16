@@ -19,7 +19,7 @@ jobs:
         run: . venv/bin/activate && pip install -r requirements.txt && pip install -r requirements.txt
 
       - name: ls
-        run: ls ./venv/lib/python3.7/site-packages
+        run: ls ./venv/lib
 
 #      - name: run ion-test-driver
 #        run: python3 amazon/iontest/ion_test_driver.py
