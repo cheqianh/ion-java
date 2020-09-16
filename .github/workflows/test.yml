@@ -19,7 +19,7 @@ jobs:
         run: /Users/runner/work/ion-java/ion-java/venv/bin/python3 -m pip install --upgrade pip
 
       - name: pip isntall
-        run: pip install -r requirements.txt && pip install -r requirements.txt
+        run: pip3 install -r requirements.txt && pip3 install -e .
 
       - name: run ion-test-driver
         run: python3 amazon/iontest/ion_test_driver.py
