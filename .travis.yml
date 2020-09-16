@@ -13,9 +13,6 @@ script:
  - mvn test
  - mvn package -f ion-java-cli/pom.xml
  - java -jar ion-java-cli/target/ion-java-cli-1.0.jar version
- - git clone git@github.com:amzn/ion-test-driver.git ion-test-driver
- - cd ion-test-driver/amazon/iontest
- - pwd
 
 jobs:
   include:

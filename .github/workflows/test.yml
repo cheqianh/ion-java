@@ -8,3 +8,11 @@ jobs:
     steps:
       - id: hello
         run: pwd
+      - id: download
+        run: git clone git@github.com:amzn/ion-test-driver.git ion-test-driver
+      - id: goin
+        run: cd ./ion-test-driver/amazon/iontest
+      - id: pwd
+        run: pwd
+      - id: ls
+        run: ls
