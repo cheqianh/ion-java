@@ -12,6 +12,9 @@ jobs:
           repository: cheqianh/ion-test-driver
           ref: cicd-test
 
+      - name: update pip
+        run: /Users/runner/work/ion-java/ion-java/venv/bin/python3 -m pip install --upgrade pip
+
       - name: set up python3
         run: python3 -m venv ./venv && . venv/bin/activate && pip install -r requirements.txt && pip install -r requirements.txt
 
