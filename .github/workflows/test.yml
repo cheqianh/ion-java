@@ -8,9 +8,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
-      - id: ls
+
+      - name: ls
         run: ls
-      - name: hello
-        run: echo "asdf"
-      - name: download
-        run: echo $GITHUB_WORKSPACE
