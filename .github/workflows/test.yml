@@ -12,11 +12,11 @@ jobs:
           repository: cheqianh/ion-test-driver
           ref: cicd-test
 
-#      - name: set up python3
-#        run: python3 -m venv ./venv
-#
-#      - name: set up python3
-#        run: . venv/bin/activate && pip install -r requirements.txt && pip install -r requirements.txt
+      - name: set up python3
+        run: python3 -m venv ./venv
+
+      - name: set up python3
+        run: . venv/bin/activate && pip install -r requirements.txt && pip install -r requirements.txt
 
       - name: ls
         run: ls amazon/iontest
