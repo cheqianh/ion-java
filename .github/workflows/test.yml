@@ -1,9 +1,6 @@
 name: Greetings
 
-on:
-  push:
-    branches:
-      - master
+on: [push, issues]
 
 jobs:
   test:
