@@ -22,4 +22,4 @@ jobs:
         run: python3 amazon/iontest/ion_test_driver.py
 
       - name: show result
-        run: cat amazon/iontest/results/ion-test-driver-results.ion
+        run: cat /Users/runner/work/ion-java/ion-java/results/ion-test-driver-results.ion
