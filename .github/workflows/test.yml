@@ -6,11 +6,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: hello
-        run: pwd
-      - name: download
-        run: echo $GITHUB_WORKSPACE
       - name: Checkout
         uses: actions/checkout@master
       - id: ls
         run: ls
+      - name: hello
+        run: echo "asdf"
+      - name: download
+        run: echo $GITHUB_WORKSPACE
