@@ -15,11 +15,11 @@ jobs:
       - name: set up python3
         run: python3 -m venv ./venv && . venv/bin/activate
 
-      - name: update pip
-        run: /Users/runner/work/ion-java/ion-java/venv/bin/python3 -m pip install --upgrade pip
-
       - name: pip isntall
         run: pip3 install -r requirements.txt && pip3 install -e .
 
       - name: run ion-test-driver
         run: python3 amazon/iontest/ion_test_driver.py
+
+      - name: show result
+        run: cat amazon/iontest/results/ion-test-driver-results.ion
