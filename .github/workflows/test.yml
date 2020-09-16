@@ -18,5 +18,5 @@ jobs:
       - name: ls
         run: ls ./venv/lib
 
-#      - name: run ion-test-driver
-#        run: python3 amazon/iontest/ion_test_driver.py
+      - name: run ion-test-driver
+        run: python3 amazon/iontest/ion_test_driver.py
