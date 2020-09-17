@@ -6,11 +6,27 @@ jobs:
   test:
     runs-on: macOS-latest
     steps:
-      - name: Checkout
+      - name: Checkout ion-test-driver
         uses: actions/checkout@master
         with:
           repository: cheqianh/ion-test-driver
           ref: cicd-test
+          path: ion-test-driver
+
+      - name: Checkout ion-java
+        uses: actions/checkout@master
+        with:
+          repository: cheqianh/ion-test-driver
+          ref: cicd-test
+          path: ion-java
+
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: ion-java-main
+
+      - name: ls
+        run: ls
 
       - name: set up python3
         run: python3 -m venv ./venv && . venv/bin/activate
