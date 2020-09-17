@@ -25,10 +25,13 @@ jobs:
           path: ion-java-commit
 
       - name: ls
-        run: ls
+        run: ls ./ion-test-driver
 
       - name: set up python3
-        run: python3 -m venv ./ion-test-driver/venv && . /ion-test-driver/venv/bin/activate
+        run: python3 -m venv ./ion-test-driver/venv
+
+      - name: set up python3
+        run: . /ion-test-driver/venv/bin/activate
 
       - name: pip isntall
         run: pip3 install -r ./ion-test-driver/requirements.txt && pip3 install -e ./ion-test-driver
