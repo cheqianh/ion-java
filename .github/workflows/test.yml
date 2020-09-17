@@ -16,6 +16,7 @@ jobs:
       - name: Checkout ion-java
         uses: actions/checkout@master
         with:
+          ref: master
           path: ion-java
 
       - uses: actions/checkout@v2
