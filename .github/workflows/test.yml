@@ -16,26 +16,24 @@ jobs:
       - name: Checkout ion-java
         uses: actions/checkout@master
         with:
-          repository: cheqianh/ion-test-driver
-          ref: cicd-test
           path: ion-java
 
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          path: ion-java-main
+          path: ion-java-commit
 
       - name: ls
         run: ls
 
       - name: set up python3
-        run: python3 -m venv ./venv && . venv/bin/activate
+        run: python3 -m venv ./ion-test-driver/venv && . /ion-test-driver/venv/bin/activate
 
       - name: pip isntall
-        run: pip3 install -r requirements.txt && pip3 install -e .
+        run: pip3 install -r ./ion-test-driver/requirements.txt && pip3 install -e ./ion-test-driver
 
       - name: run ion-test-driver
-        run: python3 amazon/iontest/ion_test_driver.py
+        run: python3 ./ion-test-driver/amazon/iontest/ion_test_driver.py
 
       - name: show result
         run: cat /Users/runner/work/ion-java/ion-java/results/ion-test-driver-results.ion
