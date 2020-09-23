@@ -1,0 +1,45 @@
+name: Build
+
+on: [pull_request, issues]
+
+jobs:
+  ion-test-driver:
+    runs-on: macos-10.15
+    env:
+      JAVA_HOME: "/Library/Java/JavaVirtualMachines/adoptopenjdk-14.jdk/Contents/Home"  # in order to print java --help
+    steps:
+      - name: Checkout ion-test-driver
+        uses: actions/checkout@master
+        with:
+          repository: cheqianh/ion-test-driver
+          ref: cicd
+          path: ion-test-driver
+
+#      Change address to main repository after testing
+#
+#      - name: Checkout ion-test-driver
+#        uses: actions/checkout@master
+#        with:
+#          repository: amzn/ion-test-driver
+#          ref: master
+#          path: ion-test-driver
+
+      - name: Set up python3 env
+        run: python3 -m venv ion-test-driver/venv && . ion-test-driver/venv/bin/activate
+
+      - name: Pip install
+        run: pip3 install -r ion-test-driver/requirements.txt && pip3 install -e ion-test-driver
+
+      - name: Run ion-test-driver for master branch
+        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output
+             -R ion-java,https://github.com/cheqianh/ion-java,master
+
+      - name: Get result output and reset the dir
+        run: mkdir prev && mv output/results/ion-test-driver-results.ion prev && rm -rf output
+
+      - name: Run ion-test-driver for merge commit
+        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output
+             -R ion-java,https://github.com/cheqianh/ion-java,${{ github.event.pull_request.head.sha }}
+
+      - name: Compare results
+        run: diff output/results/ion-test-driver-results.ion prev/ion-test-driver-results.ion
