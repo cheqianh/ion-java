@@ -15,6 +15,12 @@ jobs:
           ref: test
           path: ion-test-driver
 
+      - name: npm
+        run: npm -v
+
+      - name: npm
+        run: node -v
+
 #      Change address to main repository after testing
 #
 #      - name: Checkout ion-test-driver
