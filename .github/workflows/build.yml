@@ -29,8 +29,7 @@ jobs:
         run: pip3 install -r ion-test-driver/requirements.txt && pip3 install -e ion-test-driver
 
       - name: Run ion-test-driver
-        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output
-             -i ion-java,https://github.com/cheqianh/ion-java,${{ github.event.pull_request.head.sha }}
+        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output -i ion-java,https://github.com/cheqianh/ion-java,${{ github.event.pull_request.head.sha }}
 
       - name: analyze two implementations
         run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -R
