@@ -5,8 +5,8 @@ on: [pull_request, issues]
 jobs:
   ion-test-driver:
     runs-on: macos-10.15
-    env:
-      JAVA_HOME: "/Library/Java/JavaVirtualMachines/adoptopenjdk-14.jdk/Contents/Home"  # in order to print java --help
+#    env:
+#      JAVA_HOME: "/Library/Java/JavaVirtualMachines/adoptopenjdk-14.jdk/Contents/Home"  # in order to print java --help
     steps:
       - name: Checkout ion-test-driver
         uses: actions/checkout@master
@@ -14,12 +14,6 @@ jobs:
           repository: cheqianh/ion-test-driver
           ref: test
           path: ion-test-driver
-
-      - name: npm
-        run: npm -v
-
-      - name: npm
-        run: node -v
 
 #      Change address to main repository after testing
 #
