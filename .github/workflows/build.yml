@@ -40,6 +40,7 @@ jobs:
 #             output/results/ion-test-driver-results.ion
       - name: analyze two implementations
         id: result-diff
+        continue-on-error: true
         run: git -v
 
 #      - name: Get result
