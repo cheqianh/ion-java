@@ -6,12 +6,12 @@ jobs:
   ion-test-driver:
     runs-on: macos-10.15
     steps:
-      - name: Checkout ion-test-driver
-        uses: actions/checkout@master
-        with:
-          repository: cheqianh/ion-test-driver
-          ref: master
-          path: ion-test-driver
+#      - name: Checkout ion-test-driver
+#        uses: actions/checkout@master
+#        with:
+#          repository: cheqianh/ion-test-driver
+#          ref: master
+#          path: ion-test-driver
 
 #      Change address to main repository after testing
 #
@@ -22,26 +22,32 @@ jobs:
 #          ref: master
 #          path: ion-test-driver
 
-      - name: Set up python3 env
-        run: python3 -m venv ion-test-driver/venv && . ion-test-driver/venv/bin/activate
-
-      - name: Pip install
-        run: pip3 install -r ion-test-driver/requirements.txt && pip3 install -e ion-test-driver
-
-      - name: Run ion-test-driver
-        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output -i ion-java,https://github.com/cheqianh/ion-java,${{ github.event.pull_request.head.sha }}
-
+#      - name: Set up python3 env
+#        run: python3 -m venv ion-test-driver/venv && . ion-test-driver/venv/bin/activate
+#
+#      - name: Pip install
+#        run: pip3 install -r ion-test-driver/requirements.txt && pip3 install -e ion-test-driver
+#
+#      - name: Run ion-test-driver
+#        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output -i ion-java,https://github.com/cheqianh/ion-java,${{ github.event.pull_request.head.sha }}
+#
+#      - name: analyze two implementations
+#        id: result-diff
+#        continue-on-error: true
+#        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -R
+#             ion-java,https://github.com/amzn/ion-java,master
+#             ion-java,https://github.com/cheqianh/ion-java,${{ github.event.pull_request.head.sha }}
+#             output/results/ion-test-driver-results.ion
       - name: analyze two implementations
         id: result-diff
-        continue-on-error: true
-        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -R
-             ion-java,https://github.com/amzn/ion-java,master
-             ion-java,https://github.com/cheqianh/ion-java,${{ github.event.pull_request.head.sha }}
-             output/results/ion-test-driver-results.ion
+        run: exit 1
 
-      - name: Get result
-        run: cat result.ion
+#      - name: Get result
+#        run: cat result.ion
 
       - name: Check
         if: steps.result-diff.outputs.status == 'failure'
         run: echo 'Implementation behavior changed, Referring analysis report in the previous step for the reason.' && exit 1
+
+      - name: ls
+        run: ls
