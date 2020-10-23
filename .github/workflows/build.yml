@@ -47,7 +47,7 @@ jobs:
 #        run: cat result.ion
 
       - name: Check
-        run: echo ${{steps.result-diff.exit_status}}
+        run: echo ${{ steps.result-diff.outcome }}
 
       - name: Check
         if: steps.result-diff.outputs.exit_status == 129
