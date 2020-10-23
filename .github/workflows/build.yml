@@ -47,10 +47,11 @@ jobs:
 #        run: cat result.ion
 
       - name: analyze two implementations
-        run: echo ${{ steps.result-diff.outcome }}
+        continue-on-error: true
+        run: echo steps.result-diff.outcome
 
       - name: Check
-        if: ${{ ${{ steps.result-diff.outcome }} == "failure" }}
+        if: ${{ steps.result-diff.outcome == "failure" }}
         run: echo 'Implementation behavior changed, Referring analysis report in the previous step for the reason.' && exit 1
 
       - name: pwd
