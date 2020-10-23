@@ -40,7 +40,7 @@ jobs:
 #             output/results/ion-test-driver-results.ion
       - name: analyze two implementations
         id: result-diff
-        run: echo 'Implementation behavior changed, Referring analysis report in the previous step for the reason.' && exit 1
+        run: git -v
 
 #      - name: Get result
 #        run: cat result.ion
