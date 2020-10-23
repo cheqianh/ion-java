@@ -51,7 +51,9 @@ jobs:
         run: echo steps.result-diff.outcome
 
       - name: Check
-        if: ${{ steps.result-diff.outcome == "failure" }}
+        env:
+          res: ${{ steps.result-diff.outcome }}
+        if: ${{ res == "failure" }}
         run: echo 'Implementation behavior changed, Referring analysis report in the previous step for the reason.' && exit 1
 
       - name: pwd
