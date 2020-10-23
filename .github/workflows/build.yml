@@ -41,7 +41,7 @@ jobs:
       - name: analyze two implementations
         id: result-diff
         continue-on-error: true
-        run: git --version
+        run: git -v
 
 #      - name: Get result
 #        run: cat result.ion
