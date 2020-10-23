@@ -50,7 +50,7 @@ jobs:
         run: echo ${{ steps.result-diff.outcome }}
 
       - name: Check
-        if: false
+        if: ${{ steps.result-diff.outcome }} == "failure"
         run: echo 'Implementation behavior changed, Referring analysis report in the previous step for the reason.' && exit 1
 
       - name: pwd
