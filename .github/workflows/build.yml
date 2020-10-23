@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@master
         with:
           repository: cheqianh/ion-test-driver
-          ref: test
+          ref: master
           path: ion-test-driver
 
 #      Change address to main repository after testing
@@ -32,6 +32,7 @@ jobs:
         run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output -i ion-java,https://github.com/cheqianh/ion-java,${{ github.event.pull_request.head.sha }}
 
       - name: analyze two implementations
+        id: result-diff
         continue-on-error: true
         run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -R
              ion-java,https://github.com/amzn/ion-java,master
@@ -40,3 +41,7 @@ jobs:
 
       - name: Get result
         run: cat result.ion
+
+      - name: Check
+        if: job.steps.result-diff.status == 'failure'
+        run: echo 'Implementation behavior changed, Referring analysis report in the previous step for the reason.' && exit 1
