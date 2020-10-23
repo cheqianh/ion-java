@@ -48,10 +48,10 @@ jobs:
 
       - name: analyze two implementations
         continue-on-error: true
-        run: echo ${{ steps.result-diff.outcome == 'success' }}
+        run: echo ${{ steps.result-diff.outcome == 'failure' }}
 
       - name: Check
-        if: false
+        if: ${{ steps.result-diff.outcome == 'failure' }}
         run: echo 'Implementation behavior changed, Referring analysis report in the previous step for the reason.' && exit 1
 
       - name: pwd
