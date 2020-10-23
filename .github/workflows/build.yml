@@ -47,6 +47,9 @@ jobs:
 #        run: cat result.ion
 
       - name: Check
+        run: echo ${{steps.result-diff.outputs.exit_status}}
+
+      - name: Check
         if: steps.result-diff.outputs.exit_status == 129
         run: echo 'Implementation behavior changed, Referring analysis report in the previous step for the reason.' && exit 1
 
