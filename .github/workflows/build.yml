@@ -41,17 +41,17 @@ jobs:
       - name: analyze two implementations
         id: result-diff
         continue-on-error: true
-        run: git -v
+        run: git --version
 
 #      - name: Get result
 #        run: cat result.ion
 
       - name: analyze two implementations
         continue-on-error: true
-        run: echo steps.result-diff.outcome
+        run: echo ${{ steps.result-diff.outcome == 'success' }}
 
       - name: Check
-        if: ${{ failure() }}
+        if: ${{ steps.result-diff.outcome == 'failures' }}
         run: echo 'Implementation behavior changed, Referring analysis report in the previous step for the reason.' && exit 1
 
       - name: pwd
