@@ -47,7 +47,7 @@ jobs:
 #        run: cat result.ion
 
       - name: Check
-        if: steps.result-diff.status == 'failure'
+        if: steps.result-diff.outputs.exit_status != 0
         run: echo 'Implementation behavior changed, Referring analysis report in the previous step for the reason.' && exit 1
 
       - name: pwd
