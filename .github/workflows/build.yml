@@ -46,12 +46,6 @@ jobs:
 #      - name: Get result
 #        run: cat result.ion
 
-      - name: analyze two implementations
-        env:
-          my_env: ${{ steps.result-diff.outcome == 'failure' }}
-        continue-on-error: true
-        run: echo ${{ my_env }}
-
       - name: Check
         if: ${{ steps.result-diff.outcome == 'failure' }}
         run: echo 'Implementation behavior changed, Referring analysis report in the previous step for the reason.' && exit 1
