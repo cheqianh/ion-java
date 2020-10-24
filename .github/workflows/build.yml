@@ -23,8 +23,8 @@ jobs:
         run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output -i ion-java,https://github.com/cheqianh/ion-java,${{ github.event.pull_request.head.sha }}
 
       - name: analyze two implementations
-        id: result-diff
         continue-on-error: true
+        id: result-diff
         run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -R
              ion-java,https://github.com/amzn/ion-java,master
              ion-java,https://github.com/cheqianh/ion-java,${{ github.event.pull_request.head.sha }}
