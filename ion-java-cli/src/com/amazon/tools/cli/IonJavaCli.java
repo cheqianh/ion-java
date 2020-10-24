@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class IonJavaCli {
+    private static final String VERSION = "1.0";
     private static final int CONSOLE_WIDTH = 120; // Only used for formatting the USAGE message
     private static final int USAGE_ERROR_EXIT_CODE = 1;
     private static final int IO_ERROR_EXIT_CODE = 2;
