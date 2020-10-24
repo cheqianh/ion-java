@@ -41,14 +41,16 @@ jobs:
       - name: analyze two implementations
         id: result-diff
         continue-on-error: true
-        run: git -v
+        run: git --version
 
 #      - name: Get result
 #        run: cat result.ion
 
       - name: analyze two implementations
+        env:
+          my_env: ${{ steps.result-diff.outcome == 'failure' }}
         continue-on-error: true
-        run: echo ${{ steps.result-diff.outcome == 'failure' }}
+        run: echo my_env
 
       - name: Check
         if: ${{ steps.result-diff.outcome == 'failure' }}
