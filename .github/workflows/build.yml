@@ -6,13 +6,6 @@ jobs:
   ion-test-driver:
     runs-on: macos-10.15
     steps:
-#      - name: Checkout ion-test-driver
-#        uses: actions/checkout@master
-#        with:
-#          repository: cheqianh/ion-test-driver
-#          ref: master
-#          path: ion-test-driver
-
       - name: Checkout ion-test-driver
         uses: actions/checkout@master
         with:
@@ -37,12 +30,9 @@ jobs:
              ion-java,https://github.com/cheqianh/ion-java,${{ github.event.pull_request.head.sha }}
              output/results/ion-test-driver-results.ion
 
-      - name: Get result
+      - name: analysis report
         run: cat result.ion
 
       - name: Check
         if: ${{ steps.result-diff.outcome == 'failure' }}
         run: echo 'Implementation behavior changed, Referring analysis report in the previous step for the reason.' && exit 1
-
-      - name: pwd
-        run: pwd
