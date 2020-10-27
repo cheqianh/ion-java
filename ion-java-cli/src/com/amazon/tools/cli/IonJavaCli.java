@@ -95,9 +95,8 @@ public class IonJavaCli {
             if (commandType == CommandType.COMPARE) {
                 compareFiles(ionWriterForOutput, ionWriterForErrorReport, parsedArgs, comparisonType);
             } else if (commandType == CommandType.PROCESS) {
-                throw new IonException("Disable read part");
-//                processContext.setIonWriter(ionWriterForOutput);
-//                processFiles(ionWriterForErrorReport, parsedArgs, processContext);
+                processContext.setIonWriter(ionWriterForOutput);
+                processFiles(ionWriterForErrorReport, parsedArgs, processContext);
             }
         } catch (IOException e) {
             System.err.println("Failed to close OutputStream: " + e.getMessage());
@@ -528,6 +527,7 @@ public class IonJavaCli {
     }
 
     private static boolean compareEquivs(CompareContext compareContext) throws IOException {
+        return false;
         int i = 0;
         int j = 0;
         List<Event> eventStreamFirst = compareContext.getEventStreamFirst();
