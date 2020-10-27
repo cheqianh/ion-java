@@ -96,8 +96,8 @@ public class IonJavaCli {
                 compareFiles(ionWriterForOutput, ionWriterForErrorReport, parsedArgs, comparisonType);
             } else if (commandType == CommandType.PROCESS) {
                 throw new IonException("Disable read part");
-                processContext.setIonWriter(ionWriterForOutput);
-                processFiles(ionWriterForErrorReport, parsedArgs, processContext);
+//                processContext.setIonWriter(ionWriterForOutput);
+//                processFiles(ionWriterForErrorReport, parsedArgs, processContext);
             }
         } catch (IOException e) {
             System.err.println("Failed to close OutputStream: " + e.getMessage());
