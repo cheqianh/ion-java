@@ -614,8 +614,7 @@ public final class Equivalence {
     public static boolean ionEquals(final IonValue v1,
                                     final IonValue v2)
     {
-        return false;
-//        return ionEqualsImpl(v1, v2, STRICT_CONFIGURATION);
+        return ionEqualsImpl(v1, v2, STRICT_CONFIGURATION);
     }
 
     /**

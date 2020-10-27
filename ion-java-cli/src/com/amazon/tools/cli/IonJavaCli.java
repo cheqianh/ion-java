@@ -95,6 +95,7 @@ public class IonJavaCli {
             if (commandType == CommandType.COMPARE) {
                 compareFiles(ionWriterForOutput, ionWriterForErrorReport, parsedArgs, comparisonType);
             } else if (commandType == CommandType.PROCESS) {
+                throw new IonException("Disable read part");
                 processContext.setIonWriter(ionWriterForOutput);
                 processFiles(ionWriterForErrorReport, parsedArgs, processContext);
             }
