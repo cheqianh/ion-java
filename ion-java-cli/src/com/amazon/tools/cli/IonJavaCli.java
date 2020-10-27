@@ -527,66 +527,65 @@ public class IonJavaCli {
     }
 
     private static boolean compareEquivs(CompareContext compareContext) throws IOException {
-        return false;
-//        int i = 0;
-//        int j = 0;
-//        List<Event> eventStreamFirst = compareContext.getEventStreamFirst();
-//        List<Event> eventStreamSecond = compareContext.getEventStreamSecond();
-//        ComparisonType type = compareContext.getType();
-//
-//        while (i < eventStreamFirst.size() && j < eventStreamSecond.size()) {
-//            Event eventFirst = eventStreamFirst.get(i);
-//            Event eventSecond = eventStreamSecond.get(j);
-//
-//            if (eventFirst.getEventType() == EventType.STREAM_END
-//                    && eventSecond.getEventType() == EventType.STREAM_END) {
-//                break;
-//            } else if (eventFirst.getEventType() == EventType.STREAM_END
-//                    || eventSecond.getEventType() == EventType.STREAM_END) {
-//                setReportInfo(i, j,
-//                        "The input streams had a different number of comparison sets.", compareContext);
-//                return type == ComparisonType.NON_EQUIVS;
-//            } else if (!(eventFirst.getIonType() == IonType.LIST || eventFirst.getIonType() == IonType.SEXP)
-//                    || !(eventSecond.getIonType() == IonType.LIST || eventSecond.getIonType() == IonType.SEXP)) {
-//                throw new IonException("Comparison sets must be lists or s-expressions.");
-//            } else if (isEmbeddedEvent(eventFirst) ^ isEmbeddedEvent(eventSecond)) {
-//                throw new IonException("Embedded streams set expected.");
-//            }
-//
-//            List<Pair> pairsFirst;
-//            List<Pair> pairsSecond;
-//
-//            if (isEmbeddedEvent(eventFirst) && isEmbeddedEvent(eventSecond)) {
-//                pairsFirst = locateEmbeddedStreamBoundaries(eventStreamFirst, i);
-//                pairsSecond = locateEmbeddedStreamBoundaries(eventStreamSecond, j);
-//            } else {
-//                pairsFirst = locateContainerBoundaries(eventStreamFirst, i);
-//                pairsSecond = locateContainerBoundaries(eventStreamSecond, j);
-//            }
-//            i = pairsFirst.size() == 0 ? i + 1 : pairsFirst.get(pairsFirst.size() - 1).right + 1;
-//            j = pairsSecond.size() == 0 ? j + 1 : pairsSecond.get(pairsSecond.size() - 1).right + 1;
-//
-//            for (int m = 0; m < pairsFirst.size(); m++) {
-//                for (int n = 0; n < pairsSecond.size(); n++) {
-//                    if (compareContext.getType() == ComparisonType.NON_EQUIVS) {
-//                        if (m == n) continue;
-//                    }
-//                    Pair pairFirst = pairsFirst.get(m);
-//                    Pair pairSecond = pairsSecond.get(n);
-//                    if (compare(compareContext, pairFirst.left, pairFirst.right, pairSecond.left, pairSecond.right) ^
-//                            (type == ComparisonType.EQUIVS || type == ComparisonType.EQUIVS_TIMELINE)) {
-//                        if (type == ComparisonType.NON_EQUIVS) {
-//                            setReportInfo(pairFirst.left, pairSecond.left,
-//                                    "Equivalent values in a non-equivs set.", compareContext);
-//                        }
-//                        return type == ComparisonType.NON_EQUIVS;
-//                    }
-//                }
-//            }
-//            i++;
-//            j++;
-//        }
-//        return (type == ComparisonType.EQUIVS || type == ComparisonType.EQUIVS_TIMELINE);
+        int i = 0;
+        int j = 0;
+        List<Event> eventStreamFirst = compareContext.getEventStreamFirst();
+        List<Event> eventStreamSecond = compareContext.getEventStreamSecond();
+        ComparisonType type = compareContext.getType();
+
+        while (i < eventStreamFirst.size() && j < eventStreamSecond.size()) {
+            Event eventFirst = eventStreamFirst.get(i);
+            Event eventSecond = eventStreamSecond.get(j);
+
+            if (eventFirst.getEventType() == EventType.STREAM_END
+                    && eventSecond.getEventType() == EventType.STREAM_END) {
+                break;
+            } else if (eventFirst.getEventType() == EventType.STREAM_END
+                    || eventSecond.getEventType() == EventType.STREAM_END) {
+                setReportInfo(i, j,
+                        "The input streams had a different number of comparison sets.", compareContext);
+                return type == ComparisonType.NON_EQUIVS;
+            } else if (!(eventFirst.getIonType() == IonType.LIST || eventFirst.getIonType() == IonType.SEXP)
+                    || !(eventSecond.getIonType() == IonType.LIST || eventSecond.getIonType() == IonType.SEXP)) {
+                throw new IonException("Comparison sets must be lists or s-expressions.");
+            } else if (isEmbeddedEvent(eventFirst) ^ isEmbeddedEvent(eventSecond)) {
+                throw new IonException("Embedded streams set expected.");
+            }
+
+            List<Pair> pairsFirst;
+            List<Pair> pairsSecond;
+
+            if (isEmbeddedEvent(eventFirst) && isEmbeddedEvent(eventSecond)) {
+                pairsFirst = locateEmbeddedStreamBoundaries(eventStreamFirst, i);
+                pairsSecond = locateEmbeddedStreamBoundaries(eventStreamSecond, j);
+            } else {
+                pairsFirst = locateContainerBoundaries(eventStreamFirst, i);
+                pairsSecond = locateContainerBoundaries(eventStreamSecond, j);
+            }
+            i = pairsFirst.size() == 0 ? i + 1 : pairsFirst.get(pairsFirst.size() - 1).right + 1;
+            j = pairsSecond.size() == 0 ? j + 1 : pairsSecond.get(pairsSecond.size() - 1).right + 1;
+
+            for (int m = 0; m < pairsFirst.size(); m++) {
+                for (int n = 0; n < pairsSecond.size(); n++) {
+                    if (compareContext.getType() == ComparisonType.NON_EQUIVS) {
+                        if (m == n) continue;
+                    }
+                    Pair pairFirst = pairsFirst.get(m);
+                    Pair pairSecond = pairsSecond.get(n);
+                    if (compare(compareContext, pairFirst.left, pairFirst.right, pairSecond.left, pairSecond.right) ^
+                            (type == ComparisonType.EQUIVS || type == ComparisonType.EQUIVS_TIMELINE)) {
+                        if (type == ComparisonType.NON_EQUIVS) {
+                            setReportInfo(pairFirst.left, pairSecond.left,
+                                    "Equivalent values in a non-equivs set.", compareContext);
+                        }
+                        return type == ComparisonType.NON_EQUIVS;
+                    }
+                }
+            }
+            i++;
+            j++;
+        }
+        return (type == ComparisonType.EQUIVS || type == ComparisonType.EQUIVS_TIMELINE);
     }
 
     /**
