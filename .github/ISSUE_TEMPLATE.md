@@ -1,6 +1,5 @@
 ---
 title: Ion-test-driver issue.
-assignee: cheqianh
 labels: bug
 ---
 Ion-test-driver complained that behavior changed for the commit {{ sha }} created by `{{ payload.sender.login }}`.
