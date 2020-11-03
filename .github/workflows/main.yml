@@ -19,7 +19,6 @@ jobs:
       - run: mvn test
       - run: mvn package -f ion-java-cli/pom.xml
       - run: java -jar ion-java-cli/target/ion-java-cli-1.0.jar version
-      - run: ls ./target
 
   report-generation:
     runs-on: ubuntu-latest
@@ -32,6 +31,9 @@ jobs:
         with:
           java-version: 11
       - run: mvn test site
+      - uses: codecov/codecov-action@v1
+        with:
+          file: target/site/jacoco/jacoco.xml
 
 
 
