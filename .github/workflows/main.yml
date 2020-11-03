@@ -19,6 +19,8 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
       - run: mvn test
+      - run: mvn package -f ion-java-cli/pom.xml
+      - run: java -jar ion-java-cli/target/ion-java-cli-1.0.jar version
 
 
 
