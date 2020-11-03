@@ -22,6 +22,7 @@ jobs:
       - run: ls ./target
 
   report-generation:
+    - runs-on: ubuntu-latest
     - uses: actions/checkout@v2
       with:
         submodules: recursive
