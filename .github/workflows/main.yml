@@ -20,20 +20,20 @@ jobs:
       - run: mvn package -f ion-java-cli/pom.xml
       - run: java -jar ion-java-cli/target/ion-java-cli-1.0.jar version
 
-  report-generation:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: recursive
-      - name: Use java 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      - run: mvn test site
-      - uses: codecov/codecov-action@v1
-        with:
-          file: target/site/jacoco/jacoco.xml
+#  report-generation:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#        with:
+#          submodules: recursive
+#      - name: Use java 11
+#        uses: actions/setup-java@v1
+#        with:
+#          java-version: 11
+#      - run: mvn test site
+#      - uses: codecov/codecov-action@v1
+#        with:
+#          file: target/site/jacoco/jacoco.xml
 
 
 
