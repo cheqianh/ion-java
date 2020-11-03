@@ -5,11 +5,9 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         java: [8, 9, 10, 11]
-
     steps:
       - uses: actions/checkout@v2
         with:
@@ -22,7 +20,16 @@ jobs:
       - run: mvn package -f ion-java-cli/pom.xml
       - run: java -jar ion-java-cli/target/ion-java-cli-1.0.jar version
       - run: ls ./target
-      - run: mvn test site
+
+  report-generation:
+    - uses: actions/checkout@v2
+          with:
+            submodules: recursive
+    - name: Use java 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - run: mvn test site
 
 
 
