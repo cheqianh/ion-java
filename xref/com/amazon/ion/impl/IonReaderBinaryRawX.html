@@ -745,286 +745,286 @@
 <a class="jxr_linenumber" name="L737" href="#L737">737</a>         <strong class="jxr_keyword">if</strong> (offset &lt; 0 || len &lt; 0) {
 <a class="jxr_linenumber" name="L738" href="#L738">738</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException();
 <a class="jxr_linenumber" name="L739" href="#L739">739</a>         }
-<a class="jxr_linenumber" name="L740" href="#L740">740</a>         <strong class="jxr_keyword">int</strong> value_len = byteSize(); <em class="jxr_comment">// again validation</em>
-<a class="jxr_linenumber" name="L741" href="#L741">741</a>         <strong class="jxr_keyword">if</strong> (_value_lob_remaining &gt; len) {
-<a class="jxr_linenumber" name="L742" href="#L742">742</a>             len = _value_lob_remaining;
-<a class="jxr_linenumber" name="L743" href="#L743">743</a>         }
-<a class="jxr_linenumber" name="L744" href="#L744">744</a>         <strong class="jxr_keyword">if</strong> (len &lt; 1) {
-<a class="jxr_linenumber" name="L745" href="#L745">745</a>             <strong class="jxr_keyword">return</strong> 0;
-<a class="jxr_linenumber" name="L746" href="#L746">746</a>         }
-<a class="jxr_linenumber" name="L747" href="#L747">747</a>         <strong class="jxr_keyword">int</strong> read_len;
-<a class="jxr_linenumber" name="L748" href="#L748">748</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L749" href="#L749">749</a>             read_len = read(buffer, offset, value_len);
-<a class="jxr_linenumber" name="L750" href="#L750">750</a>             _value_lob_remaining -= read_len;
+<a class="jxr_linenumber" name="L740" href="#L740">740</a>         <strong class="jxr_keyword">if</strong> (len &lt; 1) {
+<a class="jxr_linenumber" name="L741" href="#L741">741</a>             <strong class="jxr_keyword">return</strong> 0;
+<a class="jxr_linenumber" name="L742" href="#L742">742</a>         }
+<a class="jxr_linenumber" name="L743" href="#L743">743</a>         <strong class="jxr_keyword">int</strong> read_len;
+<a class="jxr_linenumber" name="L744" href="#L744">744</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L745" href="#L745">745</a>             read_len = read(buffer, offset, len);
+<a class="jxr_linenumber" name="L746" href="#L746">746</a>             _value_lob_remaining -= read_len;
+<a class="jxr_linenumber" name="L747" href="#L747">747</a>         }
+<a class="jxr_linenumber" name="L748" href="#L748">748</a>         <strong class="jxr_keyword">catch</strong> (IOException e) {
+<a class="jxr_linenumber" name="L749" href="#L749">749</a>             read_len = -1;
+<a class="jxr_linenumber" name="L750" href="#L750">750</a>             error(e);
 <a class="jxr_linenumber" name="L751" href="#L751">751</a>         }
-<a class="jxr_linenumber" name="L752" href="#L752">752</a>         <strong class="jxr_keyword">catch</strong> (IOException e) {
-<a class="jxr_linenumber" name="L753" href="#L753">753</a>             read_len = -1;
-<a class="jxr_linenumber" name="L754" href="#L754">754</a>             error(e);
-<a class="jxr_linenumber" name="L755" href="#L755">755</a>         }
-<a class="jxr_linenumber" name="L756" href="#L756">756</a>         <strong class="jxr_keyword">if</strong> (_value_lob_remaining == 0) {
-<a class="jxr_linenumber" name="L757" href="#L757">757</a>             _state = State.S_AFTER_VALUE;
-<a class="jxr_linenumber" name="L758" href="#L758">758</a>         }
-<a class="jxr_linenumber" name="L759" href="#L759">759</a>         <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L760" href="#L760">760</a>             _value_len = _value_lob_remaining;
-<a class="jxr_linenumber" name="L761" href="#L761">761</a>         }
-<a class="jxr_linenumber" name="L762" href="#L762">762</a>         <strong class="jxr_keyword">return</strong> read_len;
+<a class="jxr_linenumber" name="L752" href="#L752">752</a>         <strong class="jxr_keyword">if</strong> (_value_lob_remaining == 0) {
+<a class="jxr_linenumber" name="L753" href="#L753">753</a>             _state = State.S_AFTER_VALUE;
+<a class="jxr_linenumber" name="L754" href="#L754">754</a>         }
+<a class="jxr_linenumber" name="L755" href="#L755">755</a>         <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L756" href="#L756">756</a>             _value_len = _value_lob_remaining;
+<a class="jxr_linenumber" name="L757" href="#L757">757</a>         }
+<a class="jxr_linenumber" name="L758" href="#L758">758</a>         <strong class="jxr_keyword">return</strong> read_len;
+<a class="jxr_linenumber" name="L759" href="#L759">759</a>     }
+<a class="jxr_linenumber" name="L760" href="#L760">760</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getDepth()
+<a class="jxr_linenumber" name="L761" href="#L761">761</a>     {
+<a class="jxr_linenumber" name="L762" href="#L762">762</a>         <strong class="jxr_keyword">return</strong> (_container_top / POS_STACK_STEP);
 <a class="jxr_linenumber" name="L763" href="#L763">763</a>     }
-<a class="jxr_linenumber" name="L764" href="#L764">764</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getDepth()
+<a class="jxr_linenumber" name="L764" href="#L764">764</a>     <strong class="jxr_keyword">public</strong> <a name="IonType" href="../../../../com/amazon/ion/IonType.html#IonType">IonType</a> getType()
 <a class="jxr_linenumber" name="L765" href="#L765">765</a>     {
-<a class="jxr_linenumber" name="L766" href="#L766">766</a>         <strong class="jxr_keyword">return</strong> (_container_top / POS_STACK_STEP);
-<a class="jxr_linenumber" name="L767" href="#L767">767</a>     }
-<a class="jxr_linenumber" name="L768" href="#L768">768</a>     <strong class="jxr_keyword">public</strong> <a name="IonType" href="../../../../com/amazon/ion/IonType.html#IonType">IonType</a> getType()
-<a class="jxr_linenumber" name="L769" href="#L769">769</a>     {
-<a class="jxr_linenumber" name="L770" href="#L770">770</a>         <em class="jxr_comment">//if (_has_next_needed) {</em>
-<a class="jxr_linenumber" name="L771" href="#L771">771</a>         <em class="jxr_comment">//    throw new IllegalStateException("getType() isn't valid until you have called next()");</em>
-<a class="jxr_linenumber" name="L772" href="#L772">772</a>         <em class="jxr_comment">//}</em>
-<a class="jxr_linenumber" name="L773" href="#L773">773</a>         <strong class="jxr_keyword">return</strong> _value_type;
+<a class="jxr_linenumber" name="L766" href="#L766">766</a>         <em class="jxr_comment">//if (_has_next_needed) {</em>
+<a class="jxr_linenumber" name="L767" href="#L767">767</a>         <em class="jxr_comment">//    throw new IllegalStateException("getType() isn't valid until you have called next()");</em>
+<a class="jxr_linenumber" name="L768" href="#L768">768</a>         <em class="jxr_comment">//}</em>
+<a class="jxr_linenumber" name="L769" href="#L769">769</a>         <strong class="jxr_keyword">return</strong> _value_type;
+<a class="jxr_linenumber" name="L770" href="#L770">770</a>     }
+<a class="jxr_linenumber" name="L771" href="#L771">771</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isInStruct()
+<a class="jxr_linenumber" name="L772" href="#L772">772</a>     {
+<a class="jxr_linenumber" name="L773" href="#L773">773</a>         <strong class="jxr_keyword">return</strong> _is_in_struct;
 <a class="jxr_linenumber" name="L774" href="#L774">774</a>     }
-<a class="jxr_linenumber" name="L775" href="#L775">775</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isInStruct()
+<a class="jxr_linenumber" name="L775" href="#L775">775</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isNullValue()
 <a class="jxr_linenumber" name="L776" href="#L776">776</a>     {
-<a class="jxr_linenumber" name="L777" href="#L777">777</a>         <strong class="jxr_keyword">return</strong> _is_in_struct;
+<a class="jxr_linenumber" name="L777" href="#L777">777</a>         <strong class="jxr_keyword">return</strong> _value_is_<strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L778" href="#L778">778</a>     }
-<a class="jxr_linenumber" name="L779" href="#L779">779</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isNullValue()
-<a class="jxr_linenumber" name="L780" href="#L780">780</a>     {
-<a class="jxr_linenumber" name="L781" href="#L781">781</a>         <strong class="jxr_keyword">return</strong> _value_is_<strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L782" href="#L782">782</a>     }
-<a class="jxr_linenumber" name="L783" href="#L783">783</a>     <em class="jxr_comment">//</em>
-<a class="jxr_linenumber" name="L784" href="#L784">784</a>     <em class="jxr_comment">//  helper read routines - these were lifted</em>
-<a class="jxr_linenumber" name="L785" href="#L785">785</a>     <em class="jxr_comment">//  from SimpleByteBuffer.SimpleByteReader</em>
-<a class="jxr_linenumber" name="L786" href="#L786">786</a>     <em class="jxr_comment">//</em>
-<a class="jxr_linenumber" name="L787" href="#L787">787</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> read() <strong class="jxr_keyword">throws</strong> IOException
-<a class="jxr_linenumber" name="L788" href="#L788">788</a>     {
-<a class="jxr_linenumber" name="L789" href="#L789">789</a>         <strong class="jxr_keyword">if</strong> (_local_remaining != NO_LIMIT) {
-<a class="jxr_linenumber" name="L790" href="#L790">790</a>             <strong class="jxr_keyword">if</strong> (_local_remaining &lt; 1) {
-<a class="jxr_linenumber" name="L791" href="#L791">791</a>                 <strong class="jxr_keyword">return</strong> UnifiedInputStreamX.EOF;
-<a class="jxr_linenumber" name="L792" href="#L792">792</a>             }
-<a class="jxr_linenumber" name="L793" href="#L793">793</a>             _local_remaining--;
-<a class="jxr_linenumber" name="L794" href="#L794">794</a>         }
-<a class="jxr_linenumber" name="L795" href="#L795">795</a>         <strong class="jxr_keyword">return</strong> _input.read();
-<a class="jxr_linenumber" name="L796" href="#L796">796</a>     }
-<a class="jxr_linenumber" name="L797" href="#L797">797</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> read(byte[] dst, <strong class="jxr_keyword">int</strong> start, <strong class="jxr_keyword">int</strong> len) <strong class="jxr_keyword">throws</strong> IOException
-<a class="jxr_linenumber" name="L798" href="#L798">798</a>     {
-<a class="jxr_linenumber" name="L799" href="#L799">799</a>         <strong class="jxr_keyword">if</strong> (dst == <strong class="jxr_keyword">null</strong> || start &lt; 0 || len &lt; 0 || start + len &gt; dst.length) {
-<a class="jxr_linenumber" name="L800" href="#L800">800</a>             <em class="jxr_comment">// no need to test this start &gt;= dst.length ||</em>
-<a class="jxr_linenumber" name="L801" href="#L801">801</a>             <em class="jxr_comment">// since we test start+len &gt; dst.length which is the correct test</em>
-<a class="jxr_linenumber" name="L802" href="#L802">802</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException();
+<a class="jxr_linenumber" name="L779" href="#L779">779</a>     <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="L780" href="#L780">780</a>     <em class="jxr_comment">//  helper read routines - these were lifted</em>
+<a class="jxr_linenumber" name="L781" href="#L781">781</a>     <em class="jxr_comment">//  from SimpleByteBuffer.SimpleByteReader</em>
+<a class="jxr_linenumber" name="L782" href="#L782">782</a>     <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="L783" href="#L783">783</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> read() <strong class="jxr_keyword">throws</strong> IOException
+<a class="jxr_linenumber" name="L784" href="#L784">784</a>     {
+<a class="jxr_linenumber" name="L785" href="#L785">785</a>         <strong class="jxr_keyword">if</strong> (_local_remaining != NO_LIMIT) {
+<a class="jxr_linenumber" name="L786" href="#L786">786</a>             <strong class="jxr_keyword">if</strong> (_local_remaining &lt; 1) {
+<a class="jxr_linenumber" name="L787" href="#L787">787</a>                 <strong class="jxr_keyword">return</strong> UnifiedInputStreamX.EOF;
+<a class="jxr_linenumber" name="L788" href="#L788">788</a>             }
+<a class="jxr_linenumber" name="L789" href="#L789">789</a>             _local_remaining--;
+<a class="jxr_linenumber" name="L790" href="#L790">790</a>         }
+<a class="jxr_linenumber" name="L791" href="#L791">791</a>         <strong class="jxr_keyword">return</strong> _input.read();
+<a class="jxr_linenumber" name="L792" href="#L792">792</a>     }
+<a class="jxr_linenumber" name="L793" href="#L793">793</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> read(byte[] dst, <strong class="jxr_keyword">int</strong> start, <strong class="jxr_keyword">int</strong> len) <strong class="jxr_keyword">throws</strong> IOException
+<a class="jxr_linenumber" name="L794" href="#L794">794</a>     {
+<a class="jxr_linenumber" name="L795" href="#L795">795</a>         <strong class="jxr_keyword">if</strong> (dst == <strong class="jxr_keyword">null</strong> || start &lt; 0 || len &lt; 0 || start + len &gt; dst.length) {
+<a class="jxr_linenumber" name="L796" href="#L796">796</a>             <em class="jxr_comment">// no need to test this start &gt;= dst.length ||</em>
+<a class="jxr_linenumber" name="L797" href="#L797">797</a>             <em class="jxr_comment">// since we test start+len &gt; dst.length which is the correct test</em>
+<a class="jxr_linenumber" name="L798" href="#L798">798</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException();
+<a class="jxr_linenumber" name="L799" href="#L799">799</a>         }
+<a class="jxr_linenumber" name="L800" href="#L800">800</a>         <strong class="jxr_keyword">int</strong> read;
+<a class="jxr_linenumber" name="L801" href="#L801">801</a>         <strong class="jxr_keyword">if</strong> (_local_remaining == NO_LIMIT) {
+<a class="jxr_linenumber" name="L802" href="#L802">802</a>             read = _input.read(dst, start, len);
 <a class="jxr_linenumber" name="L803" href="#L803">803</a>         }
-<a class="jxr_linenumber" name="L804" href="#L804">804</a>         <strong class="jxr_keyword">int</strong> read;
-<a class="jxr_linenumber" name="L805" href="#L805">805</a>         <strong class="jxr_keyword">if</strong> (_local_remaining == NO_LIMIT) {
-<a class="jxr_linenumber" name="L806" href="#L806">806</a>             read = _input.read(dst, start, len);
-<a class="jxr_linenumber" name="L807" href="#L807">807</a>         }
-<a class="jxr_linenumber" name="L808" href="#L808">808</a>         <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L809" href="#L809">809</a>             <strong class="jxr_keyword">if</strong> (len &gt; _local_remaining) {
-<a class="jxr_linenumber" name="L810" href="#L810">810</a>                 <strong class="jxr_keyword">if</strong> (_local_remaining &lt; 1) {
-<a class="jxr_linenumber" name="L811" href="#L811">811</a>                     throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L812" href="#L812">812</a>                 }
-<a class="jxr_linenumber" name="L813" href="#L813">813</a>                 len = _local_remaining;
-<a class="jxr_linenumber" name="L814" href="#L814">814</a>             }
-<a class="jxr_linenumber" name="L815" href="#L815">815</a>             read = _input.read(dst, start, len);
-<a class="jxr_linenumber" name="L816" href="#L816">816</a>             _local_remaining -= read;
-<a class="jxr_linenumber" name="L817" href="#L817">817</a>         }
-<a class="jxr_linenumber" name="L818" href="#L818">818</a>         <strong class="jxr_keyword">return</strong> read;
-<a class="jxr_linenumber" name="L819" href="#L819">819</a>     }
-<a class="jxr_linenumber" name="L820" href="#L820">820</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L821" href="#L821">821</a> <em class="jxr_javadoccomment">     * Uses {@link #read(byte[], int, int)} until the entire length is read.</em>
-<a class="jxr_linenumber" name="L822" href="#L822">822</a> <em class="jxr_javadoccomment">     * This method will block until the request is satisfied.</em>
-<a class="jxr_linenumber" name="L823" href="#L823">823</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L824" href="#L824">824</a> <em class="jxr_javadoccomment">     * @param buf       The buffer to read to.</em>
-<a class="jxr_linenumber" name="L825" href="#L825">825</a> <em class="jxr_javadoccomment">     * @param offset    The offset of the buffer to read from.</em>
-<a class="jxr_linenumber" name="L826" href="#L826">826</a> <em class="jxr_javadoccomment">     * @param len       The length of the data to read.</em>
-<a class="jxr_linenumber" name="L827" href="#L827">827</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L828" href="#L828">828</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> readAll(byte[] buf, <strong class="jxr_keyword">int</strong> offset, <strong class="jxr_keyword">int</strong> len) <strong class="jxr_keyword">throws</strong> IOException
-<a class="jxr_linenumber" name="L829" href="#L829">829</a>     {
-<a class="jxr_linenumber" name="L830" href="#L830">830</a>         <strong class="jxr_keyword">int</strong> rem = len;
-<a class="jxr_linenumber" name="L831" href="#L831">831</a>         <strong class="jxr_keyword">while</strong> (rem &gt; 0)
-<a class="jxr_linenumber" name="L832" href="#L832">832</a>         {
-<a class="jxr_linenumber" name="L833" href="#L833">833</a>             <strong class="jxr_keyword">int</strong> amount = read(buf, offset, rem);
-<a class="jxr_linenumber" name="L834" href="#L834">834</a>             <strong class="jxr_keyword">if</strong> (amount &lt;= 0)
-<a class="jxr_linenumber" name="L835" href="#L835">835</a>             {
-<a class="jxr_linenumber" name="L836" href="#L836">836</a>                 throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L837" href="#L837">837</a>             }
-<a class="jxr_linenumber" name="L838" href="#L838">838</a>             rem -= amount;
-<a class="jxr_linenumber" name="L839" href="#L839">839</a>             offset += amount;
-<a class="jxr_linenumber" name="L840" href="#L840">840</a>         }
-<a class="jxr_linenumber" name="L841" href="#L841">841</a>     }
-<a class="jxr_linenumber" name="L842" href="#L842">842</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> isEOF() {
-<a class="jxr_linenumber" name="L843" href="#L843">843</a>         <strong class="jxr_keyword">if</strong> (_local_remaining &gt; 0) <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="L844" href="#L844">844</a>         <strong class="jxr_keyword">if</strong> (_local_remaining == NO_LIMIT) {
-<a class="jxr_linenumber" name="L845" href="#L845">845</a>             <strong class="jxr_keyword">return</strong> _input.isEOF();
-<a class="jxr_linenumber" name="L846" href="#L846">846</a>         }
-<a class="jxr_linenumber" name="L847" href="#L847">847</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L804" href="#L804">804</a>         <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L805" href="#L805">805</a>             <strong class="jxr_keyword">if</strong> (len &gt; _local_remaining) {
+<a class="jxr_linenumber" name="L806" href="#L806">806</a>                 <strong class="jxr_keyword">if</strong> (_local_remaining &lt; 1) {
+<a class="jxr_linenumber" name="L807" href="#L807">807</a>                     throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L808" href="#L808">808</a>                 }
+<a class="jxr_linenumber" name="L809" href="#L809">809</a>                 len = _local_remaining;
+<a class="jxr_linenumber" name="L810" href="#L810">810</a>             }
+<a class="jxr_linenumber" name="L811" href="#L811">811</a>             read = _input.read(dst, start, len);
+<a class="jxr_linenumber" name="L812" href="#L812">812</a>             _local_remaining -= read;
+<a class="jxr_linenumber" name="L813" href="#L813">813</a>         }
+<a class="jxr_linenumber" name="L814" href="#L814">814</a>         <strong class="jxr_keyword">return</strong> read;
+<a class="jxr_linenumber" name="L815" href="#L815">815</a>     }
+<a class="jxr_linenumber" name="L816" href="#L816">816</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L817" href="#L817">817</a> <em class="jxr_javadoccomment">     * Uses {@link #read(byte[], int, int)} until the entire length is read.</em>
+<a class="jxr_linenumber" name="L818" href="#L818">818</a> <em class="jxr_javadoccomment">     * This method will block until the request is satisfied.</em>
+<a class="jxr_linenumber" name="L819" href="#L819">819</a> <em class="jxr_javadoccomment">     *</em>
+<a class="jxr_linenumber" name="L820" href="#L820">820</a> <em class="jxr_javadoccomment">     * @param buf       The buffer to read to.</em>
+<a class="jxr_linenumber" name="L821" href="#L821">821</a> <em class="jxr_javadoccomment">     * @param offset    The offset of the buffer to read from.</em>
+<a class="jxr_linenumber" name="L822" href="#L822">822</a> <em class="jxr_javadoccomment">     * @param len       The length of the data to read.</em>
+<a class="jxr_linenumber" name="L823" href="#L823">823</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L824" href="#L824">824</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> readAll(byte[] buf, <strong class="jxr_keyword">int</strong> offset, <strong class="jxr_keyword">int</strong> len) <strong class="jxr_keyword">throws</strong> IOException
+<a class="jxr_linenumber" name="L825" href="#L825">825</a>     {
+<a class="jxr_linenumber" name="L826" href="#L826">826</a>         <strong class="jxr_keyword">int</strong> rem = len;
+<a class="jxr_linenumber" name="L827" href="#L827">827</a>         <strong class="jxr_keyword">while</strong> (rem &gt; 0)
+<a class="jxr_linenumber" name="L828" href="#L828">828</a>         {
+<a class="jxr_linenumber" name="L829" href="#L829">829</a>             <strong class="jxr_keyword">int</strong> amount = read(buf, offset, rem);
+<a class="jxr_linenumber" name="L830" href="#L830">830</a>             <strong class="jxr_keyword">if</strong> (amount &lt;= 0)
+<a class="jxr_linenumber" name="L831" href="#L831">831</a>             {
+<a class="jxr_linenumber" name="L832" href="#L832">832</a>                 throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L833" href="#L833">833</a>             }
+<a class="jxr_linenumber" name="L834" href="#L834">834</a>             rem -= amount;
+<a class="jxr_linenumber" name="L835" href="#L835">835</a>             offset += amount;
+<a class="jxr_linenumber" name="L836" href="#L836">836</a>         }
+<a class="jxr_linenumber" name="L837" href="#L837">837</a>     }
+<a class="jxr_linenumber" name="L838" href="#L838">838</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> isEOF() {
+<a class="jxr_linenumber" name="L839" href="#L839">839</a>         <strong class="jxr_keyword">if</strong> (_local_remaining &gt; 0) <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="L840" href="#L840">840</a>         <strong class="jxr_keyword">if</strong> (_local_remaining == NO_LIMIT) {
+<a class="jxr_linenumber" name="L841" href="#L841">841</a>             <strong class="jxr_keyword">return</strong> _input.isEOF();
+<a class="jxr_linenumber" name="L842" href="#L842">842</a>         }
+<a class="jxr_linenumber" name="L843" href="#L843">843</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L844" href="#L844">844</a>     }
+<a class="jxr_linenumber" name="L845" href="#L845">845</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> getPosition() {
+<a class="jxr_linenumber" name="L846" href="#L846">846</a>         <strong class="jxr_keyword">long</strong> pos = _input.getPosition();
+<a class="jxr_linenumber" name="L847" href="#L847">847</a>         <strong class="jxr_keyword">return</strong> pos;
 <a class="jxr_linenumber" name="L848" href="#L848">848</a>     }
-<a class="jxr_linenumber" name="L849" href="#L849">849</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> getPosition() {
-<a class="jxr_linenumber" name="L850" href="#L850">850</a>         <strong class="jxr_keyword">long</strong> pos = _input.getPosition();
-<a class="jxr_linenumber" name="L851" href="#L851">851</a>         <strong class="jxr_keyword">return</strong> pos;
-<a class="jxr_linenumber" name="L852" href="#L852">852</a>     }
-<a class="jxr_linenumber" name="L853" href="#L853">853</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">void</strong> skip(<strong class="jxr_keyword">int</strong> len) <strong class="jxr_keyword">throws</strong> IOException
-<a class="jxr_linenumber" name="L854" href="#L854">854</a>     {
-<a class="jxr_linenumber" name="L855" href="#L855">855</a>         <strong class="jxr_keyword">if</strong> (len &lt; 0) {
-<a class="jxr_linenumber" name="L856" href="#L856">856</a>             <em class="jxr_comment">// no need to test this start &gt;= dst.length ||</em>
-<a class="jxr_linenumber" name="L857" href="#L857">857</a>             <em class="jxr_comment">// since we test start+len &gt; dst.length which is the correct test</em>
-<a class="jxr_linenumber" name="L858" href="#L858">858</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException();
-<a class="jxr_linenumber" name="L859" href="#L859">859</a>         }
-<a class="jxr_linenumber" name="L860" href="#L860">860</a>         <strong class="jxr_keyword">if</strong> (_local_remaining == NO_LIMIT) {
-<a class="jxr_linenumber" name="L861" href="#L861">861</a>             _input.skip(len);
-<a class="jxr_linenumber" name="L862" href="#L862">862</a>         }
-<a class="jxr_linenumber" name="L863" href="#L863">863</a>         <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L864" href="#L864">864</a>             <strong class="jxr_keyword">if</strong> (len &gt; _local_remaining) {
-<a class="jxr_linenumber" name="L865" href="#L865">865</a>                 <strong class="jxr_keyword">if</strong> (_local_remaining &lt; 1) {
-<a class="jxr_linenumber" name="L866" href="#L866">866</a>                     throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L867" href="#L867">867</a>                 }
-<a class="jxr_linenumber" name="L868" href="#L868">868</a>                 len = _local_remaining;
-<a class="jxr_linenumber" name="L869" href="#L869">869</a>             }
-<a class="jxr_linenumber" name="L870" href="#L870">870</a>             _input.skip(len);
-<a class="jxr_linenumber" name="L871" href="#L871">871</a>             _local_remaining -= len;
-<a class="jxr_linenumber" name="L872" href="#L872">872</a>         }
-<a class="jxr_linenumber" name="L873" href="#L873">873</a>         <strong class="jxr_keyword">return</strong>;
-<a class="jxr_linenumber" name="L874" href="#L874">874</a>     }
-<a class="jxr_linenumber" name="L875" href="#L875">875</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> readULong(<strong class="jxr_keyword">int</strong> len) <strong class="jxr_keyword">throws</strong> IOException
-<a class="jxr_linenumber" name="L876" href="#L876">876</a>     {
-<a class="jxr_linenumber" name="L877" href="#L877">877</a>         <strong class="jxr_keyword">long</strong>    retvalue = 0;
-<a class="jxr_linenumber" name="L878" href="#L878">878</a>         <strong class="jxr_keyword">int</strong> b;
-<a class="jxr_linenumber" name="L879" href="#L879">879</a>         <strong class="jxr_keyword">switch</strong> (len) {
-<a class="jxr_linenumber" name="L880" href="#L880">880</a>         <strong class="jxr_keyword">default</strong>:
-<a class="jxr_linenumber" name="L881" href="#L881">881</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="IonException" href="../../../../com/amazon/ion/IonException.html#IonException">IonException</a>(<span class="jxr_string">"value too large for Java long"</span>);
-<a class="jxr_linenumber" name="L882" href="#L882">882</a>         <strong class="jxr_keyword">case</strong> 8:
-<a class="jxr_linenumber" name="L883" href="#L883">883</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L884" href="#L884">884</a>             retvalue = (retvalue &lt;&lt; 8) | b;
-<a class="jxr_linenumber" name="L885" href="#L885">885</a>         <strong class="jxr_keyword">case</strong> 7:
-<a class="jxr_linenumber" name="L886" href="#L886">886</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L887" href="#L887">887</a>             retvalue = (retvalue &lt;&lt; 8) | b;
-<a class="jxr_linenumber" name="L888" href="#L888">888</a>         <strong class="jxr_keyword">case</strong> 6:
-<a class="jxr_linenumber" name="L889" href="#L889">889</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L890" href="#L890">890</a>             retvalue = (retvalue &lt;&lt; 8) | b;
-<a class="jxr_linenumber" name="L891" href="#L891">891</a>         <strong class="jxr_keyword">case</strong> 5:
-<a class="jxr_linenumber" name="L892" href="#L892">892</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L893" href="#L893">893</a>             retvalue = (retvalue &lt;&lt; 8) | b;
-<a class="jxr_linenumber" name="L894" href="#L894">894</a>         <strong class="jxr_keyword">case</strong> 4:
-<a class="jxr_linenumber" name="L895" href="#L895">895</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L896" href="#L896">896</a>             retvalue = (retvalue &lt;&lt; 8) | b;
-<a class="jxr_linenumber" name="L897" href="#L897">897</a>         <strong class="jxr_keyword">case</strong> 3:
-<a class="jxr_linenumber" name="L898" href="#L898">898</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L899" href="#L899">899</a>             retvalue = (retvalue &lt;&lt; 8) | b;
-<a class="jxr_linenumber" name="L900" href="#L900">900</a>         <strong class="jxr_keyword">case</strong> 2:
-<a class="jxr_linenumber" name="L901" href="#L901">901</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L902" href="#L902">902</a>             retvalue = (retvalue &lt;&lt; 8) | b;
-<a class="jxr_linenumber" name="L903" href="#L903">903</a>         <strong class="jxr_keyword">case</strong> 1:
-<a class="jxr_linenumber" name="L904" href="#L904">904</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L905" href="#L905">905</a>             retvalue = (retvalue &lt;&lt; 8) | b;
-<a class="jxr_linenumber" name="L906" href="#L906">906</a>         <strong class="jxr_keyword">case</strong> 0:
-<a class="jxr_linenumber" name="L907" href="#L907">907</a>             <em class="jxr_comment">// do nothing, it's just a 0 length is a 0 value</em>
-<a class="jxr_linenumber" name="L908" href="#L908">908</a>         }
-<a class="jxr_linenumber" name="L909" href="#L909">909</a>         <strong class="jxr_keyword">return</strong> retvalue;
-<a class="jxr_linenumber" name="L910" href="#L910">910</a>     }
-<a class="jxr_linenumber" name="L911" href="#L911">911</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> BigInteger readBigInteger(<strong class="jxr_keyword">int</strong> len, <strong class="jxr_keyword">boolean</strong> is_negative) <strong class="jxr_keyword">throws</strong> IOException
-<a class="jxr_linenumber" name="L912" href="#L912">912</a>     {
-<a class="jxr_linenumber" name="L913" href="#L913">913</a>         BigInteger value;
-<a class="jxr_linenumber" name="L914" href="#L914">914</a>         <strong class="jxr_keyword">if</strong> (len &gt; 0) {
-<a class="jxr_linenumber" name="L915" href="#L915">915</a>             byte[] bits = <strong class="jxr_keyword">new</strong> byte[len];
-<a class="jxr_linenumber" name="L916" href="#L916">916</a>             readAll(bits, 0, len);
-<a class="jxr_linenumber" name="L917" href="#L917">917</a>             <strong class="jxr_keyword">int</strong> signum = is_negative ? -1 : 1;
-<a class="jxr_linenumber" name="L918" href="#L918">918</a>             value = <strong class="jxr_keyword">new</strong> BigInteger(signum, bits);
-<a class="jxr_linenumber" name="L919" href="#L919">919</a>         }
-<a class="jxr_linenumber" name="L920" href="#L920">920</a>         <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L921" href="#L921">921</a>             value = BigInteger.ZERO;
-<a class="jxr_linenumber" name="L922" href="#L922">922</a>         }
-<a class="jxr_linenumber" name="L923" href="#L923">923</a>         <strong class="jxr_keyword">return</strong> value;
+<a class="jxr_linenumber" name="L849" href="#L849">849</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">void</strong> skip(<strong class="jxr_keyword">int</strong> len) <strong class="jxr_keyword">throws</strong> IOException
+<a class="jxr_linenumber" name="L850" href="#L850">850</a>     {
+<a class="jxr_linenumber" name="L851" href="#L851">851</a>         <strong class="jxr_keyword">if</strong> (len &lt; 0) {
+<a class="jxr_linenumber" name="L852" href="#L852">852</a>             <em class="jxr_comment">// no need to test this start &gt;= dst.length ||</em>
+<a class="jxr_linenumber" name="L853" href="#L853">853</a>             <em class="jxr_comment">// since we test start+len &gt; dst.length which is the correct test</em>
+<a class="jxr_linenumber" name="L854" href="#L854">854</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException();
+<a class="jxr_linenumber" name="L855" href="#L855">855</a>         }
+<a class="jxr_linenumber" name="L856" href="#L856">856</a>         <strong class="jxr_keyword">if</strong> (_local_remaining == NO_LIMIT) {
+<a class="jxr_linenumber" name="L857" href="#L857">857</a>             _input.skip(len);
+<a class="jxr_linenumber" name="L858" href="#L858">858</a>         }
+<a class="jxr_linenumber" name="L859" href="#L859">859</a>         <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L860" href="#L860">860</a>             <strong class="jxr_keyword">if</strong> (len &gt; _local_remaining) {
+<a class="jxr_linenumber" name="L861" href="#L861">861</a>                 <strong class="jxr_keyword">if</strong> (_local_remaining &lt; 1) {
+<a class="jxr_linenumber" name="L862" href="#L862">862</a>                     throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L863" href="#L863">863</a>                 }
+<a class="jxr_linenumber" name="L864" href="#L864">864</a>                 len = _local_remaining;
+<a class="jxr_linenumber" name="L865" href="#L865">865</a>             }
+<a class="jxr_linenumber" name="L866" href="#L866">866</a>             _input.skip(len);
+<a class="jxr_linenumber" name="L867" href="#L867">867</a>             _local_remaining -= len;
+<a class="jxr_linenumber" name="L868" href="#L868">868</a>         }
+<a class="jxr_linenumber" name="L869" href="#L869">869</a>         <strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L870" href="#L870">870</a>     }
+<a class="jxr_linenumber" name="L871" href="#L871">871</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> readULong(<strong class="jxr_keyword">int</strong> len) <strong class="jxr_keyword">throws</strong> IOException
+<a class="jxr_linenumber" name="L872" href="#L872">872</a>     {
+<a class="jxr_linenumber" name="L873" href="#L873">873</a>         <strong class="jxr_keyword">long</strong>    retvalue = 0;
+<a class="jxr_linenumber" name="L874" href="#L874">874</a>         <strong class="jxr_keyword">int</strong> b;
+<a class="jxr_linenumber" name="L875" href="#L875">875</a>         <strong class="jxr_keyword">switch</strong> (len) {
+<a class="jxr_linenumber" name="L876" href="#L876">876</a>         <strong class="jxr_keyword">default</strong>:
+<a class="jxr_linenumber" name="L877" href="#L877">877</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="IonException" href="../../../../com/amazon/ion/IonException.html#IonException">IonException</a>(<span class="jxr_string">"value too large for Java long"</span>);
+<a class="jxr_linenumber" name="L878" href="#L878">878</a>         <strong class="jxr_keyword">case</strong> 8:
+<a class="jxr_linenumber" name="L879" href="#L879">879</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L880" href="#L880">880</a>             retvalue = (retvalue &lt;&lt; 8) | b;
+<a class="jxr_linenumber" name="L881" href="#L881">881</a>         <strong class="jxr_keyword">case</strong> 7:
+<a class="jxr_linenumber" name="L882" href="#L882">882</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L883" href="#L883">883</a>             retvalue = (retvalue &lt;&lt; 8) | b;
+<a class="jxr_linenumber" name="L884" href="#L884">884</a>         <strong class="jxr_keyword">case</strong> 6:
+<a class="jxr_linenumber" name="L885" href="#L885">885</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L886" href="#L886">886</a>             retvalue = (retvalue &lt;&lt; 8) | b;
+<a class="jxr_linenumber" name="L887" href="#L887">887</a>         <strong class="jxr_keyword">case</strong> 5:
+<a class="jxr_linenumber" name="L888" href="#L888">888</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L889" href="#L889">889</a>             retvalue = (retvalue &lt;&lt; 8) | b;
+<a class="jxr_linenumber" name="L890" href="#L890">890</a>         <strong class="jxr_keyword">case</strong> 4:
+<a class="jxr_linenumber" name="L891" href="#L891">891</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L892" href="#L892">892</a>             retvalue = (retvalue &lt;&lt; 8) | b;
+<a class="jxr_linenumber" name="L893" href="#L893">893</a>         <strong class="jxr_keyword">case</strong> 3:
+<a class="jxr_linenumber" name="L894" href="#L894">894</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L895" href="#L895">895</a>             retvalue = (retvalue &lt;&lt; 8) | b;
+<a class="jxr_linenumber" name="L896" href="#L896">896</a>         <strong class="jxr_keyword">case</strong> 2:
+<a class="jxr_linenumber" name="L897" href="#L897">897</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L898" href="#L898">898</a>             retvalue = (retvalue &lt;&lt; 8) | b;
+<a class="jxr_linenumber" name="L899" href="#L899">899</a>         <strong class="jxr_keyword">case</strong> 1:
+<a class="jxr_linenumber" name="L900" href="#L900">900</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L901" href="#L901">901</a>             retvalue = (retvalue &lt;&lt; 8) | b;
+<a class="jxr_linenumber" name="L902" href="#L902">902</a>         <strong class="jxr_keyword">case</strong> 0:
+<a class="jxr_linenumber" name="L903" href="#L903">903</a>             <em class="jxr_comment">// do nothing, it's just a 0 length is a 0 value</em>
+<a class="jxr_linenumber" name="L904" href="#L904">904</a>         }
+<a class="jxr_linenumber" name="L905" href="#L905">905</a>         <strong class="jxr_keyword">return</strong> retvalue;
+<a class="jxr_linenumber" name="L906" href="#L906">906</a>     }
+<a class="jxr_linenumber" name="L907" href="#L907">907</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> BigInteger readBigInteger(<strong class="jxr_keyword">int</strong> len, <strong class="jxr_keyword">boolean</strong> is_negative) <strong class="jxr_keyword">throws</strong> IOException
+<a class="jxr_linenumber" name="L908" href="#L908">908</a>     {
+<a class="jxr_linenumber" name="L909" href="#L909">909</a>         BigInteger value;
+<a class="jxr_linenumber" name="L910" href="#L910">910</a>         <strong class="jxr_keyword">if</strong> (len &gt; 0) {
+<a class="jxr_linenumber" name="L911" href="#L911">911</a>             byte[] bits = <strong class="jxr_keyword">new</strong> byte[len];
+<a class="jxr_linenumber" name="L912" href="#L912">912</a>             readAll(bits, 0, len);
+<a class="jxr_linenumber" name="L913" href="#L913">913</a>             <strong class="jxr_keyword">int</strong> signum = is_negative ? -1 : 1;
+<a class="jxr_linenumber" name="L914" href="#L914">914</a>             value = <strong class="jxr_keyword">new</strong> BigInteger(signum, bits);
+<a class="jxr_linenumber" name="L915" href="#L915">915</a>         }
+<a class="jxr_linenumber" name="L916" href="#L916">916</a>         <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L917" href="#L917">917</a>             value = BigInteger.ZERO;
+<a class="jxr_linenumber" name="L918" href="#L918">918</a>         }
+<a class="jxr_linenumber" name="L919" href="#L919">919</a>         <strong class="jxr_keyword">return</strong> value;
+<a class="jxr_linenumber" name="L920" href="#L920">920</a>     }
+<a class="jxr_linenumber" name="L921" href="#L921">921</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> readVarInt() <strong class="jxr_keyword">throws</strong> IOException
+<a class="jxr_linenumber" name="L922" href="#L922">922</a>     {
+<a class="jxr_linenumber" name="L923" href="#L923">923</a>         <strong class="jxr_keyword">return</strong> readVarInt(read());
 <a class="jxr_linenumber" name="L924" href="#L924">924</a>     }
-<a class="jxr_linenumber" name="L925" href="#L925">925</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> readVarInt() <strong class="jxr_keyword">throws</strong> IOException
-<a class="jxr_linenumber" name="L926" href="#L926">926</a>     {
-<a class="jxr_linenumber" name="L927" href="#L927">927</a>         <strong class="jxr_keyword">return</strong> readVarInt(read());
-<a class="jxr_linenumber" name="L928" href="#L928">928</a>     }
-<a class="jxr_linenumber" name="L929" href="#L929">929</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L930" href="#L930">930</a> <em class="jxr_javadoccomment">     * Reads an integer value, returning null to mean -0.</em>
-<a class="jxr_linenumber" name="L931" href="#L931">931</a> <em class="jxr_javadoccomment">     * @throws IOException</em>
-<a class="jxr_linenumber" name="L932" href="#L932">932</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L933" href="#L933">933</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> Integer readVarInteger() <strong class="jxr_keyword">throws</strong> IOException
-<a class="jxr_linenumber" name="L934" href="#L934">934</a>     {
-<a class="jxr_linenumber" name="L935" href="#L935">935</a>         <strong class="jxr_keyword">int</strong> firstByte = read();
-<a class="jxr_linenumber" name="L936" href="#L936">936</a> 
-<a class="jxr_linenumber" name="L937" href="#L937">937</a>         <em class="jxr_comment">// if byte represents -0 returns null</em>
-<a class="jxr_linenumber" name="L938" href="#L938">938</a>         <strong class="jxr_keyword">if</strong> (firstByte == 0xC0) {
-<a class="jxr_linenumber" name="L939" href="#L939">939</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L940" href="#L940">940</a>         }
-<a class="jxr_linenumber" name="L941" href="#L941">941</a> 
-<a class="jxr_linenumber" name="L942" href="#L942">942</a>         <strong class="jxr_keyword">return</strong> readVarInt(firstByte);
-<a class="jxr_linenumber" name="L943" href="#L943">943</a>     }
-<a class="jxr_linenumber" name="L944" href="#L944">944</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L945" href="#L945">945</a> <em class="jxr_javadoccomment">     * reads a varInt after the first byte was read. The first byte is used to specify the sign and -0 has different</em>
-<a class="jxr_linenumber" name="L946" href="#L946">946</a> <em class="jxr_javadoccomment">     * representation on the protected API that was called</em>
-<a class="jxr_linenumber" name="L947" href="#L947">947</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L948" href="#L948">948</a> <em class="jxr_javadoccomment">     * @param firstByte last varInt octet</em>
-<a class="jxr_linenumber" name="L949" href="#L949">949</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L950" href="#L950">950</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> readVarInt(<strong class="jxr_keyword">int</strong> firstByte) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L951" href="#L951">951</a>         <em class="jxr_comment">// VarInt uses the high-order bit of the last octet as a marker; some (but not all) 5-byte VarInts can fit</em>
-<a class="jxr_linenumber" name="L952" href="#L952">952</a>         <em class="jxr_comment">// into a Java int.</em>
-<a class="jxr_linenumber" name="L953" href="#L953">953</a>         <em class="jxr_comment">// To validate overflows we accumulate the VarInt in a long and then check if it can be represented by an int</em>
-<a class="jxr_linenumber" name="L954" href="#L954">954</a>         <em class="jxr_comment">//</em>
-<a class="jxr_linenumber" name="L955" href="#L955">955</a>         <em class="jxr_comment">// see http://amzn.github.io/ion-docs/docs/binary.html#varuint-and-varint-fields</em>
+<a class="jxr_linenumber" name="L925" href="#L925">925</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L926" href="#L926">926</a> <em class="jxr_javadoccomment">     * Reads an integer value, returning null to mean -0.</em>
+<a class="jxr_linenumber" name="L927" href="#L927">927</a> <em class="jxr_javadoccomment">     * @throws IOException</em>
+<a class="jxr_linenumber" name="L928" href="#L928">928</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L929" href="#L929">929</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> Integer readVarInteger() <strong class="jxr_keyword">throws</strong> IOException
+<a class="jxr_linenumber" name="L930" href="#L930">930</a>     {
+<a class="jxr_linenumber" name="L931" href="#L931">931</a>         <strong class="jxr_keyword">int</strong> firstByte = read();
+<a class="jxr_linenumber" name="L932" href="#L932">932</a> 
+<a class="jxr_linenumber" name="L933" href="#L933">933</a>         <em class="jxr_comment">// if byte represents -0 returns null</em>
+<a class="jxr_linenumber" name="L934" href="#L934">934</a>         <strong class="jxr_keyword">if</strong> (firstByte == 0xC0) {
+<a class="jxr_linenumber" name="L935" href="#L935">935</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L936" href="#L936">936</a>         }
+<a class="jxr_linenumber" name="L937" href="#L937">937</a> 
+<a class="jxr_linenumber" name="L938" href="#L938">938</a>         <strong class="jxr_keyword">return</strong> readVarInt(firstByte);
+<a class="jxr_linenumber" name="L939" href="#L939">939</a>     }
+<a class="jxr_linenumber" name="L940" href="#L940">940</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L941" href="#L941">941</a> <em class="jxr_javadoccomment">     * reads a varInt after the first byte was read. The first byte is used to specify the sign and -0 has different</em>
+<a class="jxr_linenumber" name="L942" href="#L942">942</a> <em class="jxr_javadoccomment">     * representation on the protected API that was called</em>
+<a class="jxr_linenumber" name="L943" href="#L943">943</a> <em class="jxr_javadoccomment">     *</em>
+<a class="jxr_linenumber" name="L944" href="#L944">944</a> <em class="jxr_javadoccomment">     * @param firstByte last varInt octet</em>
+<a class="jxr_linenumber" name="L945" href="#L945">945</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L946" href="#L946">946</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> readVarInt(<strong class="jxr_keyword">int</strong> firstByte) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L947" href="#L947">947</a>         <em class="jxr_comment">// VarInt uses the high-order bit of the last octet as a marker; some (but not all) 5-byte VarInts can fit</em>
+<a class="jxr_linenumber" name="L948" href="#L948">948</a>         <em class="jxr_comment">// into a Java int.</em>
+<a class="jxr_linenumber" name="L949" href="#L949">949</a>         <em class="jxr_comment">// To validate overflows we accumulate the VarInt in a long and then check if it can be represented by an int</em>
+<a class="jxr_linenumber" name="L950" href="#L950">950</a>         <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="L951" href="#L951">951</a>         <em class="jxr_comment">// see http://amzn.github.io/ion-docs/docs/binary.html#varuint-and-varint-fields</em>
+<a class="jxr_linenumber" name="L952" href="#L952">952</a> 
+<a class="jxr_linenumber" name="L953" href="#L953">953</a>         <strong class="jxr_keyword">long</strong> retValue = 0;
+<a class="jxr_linenumber" name="L954" href="#L954">954</a>         <strong class="jxr_keyword">int</strong> b = firstByte;
+<a class="jxr_linenumber" name="L955" href="#L955">955</a>         <strong class="jxr_keyword">boolean</strong> isNegative = false;
 <a class="jxr_linenumber" name="L956" href="#L956">956</a> 
-<a class="jxr_linenumber" name="L957" href="#L957">957</a>         <strong class="jxr_keyword">long</strong> retValue = 0;
-<a class="jxr_linenumber" name="L958" href="#L958">958</a>         <strong class="jxr_keyword">int</strong> b = firstByte;
-<a class="jxr_linenumber" name="L959" href="#L959">959</a>         <strong class="jxr_keyword">boolean</strong> isNegative = false;
-<a class="jxr_linenumber" name="L960" href="#L960">960</a> 
-<a class="jxr_linenumber" name="L961" href="#L961">961</a>         <strong class="jxr_keyword">for</strong> (;;) {
-<a class="jxr_linenumber" name="L962" href="#L962">962</a>             <strong class="jxr_keyword">if</strong> (b &lt; 0) throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L963" href="#L963">963</a>             <strong class="jxr_keyword">if</strong> ((b &amp; 0x40) != 0) {
-<a class="jxr_linenumber" name="L964" href="#L964">964</a>                 isNegative = <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="L965" href="#L965">965</a>             }
-<a class="jxr_linenumber" name="L966" href="#L966">966</a> 
-<a class="jxr_linenumber" name="L967" href="#L967">967</a>             retValue = (b &amp; 0x3F);
+<a class="jxr_linenumber" name="L957" href="#L957">957</a>         <strong class="jxr_keyword">for</strong> (;;) {
+<a class="jxr_linenumber" name="L958" href="#L958">958</a>             <strong class="jxr_keyword">if</strong> (b &lt; 0) throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L959" href="#L959">959</a>             <strong class="jxr_keyword">if</strong> ((b &amp; 0x40) != 0) {
+<a class="jxr_linenumber" name="L960" href="#L960">960</a>                 isNegative = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L961" href="#L961">961</a>             }
+<a class="jxr_linenumber" name="L962" href="#L962">962</a> 
+<a class="jxr_linenumber" name="L963" href="#L963">963</a>             retValue = (b &amp; 0x3F);
+<a class="jxr_linenumber" name="L964" href="#L964">964</a>             <strong class="jxr_keyword">if</strong> ((b &amp; 0x80) != 0) <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L965" href="#L965">965</a> 
+<a class="jxr_linenumber" name="L966" href="#L966">966</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L967" href="#L967">967</a>             retValue = (retValue &lt;&lt; 7) | (b &amp; 0x7F);
 <a class="jxr_linenumber" name="L968" href="#L968">968</a>             <strong class="jxr_keyword">if</strong> ((b &amp; 0x80) != 0) <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="L969" href="#L969">969</a> 
-<a class="jxr_linenumber" name="L970" href="#L970">970</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L971" href="#L971">971</a>             retValue = (retValue &lt;&lt; 7) | (b &amp; 0x7F);
-<a class="jxr_linenumber" name="L972" href="#L972">972</a>             <strong class="jxr_keyword">if</strong> ((b &amp; 0x80) != 0) <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="L973" href="#L973">973</a>             <em class="jxr_comment">// for the rest, they're all the same</em>
-<a class="jxr_linenumber" name="L974" href="#L974">974</a> 
-<a class="jxr_linenumber" name="L975" href="#L975">975</a> 
-<a class="jxr_linenumber" name="L976" href="#L976">976</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L977" href="#L977">977</a>             retValue = (retValue &lt;&lt; 7) | (b &amp; 0x7F);
-<a class="jxr_linenumber" name="L978" href="#L978">978</a>             <strong class="jxr_keyword">if</strong> ((b &amp; 0x80) != 0) <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="L979" href="#L979">979</a>             <em class="jxr_comment">// for the rest, they're all the same</em>
-<a class="jxr_linenumber" name="L980" href="#L980">980</a> 
-<a class="jxr_linenumber" name="L981" href="#L981">981</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L982" href="#L982">982</a>             retValue = (retValue &lt;&lt; 7) | (b &amp; 0x7F);
-<a class="jxr_linenumber" name="L983" href="#L983">983</a>             <strong class="jxr_keyword">if</strong> ((b &amp; 0x80) != 0) <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="L984" href="#L984">984</a>             <em class="jxr_comment">// for the rest, they're all the same</em>
+<a class="jxr_linenumber" name="L969" href="#L969">969</a>             <em class="jxr_comment">// for the rest, they're all the same</em>
+<a class="jxr_linenumber" name="L970" href="#L970">970</a> 
+<a class="jxr_linenumber" name="L971" href="#L971">971</a> 
+<a class="jxr_linenumber" name="L972" href="#L972">972</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L973" href="#L973">973</a>             retValue = (retValue &lt;&lt; 7) | (b &amp; 0x7F);
+<a class="jxr_linenumber" name="L974" href="#L974">974</a>             <strong class="jxr_keyword">if</strong> ((b &amp; 0x80) != 0) <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L975" href="#L975">975</a>             <em class="jxr_comment">// for the rest, they're all the same</em>
+<a class="jxr_linenumber" name="L976" href="#L976">976</a> 
+<a class="jxr_linenumber" name="L977" href="#L977">977</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L978" href="#L978">978</a>             retValue = (retValue &lt;&lt; 7) | (b &amp; 0x7F);
+<a class="jxr_linenumber" name="L979" href="#L979">979</a>             <strong class="jxr_keyword">if</strong> ((b &amp; 0x80) != 0) <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L980" href="#L980">980</a>             <em class="jxr_comment">// for the rest, they're all the same</em>
+<a class="jxr_linenumber" name="L981" href="#L981">981</a> 
+<a class="jxr_linenumber" name="L982" href="#L982">982</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L983" href="#L983">983</a>             retValue = (retValue &lt;&lt; 7) | (b &amp; 0x7F);
+<a class="jxr_linenumber" name="L984" href="#L984">984</a>             <strong class="jxr_keyword">if</strong> ((b &amp; 0x80) != 0) <strong class="jxr_keyword">break</strong>;
 <a class="jxr_linenumber" name="L985" href="#L985">985</a> 
-<a class="jxr_linenumber" name="L986" href="#L986">986</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L987" href="#L987">987</a>             retValue = (retValue &lt;&lt; 7) | (b &amp; 0x7F);
-<a class="jxr_linenumber" name="L988" href="#L988">988</a>             <strong class="jxr_keyword">if</strong> ((b &amp; 0x80) != 0) <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L986" href="#L986">986</a>             <em class="jxr_comment">// Don't support anything above a 5-byte VarInt for now, see https://github.com/amzn/ion-java/issues/146</em>
+<a class="jxr_linenumber" name="L987" href="#L987">987</a>             throwVarIntOverflowException();
+<a class="jxr_linenumber" name="L988" href="#L988">988</a>         }
 <a class="jxr_linenumber" name="L989" href="#L989">989</a> 
-<a class="jxr_linenumber" name="L990" href="#L990">990</a>             <em class="jxr_comment">// Don't support anything above a 5-byte VarInt for now, see https://github.com/amzn/ion-java/issues/146</em>
-<a class="jxr_linenumber" name="L991" href="#L991">991</a>             throwVarIntOverflowException();
+<a class="jxr_linenumber" name="L990" href="#L990">990</a>         <strong class="jxr_keyword">if</strong> (isNegative) {
+<a class="jxr_linenumber" name="L991" href="#L991">991</a>             retValue = -retValue;
 <a class="jxr_linenumber" name="L992" href="#L992">992</a>         }
 <a class="jxr_linenumber" name="L993" href="#L993">993</a> 
-<a class="jxr_linenumber" name="L994" href="#L994">994</a>         <strong class="jxr_keyword">if</strong> (isNegative) {
-<a class="jxr_linenumber" name="L995" href="#L995">995</a>             retValue = -retValue;
-<a class="jxr_linenumber" name="L996" href="#L996">996</a>         }
-<a class="jxr_linenumber" name="L997" href="#L997">997</a> 
-<a class="jxr_linenumber" name="L998" href="#L998">998</a>         <strong class="jxr_keyword">int</strong> retValueAsInt = (<strong class="jxr_keyword">int</strong>) retValue;
-<a class="jxr_linenumber" name="L999" href="#L999">999</a>         <strong class="jxr_keyword">if</strong> (retValue != ((<strong class="jxr_keyword">long</strong>) retValueAsInt)) {
-<a class="jxr_linenumber" name="L1000" href="#L1000">1000</a>             throwVarIntOverflowException();
-<a class="jxr_linenumber" name="L1001" href="#L1001">1001</a>         }
-<a class="jxr_linenumber" name="L1002" href="#L1002">1002</a> 
-<a class="jxr_linenumber" name="L1003" href="#L1003">1003</a>         <strong class="jxr_keyword">return</strong> retValueAsInt;
-<a class="jxr_linenumber" name="L1004" href="#L1004">1004</a>     }
-<a class="jxr_linenumber" name="L1005" href="#L1005">1005</a> 
-<a class="jxr_linenumber" name="L1006" href="#L1006">1006</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> readVarUIntOrEOF() <strong class="jxr_keyword">throws</strong> IOException
-<a class="jxr_linenumber" name="L1007" href="#L1007">1007</a>     {
-<a class="jxr_linenumber" name="L1008" href="#L1008">1008</a> <em class="jxr_comment">// VarUInt uses the high-order bit of the last octet as a marker; some (but not all) 5-byte VarUInt can fit</em>
-<a class="jxr_linenumber" name="L1009" href="#L1009">1009</a>         <em class="jxr_comment">// into a Java int.</em>
-<a class="jxr_linenumber" name="L1010" href="#L1010">1010</a>         <em class="jxr_comment">// To validate overflows we accumulate the VarInt in a long and then check if it can be represented by an int</em>
-<a class="jxr_linenumber" name="L1011" href="#L1011">1011</a>         <em class="jxr_comment">//</em>
-<a class="jxr_linenumber" name="L1012" href="#L1012">1012</a>         <em class="jxr_comment">// see http://amzn.github.io/ion-docs/docs/binary.html#varuint-and-varint-fields</em>
-<a class="jxr_linenumber" name="L1013" href="#L1013">1013</a> 
-<a class="jxr_linenumber" name="L1014" href="#L1014">1014</a>         <strong class="jxr_keyword">long</strong> retvalue = 0;
-<a class="jxr_linenumber" name="L1015" href="#L1015">1015</a>         <strong class="jxr_keyword">int</strong>  b;
-<a class="jxr_linenumber" name="L1016" href="#L1016">1016</a>         <strong class="jxr_keyword">for</strong> (;;) { <em class="jxr_comment">// fake loop to create a "goto done"</em>
-<a class="jxr_linenumber" name="L1017" href="#L1017">1017</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) {
-<a class="jxr_linenumber" name="L1018" href="#L1018">1018</a>                 <strong class="jxr_keyword">return</strong> UnifiedInputStreamX.EOF;
-<a class="jxr_linenumber" name="L1019" href="#L1019">1019</a>             }
+<a class="jxr_linenumber" name="L994" href="#L994">994</a>         <strong class="jxr_keyword">int</strong> retValueAsInt = (<strong class="jxr_keyword">int</strong>) retValue;
+<a class="jxr_linenumber" name="L995" href="#L995">995</a>         <strong class="jxr_keyword">if</strong> (retValue != ((<strong class="jxr_keyword">long</strong>) retValueAsInt)) {
+<a class="jxr_linenumber" name="L996" href="#L996">996</a>             throwVarIntOverflowException();
+<a class="jxr_linenumber" name="L997" href="#L997">997</a>         }
+<a class="jxr_linenumber" name="L998" href="#L998">998</a> 
+<a class="jxr_linenumber" name="L999" href="#L999">999</a>         <strong class="jxr_keyword">return</strong> retValueAsInt;
+<a class="jxr_linenumber" name="L1000" href="#L1000">1000</a>     }
+<a class="jxr_linenumber" name="L1001" href="#L1001">1001</a> 
+<a class="jxr_linenumber" name="L1002" href="#L1002">1002</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> readVarUIntOrEOF() <strong class="jxr_keyword">throws</strong> IOException
+<a class="jxr_linenumber" name="L1003" href="#L1003">1003</a>     {
+<a class="jxr_linenumber" name="L1004" href="#L1004">1004</a> <em class="jxr_comment">// VarUInt uses the high-order bit of the last octet as a marker; some (but not all) 5-byte VarUInt can fit</em>
+<a class="jxr_linenumber" name="L1005" href="#L1005">1005</a>         <em class="jxr_comment">// into a Java int.</em>
+<a class="jxr_linenumber" name="L1006" href="#L1006">1006</a>         <em class="jxr_comment">// To validate overflows we accumulate the VarInt in a long and then check if it can be represented by an int</em>
+<a class="jxr_linenumber" name="L1007" href="#L1007">1007</a>         <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="L1008" href="#L1008">1008</a>         <em class="jxr_comment">// see http://amzn.github.io/ion-docs/docs/binary.html#varuint-and-varint-fields</em>
+<a class="jxr_linenumber" name="L1009" href="#L1009">1009</a> 
+<a class="jxr_linenumber" name="L1010" href="#L1010">1010</a>         <strong class="jxr_keyword">long</strong> retvalue = 0;
+<a class="jxr_linenumber" name="L1011" href="#L1011">1011</a>         <strong class="jxr_keyword">int</strong>  b;
+<a class="jxr_linenumber" name="L1012" href="#L1012">1012</a>         <strong class="jxr_keyword">for</strong> (;;) { <em class="jxr_comment">// fake loop to create a "goto done"</em>
+<a class="jxr_linenumber" name="L1013" href="#L1013">1013</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) {
+<a class="jxr_linenumber" name="L1014" href="#L1014">1014</a>                 <strong class="jxr_keyword">return</strong> UnifiedInputStreamX.EOF;
+<a class="jxr_linenumber" name="L1015" href="#L1015">1015</a>             }
+<a class="jxr_linenumber" name="L1016" href="#L1016">1016</a>             retvalue = (retvalue &lt;&lt; 7) | (b &amp; 0x7F);
+<a class="jxr_linenumber" name="L1017" href="#L1017">1017</a>             <strong class="jxr_keyword">if</strong> ((b &amp; 0x80) != 0) <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L1018" href="#L1018">1018</a> 
+<a class="jxr_linenumber" name="L1019" href="#L1019">1019</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
 <a class="jxr_linenumber" name="L1020" href="#L1020">1020</a>             retvalue = (retvalue &lt;&lt; 7) | (b &amp; 0x7F);
 <a class="jxr_linenumber" name="L1021" href="#L1021">1021</a>             <strong class="jxr_keyword">if</strong> ((b &amp; 0x80) != 0) <strong class="jxr_keyword">break</strong>;
 <a class="jxr_linenumber" name="L1022" href="#L1022">1022</a> 
@@ -1040,297 +1040,293 @@
 <a class="jxr_linenumber" name="L1032" href="#L1032">1032</a>             retvalue = (retvalue &lt;&lt; 7) | (b &amp; 0x7F);
 <a class="jxr_linenumber" name="L1033" href="#L1033">1033</a>             <strong class="jxr_keyword">if</strong> ((b &amp; 0x80) != 0) <strong class="jxr_keyword">break</strong>;
 <a class="jxr_linenumber" name="L1034" href="#L1034">1034</a> 
-<a class="jxr_linenumber" name="L1035" href="#L1035">1035</a>             <strong class="jxr_keyword">if</strong> ((b = read()) &lt; 0) throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L1036" href="#L1036">1036</a>             retvalue = (retvalue &lt;&lt; 7) | (b &amp; 0x7F);
-<a class="jxr_linenumber" name="L1037" href="#L1037">1037</a>             <strong class="jxr_keyword">if</strong> ((b &amp; 0x80) != 0) <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L1035" href="#L1035">1035</a>             <em class="jxr_comment">// Don't support anything above a 5-byte VarUInt for now, see https://github.com/amzn/ion-java/issues/146</em>
+<a class="jxr_linenumber" name="L1036" href="#L1036">1036</a>             throwVarIntOverflowException();
+<a class="jxr_linenumber" name="L1037" href="#L1037">1037</a>         }
 <a class="jxr_linenumber" name="L1038" href="#L1038">1038</a> 
-<a class="jxr_linenumber" name="L1039" href="#L1039">1039</a>             <em class="jxr_comment">// Don't support anything above a 5-byte VarUInt for now, see https://github.com/amzn/ion-java/issues/146</em>
-<a class="jxr_linenumber" name="L1040" href="#L1040">1040</a>             throwVarIntOverflowException();
-<a class="jxr_linenumber" name="L1041" href="#L1041">1041</a>         }
-<a class="jxr_linenumber" name="L1042" href="#L1042">1042</a> 
-<a class="jxr_linenumber" name="L1043" href="#L1043">1043</a>         <strong class="jxr_keyword">int</strong> retValueAsInt = (<strong class="jxr_keyword">int</strong>) retvalue;
-<a class="jxr_linenumber" name="L1044" href="#L1044">1044</a>         <strong class="jxr_keyword">if</strong> (retvalue != ((<strong class="jxr_keyword">long</strong>) retValueAsInt)) {
-<a class="jxr_linenumber" name="L1045" href="#L1045">1045</a>             throwVarIntOverflowException();
-<a class="jxr_linenumber" name="L1046" href="#L1046">1046</a>         }
-<a class="jxr_linenumber" name="L1047" href="#L1047">1047</a> 
-<a class="jxr_linenumber" name="L1048" href="#L1048">1048</a>         <strong class="jxr_keyword">return</strong> retValueAsInt;
-<a class="jxr_linenumber" name="L1049" href="#L1049">1049</a>     }
-<a class="jxr_linenumber" name="L1050" href="#L1050">1050</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> readVarUInt() <strong class="jxr_keyword">throws</strong> IOException
-<a class="jxr_linenumber" name="L1051" href="#L1051">1051</a>     {
-<a class="jxr_linenumber" name="L1052" href="#L1052">1052</a>         <strong class="jxr_keyword">int</strong> varUInt = readVarUIntOrEOF();
-<a class="jxr_linenumber" name="L1053" href="#L1053">1053</a>         <strong class="jxr_keyword">if</strong> (varUInt == UnifiedInputStreamX.EOF) {
-<a class="jxr_linenumber" name="L1054" href="#L1054">1054</a>             throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L1055" href="#L1055">1055</a>         }
-<a class="jxr_linenumber" name="L1056" href="#L1056">1056</a> 
-<a class="jxr_linenumber" name="L1057" href="#L1057">1057</a>         <strong class="jxr_keyword">return</strong> varUInt;
-<a class="jxr_linenumber" name="L1058" href="#L1058">1058</a>     }
-<a class="jxr_linenumber" name="L1059" href="#L1059">1059</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> readFloat(<strong class="jxr_keyword">int</strong> len) <strong class="jxr_keyword">throws</strong> IOException
-<a class="jxr_linenumber" name="L1060" href="#L1060">1060</a>     {
-<a class="jxr_linenumber" name="L1061" href="#L1061">1061</a>         <strong class="jxr_keyword">if</strong> (len == 0)
-<a class="jxr_linenumber" name="L1062" href="#L1062">1062</a>         {
-<a class="jxr_linenumber" name="L1063" href="#L1063">1063</a>             <em class="jxr_comment">// special case, return pos zero</em>
-<a class="jxr_linenumber" name="L1064" href="#L1064">1064</a>             <strong class="jxr_keyword">return</strong> 0.0d;
+<a class="jxr_linenumber" name="L1039" href="#L1039">1039</a>         <strong class="jxr_keyword">int</strong> retValueAsInt = (<strong class="jxr_keyword">int</strong>) retvalue;
+<a class="jxr_linenumber" name="L1040" href="#L1040">1040</a>         <strong class="jxr_keyword">if</strong> (retvalue != ((<strong class="jxr_keyword">long</strong>) retValueAsInt)) {
+<a class="jxr_linenumber" name="L1041" href="#L1041">1041</a>             throwVarIntOverflowException();
+<a class="jxr_linenumber" name="L1042" href="#L1042">1042</a>         }
+<a class="jxr_linenumber" name="L1043" href="#L1043">1043</a> 
+<a class="jxr_linenumber" name="L1044" href="#L1044">1044</a>         <strong class="jxr_keyword">return</strong> retValueAsInt;
+<a class="jxr_linenumber" name="L1045" href="#L1045">1045</a>     }
+<a class="jxr_linenumber" name="L1046" href="#L1046">1046</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> readVarUInt() <strong class="jxr_keyword">throws</strong> IOException
+<a class="jxr_linenumber" name="L1047" href="#L1047">1047</a>     {
+<a class="jxr_linenumber" name="L1048" href="#L1048">1048</a>         <strong class="jxr_keyword">int</strong> varUInt = readVarUIntOrEOF();
+<a class="jxr_linenumber" name="L1049" href="#L1049">1049</a>         <strong class="jxr_keyword">if</strong> (varUInt == UnifiedInputStreamX.EOF) {
+<a class="jxr_linenumber" name="L1050" href="#L1050">1050</a>             throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L1051" href="#L1051">1051</a>         }
+<a class="jxr_linenumber" name="L1052" href="#L1052">1052</a> 
+<a class="jxr_linenumber" name="L1053" href="#L1053">1053</a>         <strong class="jxr_keyword">return</strong> varUInt;
+<a class="jxr_linenumber" name="L1054" href="#L1054">1054</a>     }
+<a class="jxr_linenumber" name="L1055" href="#L1055">1055</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">double</strong> readFloat(<strong class="jxr_keyword">int</strong> len) <strong class="jxr_keyword">throws</strong> IOException
+<a class="jxr_linenumber" name="L1056" href="#L1056">1056</a>     {
+<a class="jxr_linenumber" name="L1057" href="#L1057">1057</a>         <strong class="jxr_keyword">if</strong> (len == 0)
+<a class="jxr_linenumber" name="L1058" href="#L1058">1058</a>         {
+<a class="jxr_linenumber" name="L1059" href="#L1059">1059</a>             <em class="jxr_comment">// special case, return pos zero</em>
+<a class="jxr_linenumber" name="L1060" href="#L1060">1060</a>             <strong class="jxr_keyword">return</strong> 0.0d;
+<a class="jxr_linenumber" name="L1061" href="#L1061">1061</a>         }
+<a class="jxr_linenumber" name="L1062" href="#L1062">1062</a>         <strong class="jxr_keyword">if</strong> (len != 4 &amp;&amp; len != 8)
+<a class="jxr_linenumber" name="L1063" href="#L1063">1063</a>         {
+<a class="jxr_linenumber" name="L1064" href="#L1064">1064</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IOException(<span class="jxr_string">"Length of float read must be 0, 4, or 8"</span>);
 <a class="jxr_linenumber" name="L1065" href="#L1065">1065</a>         }
-<a class="jxr_linenumber" name="L1066" href="#L1066">1066</a>         <strong class="jxr_keyword">if</strong> (len != 4 &amp;&amp; len != 8)
-<a class="jxr_linenumber" name="L1067" href="#L1067">1067</a>         {
-<a class="jxr_linenumber" name="L1068" href="#L1068">1068</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IOException(<span class="jxr_string">"Length of float read must be 0, 4, or 8"</span>);
-<a class="jxr_linenumber" name="L1069" href="#L1069">1069</a>         }
-<a class="jxr_linenumber" name="L1070" href="#L1070">1070</a> 
-<a class="jxr_linenumber" name="L1071" href="#L1071">1071</a>         <strong class="jxr_keyword">long</strong> dBits = <strong class="jxr_keyword">this</strong>.readULong(len);
-<a class="jxr_linenumber" name="L1072" href="#L1072">1072</a> 
-<a class="jxr_linenumber" name="L1073" href="#L1073">1073</a>         <strong class="jxr_keyword">return</strong> len == 4
-<a class="jxr_linenumber" name="L1074" href="#L1074">1074</a>             ? (<strong class="jxr_keyword">double</strong>) Float.intBitsToFloat((<strong class="jxr_keyword">int</strong>) (dBits &amp; 0xffffffffL))
-<a class="jxr_linenumber" name="L1075" href="#L1075">1075</a>             : Double.longBitsToDouble(dBits);
-<a class="jxr_linenumber" name="L1076" href="#L1076">1076</a>     }
-<a class="jxr_linenumber" name="L1077" href="#L1077">1077</a> 
-<a class="jxr_linenumber" name="L1078" href="#L1078">1078</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <a name="Decimal" href="../../../../com/amazon/ion/Decimal.html#Decimal">Decimal</a> readDecimal(<strong class="jxr_keyword">int</strong> len) <strong class="jxr_keyword">throws</strong> IOException
-<a class="jxr_linenumber" name="L1079" href="#L1079">1079</a>     {
-<a class="jxr_linenumber" name="L1080" href="#L1080">1080</a>         MathContext mathContext = MathContext.UNLIMITED;
-<a class="jxr_linenumber" name="L1081" href="#L1081">1081</a>         <a name="Decimal" href="../../../../com/amazon/ion/Decimal.html#Decimal">Decimal</a> bd;
-<a class="jxr_linenumber" name="L1082" href="#L1082">1082</a>         <em class="jxr_comment">// we only write out the '0' value as the nibble 0</em>
-<a class="jxr_linenumber" name="L1083" href="#L1083">1083</a>         <strong class="jxr_keyword">if</strong> (len == 0) {
-<a class="jxr_linenumber" name="L1084" href="#L1084">1084</a>             bd = Decimal.valueOf(0, mathContext);
-<a class="jxr_linenumber" name="L1085" href="#L1085">1085</a>         }
-<a class="jxr_linenumber" name="L1086" href="#L1086">1086</a>         <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L1087" href="#L1087">1087</a>             <em class="jxr_comment">// otherwise we to it the hard way ....</em>
-<a class="jxr_linenumber" name="L1088" href="#L1088">1088</a>             <strong class="jxr_keyword">int</strong> save_limit = NO_LIMIT;
-<a class="jxr_linenumber" name="L1089" href="#L1089">1089</a>             <strong class="jxr_keyword">if</strong> (_local_remaining != NO_LIMIT) {
-<a class="jxr_linenumber" name="L1090" href="#L1090">1090</a>                 save_limit = _local_remaining - len;
-<a class="jxr_linenumber" name="L1091" href="#L1091">1091</a>             }
-<a class="jxr_linenumber" name="L1092" href="#L1092">1092</a>             _local_remaining = len;
-<a class="jxr_linenumber" name="L1093" href="#L1093">1093</a>             <strong class="jxr_keyword">int</strong>  exponent = readVarInt();
-<a class="jxr_linenumber" name="L1094" href="#L1094">1094</a>             BigInteger value;
-<a class="jxr_linenumber" name="L1095" href="#L1095">1095</a>             <strong class="jxr_keyword">int</strong> signum;
-<a class="jxr_linenumber" name="L1096" href="#L1096">1096</a>             <strong class="jxr_keyword">if</strong> (_local_remaining &gt; 0)
-<a class="jxr_linenumber" name="L1097" href="#L1097">1097</a>             {
-<a class="jxr_linenumber" name="L1098" href="#L1098">1098</a>                 byte[] bits = <strong class="jxr_keyword">new</strong> byte[_local_remaining];
-<a class="jxr_linenumber" name="L1099" href="#L1099">1099</a>                 readAll(bits, 0, _local_remaining);
-<a class="jxr_linenumber" name="L1100" href="#L1100">1100</a>                 signum = 1;
-<a class="jxr_linenumber" name="L1101" href="#L1101">1101</a>                 <strong class="jxr_keyword">if</strong> (bits[0] &lt; 0)
-<a class="jxr_linenumber" name="L1102" href="#L1102">1102</a>                 {
-<a class="jxr_linenumber" name="L1103" href="#L1103">1103</a>                     <em class="jxr_comment">// value is negative, clear the sign</em>
-<a class="jxr_linenumber" name="L1104" href="#L1104">1104</a>                     bits[0] &amp;= 0x7F;
-<a class="jxr_linenumber" name="L1105" href="#L1105">1105</a>                     signum = -1;
-<a class="jxr_linenumber" name="L1106" href="#L1106">1106</a>                 }
-<a class="jxr_linenumber" name="L1107" href="#L1107">1107</a>                 value = <strong class="jxr_keyword">new</strong> BigInteger(signum, bits);
+<a class="jxr_linenumber" name="L1066" href="#L1066">1066</a> 
+<a class="jxr_linenumber" name="L1067" href="#L1067">1067</a>         <strong class="jxr_keyword">long</strong> dBits = <strong class="jxr_keyword">this</strong>.readULong(len);
+<a class="jxr_linenumber" name="L1068" href="#L1068">1068</a> 
+<a class="jxr_linenumber" name="L1069" href="#L1069">1069</a>         <strong class="jxr_keyword">return</strong> len == 4
+<a class="jxr_linenumber" name="L1070" href="#L1070">1070</a>             ? (<strong class="jxr_keyword">double</strong>) Float.intBitsToFloat((<strong class="jxr_keyword">int</strong>) (dBits &amp; 0xffffffffL))
+<a class="jxr_linenumber" name="L1071" href="#L1071">1071</a>             : Double.longBitsToDouble(dBits);
+<a class="jxr_linenumber" name="L1072" href="#L1072">1072</a>     }
+<a class="jxr_linenumber" name="L1073" href="#L1073">1073</a> 
+<a class="jxr_linenumber" name="L1074" href="#L1074">1074</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <a name="Decimal" href="../../../../com/amazon/ion/Decimal.html#Decimal">Decimal</a> readDecimal(<strong class="jxr_keyword">int</strong> len) <strong class="jxr_keyword">throws</strong> IOException
+<a class="jxr_linenumber" name="L1075" href="#L1075">1075</a>     {
+<a class="jxr_linenumber" name="L1076" href="#L1076">1076</a>         MathContext mathContext = MathContext.UNLIMITED;
+<a class="jxr_linenumber" name="L1077" href="#L1077">1077</a>         <a name="Decimal" href="../../../../com/amazon/ion/Decimal.html#Decimal">Decimal</a> bd;
+<a class="jxr_linenumber" name="L1078" href="#L1078">1078</a>         <em class="jxr_comment">// we only write out the '0' value as the nibble 0</em>
+<a class="jxr_linenumber" name="L1079" href="#L1079">1079</a>         <strong class="jxr_keyword">if</strong> (len == 0) {
+<a class="jxr_linenumber" name="L1080" href="#L1080">1080</a>             bd = Decimal.valueOf(0, mathContext);
+<a class="jxr_linenumber" name="L1081" href="#L1081">1081</a>         }
+<a class="jxr_linenumber" name="L1082" href="#L1082">1082</a>         <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L1083" href="#L1083">1083</a>             <em class="jxr_comment">// otherwise we to it the hard way ....</em>
+<a class="jxr_linenumber" name="L1084" href="#L1084">1084</a>             <strong class="jxr_keyword">int</strong> save_limit = NO_LIMIT;
+<a class="jxr_linenumber" name="L1085" href="#L1085">1085</a>             <strong class="jxr_keyword">if</strong> (_local_remaining != NO_LIMIT) {
+<a class="jxr_linenumber" name="L1086" href="#L1086">1086</a>                 save_limit = _local_remaining - len;
+<a class="jxr_linenumber" name="L1087" href="#L1087">1087</a>             }
+<a class="jxr_linenumber" name="L1088" href="#L1088">1088</a>             _local_remaining = len;
+<a class="jxr_linenumber" name="L1089" href="#L1089">1089</a>             <strong class="jxr_keyword">int</strong>  exponent = readVarInt();
+<a class="jxr_linenumber" name="L1090" href="#L1090">1090</a>             BigInteger value;
+<a class="jxr_linenumber" name="L1091" href="#L1091">1091</a>             <strong class="jxr_keyword">int</strong> signum;
+<a class="jxr_linenumber" name="L1092" href="#L1092">1092</a>             <strong class="jxr_keyword">if</strong> (_local_remaining &gt; 0)
+<a class="jxr_linenumber" name="L1093" href="#L1093">1093</a>             {
+<a class="jxr_linenumber" name="L1094" href="#L1094">1094</a>                 byte[] bits = <strong class="jxr_keyword">new</strong> byte[_local_remaining];
+<a class="jxr_linenumber" name="L1095" href="#L1095">1095</a>                 readAll(bits, 0, _local_remaining);
+<a class="jxr_linenumber" name="L1096" href="#L1096">1096</a>                 signum = 1;
+<a class="jxr_linenumber" name="L1097" href="#L1097">1097</a>                 <strong class="jxr_keyword">if</strong> (bits[0] &lt; 0)
+<a class="jxr_linenumber" name="L1098" href="#L1098">1098</a>                 {
+<a class="jxr_linenumber" name="L1099" href="#L1099">1099</a>                     <em class="jxr_comment">// value is negative, clear the sign</em>
+<a class="jxr_linenumber" name="L1100" href="#L1100">1100</a>                     bits[0] &amp;= 0x7F;
+<a class="jxr_linenumber" name="L1101" href="#L1101">1101</a>                     signum = -1;
+<a class="jxr_linenumber" name="L1102" href="#L1102">1102</a>                 }
+<a class="jxr_linenumber" name="L1103" href="#L1103">1103</a>                 value = <strong class="jxr_keyword">new</strong> BigInteger(signum, bits);
+<a class="jxr_linenumber" name="L1104" href="#L1104">1104</a>             }
+<a class="jxr_linenumber" name="L1105" href="#L1105">1105</a>             <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L1106" href="#L1106">1106</a>                 signum = 0;
+<a class="jxr_linenumber" name="L1107" href="#L1107">1107</a>                 value = BigInteger.ZERO;
 <a class="jxr_linenumber" name="L1108" href="#L1108">1108</a>             }
-<a class="jxr_linenumber" name="L1109" href="#L1109">1109</a>             <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L1110" href="#L1110">1110</a>                 signum = 0;
-<a class="jxr_linenumber" name="L1111" href="#L1111">1111</a>                 value = BigInteger.ZERO;
-<a class="jxr_linenumber" name="L1112" href="#L1112">1112</a>             }
-<a class="jxr_linenumber" name="L1113" href="#L1113">1113</a>             <em class="jxr_comment">// Ion stores exponent, BigDecimal uses the negation "scale"</em>
-<a class="jxr_linenumber" name="L1114" href="#L1114">1114</a>             <strong class="jxr_keyword">int</strong> scale = -exponent;
-<a class="jxr_linenumber" name="L1115" href="#L1115">1115</a>             <strong class="jxr_keyword">if</strong> (value.signum() == 0 &amp;&amp; signum == -1)
-<a class="jxr_linenumber" name="L1116" href="#L1116">1116</a>             {
-<a class="jxr_linenumber" name="L1117" href="#L1117">1117</a>                 assert value.equals(BigInteger.ZERO);
-<a class="jxr_linenumber" name="L1118" href="#L1118">1118</a>                 bd = Decimal.negativeZero(scale, mathContext);
+<a class="jxr_linenumber" name="L1109" href="#L1109">1109</a>             <em class="jxr_comment">// Ion stores exponent, BigDecimal uses the negation "scale"</em>
+<a class="jxr_linenumber" name="L1110" href="#L1110">1110</a>             <strong class="jxr_keyword">int</strong> scale = -exponent;
+<a class="jxr_linenumber" name="L1111" href="#L1111">1111</a>             <strong class="jxr_keyword">if</strong> (value.signum() == 0 &amp;&amp; signum == -1)
+<a class="jxr_linenumber" name="L1112" href="#L1112">1112</a>             {
+<a class="jxr_linenumber" name="L1113" href="#L1113">1113</a>                 assert value.equals(BigInteger.ZERO);
+<a class="jxr_linenumber" name="L1114" href="#L1114">1114</a>                 bd = Decimal.negativeZero(scale, mathContext);
+<a class="jxr_linenumber" name="L1115" href="#L1115">1115</a>             }
+<a class="jxr_linenumber" name="L1116" href="#L1116">1116</a>             <strong class="jxr_keyword">else</strong>
+<a class="jxr_linenumber" name="L1117" href="#L1117">1117</a>             {
+<a class="jxr_linenumber" name="L1118" href="#L1118">1118</a>                 bd = Decimal.valueOf(value, scale, mathContext);
 <a class="jxr_linenumber" name="L1119" href="#L1119">1119</a>             }
-<a class="jxr_linenumber" name="L1120" href="#L1120">1120</a>             <strong class="jxr_keyword">else</strong>
-<a class="jxr_linenumber" name="L1121" href="#L1121">1121</a>             {
-<a class="jxr_linenumber" name="L1122" href="#L1122">1122</a>                 bd = Decimal.valueOf(value, scale, mathContext);
-<a class="jxr_linenumber" name="L1123" href="#L1123">1123</a>             }
-<a class="jxr_linenumber" name="L1124" href="#L1124">1124</a>             _local_remaining = save_limit;
-<a class="jxr_linenumber" name="L1125" href="#L1125">1125</a>         }
-<a class="jxr_linenumber" name="L1126" href="#L1126">1126</a>         <strong class="jxr_keyword">return</strong> bd;
-<a class="jxr_linenumber" name="L1127" href="#L1127">1127</a>     }
-<a class="jxr_linenumber" name="L1128" href="#L1128">1128</a> 
-<a class="jxr_linenumber" name="L1129" href="#L1129">1129</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L1130" href="#L1130">1130</a> <em class="jxr_javadoccomment">     * @see IonBinary.Reader#readTimestampValue</em>
-<a class="jxr_linenumber" name="L1131" href="#L1131">1131</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L1132" href="#L1132">1132</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <a name="Timestamp" href="../../../../com/amazon/ion/Timestamp.html#Timestamp">Timestamp</a> readTimestamp(<strong class="jxr_keyword">int</strong> len) <strong class="jxr_keyword">throws</strong> IOException
-<a class="jxr_linenumber" name="L1133" href="#L1133">1133</a>     {
-<a class="jxr_linenumber" name="L1134" href="#L1134">1134</a>         <strong class="jxr_keyword">if</strong> (len &lt; 1) {
-<a class="jxr_linenumber" name="L1135" href="#L1135">1135</a>             <em class="jxr_comment">// nothing to do here - and the timestamp will be NULL</em>
-<a class="jxr_linenumber" name="L1136" href="#L1136">1136</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L1137" href="#L1137">1137</a>         }
-<a class="jxr_linenumber" name="L1138" href="#L1138">1138</a> 
-<a class="jxr_linenumber" name="L1139" href="#L1139">1139</a>         <strong class="jxr_keyword">int</strong>         year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0;
-<a class="jxr_linenumber" name="L1140" href="#L1140">1140</a>         BigDecimal  frac = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L1141" href="#L1141">1141</a>         <strong class="jxr_keyword">int</strong>         save_limit = NO_LIMIT;
-<a class="jxr_linenumber" name="L1142" href="#L1142">1142</a>         <strong class="jxr_keyword">if</strong> (_local_remaining != NO_LIMIT) {
-<a class="jxr_linenumber" name="L1143" href="#L1143">1143</a>             save_limit = _local_remaining - len;
-<a class="jxr_linenumber" name="L1144" href="#L1144">1144</a>         }
-<a class="jxr_linenumber" name="L1145" href="#L1145">1145</a>         _local_remaining = len;  <em class="jxr_comment">// &gt; 0</em>
-<a class="jxr_linenumber" name="L1146" href="#L1146">1146</a> 
-<a class="jxr_linenumber" name="L1147" href="#L1147">1147</a>         <em class="jxr_comment">// first up is the offset, which requires a special int reader</em>
-<a class="jxr_linenumber" name="L1148" href="#L1148">1148</a>         <em class="jxr_comment">// to return the -0 as a null Integer</em>
-<a class="jxr_linenumber" name="L1149" href="#L1149">1149</a>         Integer offset = readVarInteger();
-<a class="jxr_linenumber" name="L1150" href="#L1150">1150</a>         <em class="jxr_comment">// now we'll read the struct values from the input stream</em>
-<a class="jxr_linenumber" name="L1151" href="#L1151">1151</a> 
-<a class="jxr_linenumber" name="L1152" href="#L1152">1152</a>         <em class="jxr_comment">// year is from 0001 to 9999</em>
-<a class="jxr_linenumber" name="L1153" href="#L1153">1153</a>         <em class="jxr_comment">// or 0x1 to 0x270F or 14 bits - 1 or 2 bytes</em>
-<a class="jxr_linenumber" name="L1154" href="#L1154">1154</a>         year  = readVarUInt();
-<a class="jxr_linenumber" name="L1155" href="#L1155">1155</a>         Precision p = Precision.YEAR; <em class="jxr_comment">// our lowest significant option</em>
-<a class="jxr_linenumber" name="L1156" href="#L1156">1156</a> 
-<a class="jxr_linenumber" name="L1157" href="#L1157">1157</a>         <em class="jxr_comment">// now we look for months</em>
-<a class="jxr_linenumber" name="L1158" href="#L1158">1158</a>         <strong class="jxr_keyword">if</strong> (_local_remaining &gt; 0) {
-<a class="jxr_linenumber" name="L1159" href="#L1159">1159</a>             month = readVarUInt();
-<a class="jxr_linenumber" name="L1160" href="#L1160">1160</a>             p = Precision.MONTH;
-<a class="jxr_linenumber" name="L1161" href="#L1161">1161</a> 
-<a class="jxr_linenumber" name="L1162" href="#L1162">1162</a>             <em class="jxr_comment">// now we look for days</em>
-<a class="jxr_linenumber" name="L1163" href="#L1163">1163</a>             <strong class="jxr_keyword">if</strong> (_local_remaining &gt; 0) {
-<a class="jxr_linenumber" name="L1164" href="#L1164">1164</a>                 day   = readVarUInt();
-<a class="jxr_linenumber" name="L1165" href="#L1165">1165</a>                 p = Precision.DAY; <em class="jxr_comment">// our lowest significant option</em>
-<a class="jxr_linenumber" name="L1166" href="#L1166">1166</a> 
-<a class="jxr_linenumber" name="L1167" href="#L1167">1167</a>                 <em class="jxr_comment">// now we look for hours and minutes</em>
-<a class="jxr_linenumber" name="L1168" href="#L1168">1168</a>                 <strong class="jxr_keyword">if</strong> (_local_remaining &gt; 0) {
-<a class="jxr_linenumber" name="L1169" href="#L1169">1169</a>                     hour   = readVarUInt();
-<a class="jxr_linenumber" name="L1170" href="#L1170">1170</a>                     minute = readVarUInt();
-<a class="jxr_linenumber" name="L1171" href="#L1171">1171</a>                     p = Precision.MINUTE;
-<a class="jxr_linenumber" name="L1172" href="#L1172">1172</a>                     <strong class="jxr_keyword">if</strong> (_local_remaining &gt; 0) {
-<a class="jxr_linenumber" name="L1173" href="#L1173">1173</a>                         second = readVarUInt();
-<a class="jxr_linenumber" name="L1174" href="#L1174">1174</a>                         p = Precision.SECOND;
-<a class="jxr_linenumber" name="L1175" href="#L1175">1175</a>                         <strong class="jxr_keyword">if</strong> (_local_remaining &gt; 0) {
-<a class="jxr_linenumber" name="L1176" href="#L1176">1176</a>                             <em class="jxr_comment">// now we read in our actual "milliseconds since the epoch"</em>
-<a class="jxr_linenumber" name="L1177" href="#L1177">1177</a>                             frac = readDecimal(_local_remaining);
-<a class="jxr_linenumber" name="L1178" href="#L1178">1178</a>                             <strong class="jxr_keyword">if</strong> (frac.compareTo(BigDecimal.ZERO) &lt; 0 || frac.compareTo(BigDecimal.ONE) &gt;= 0) {
-<a class="jxr_linenumber" name="L1179" href="#L1179">1179</a>                                 throwErrorAt(
-<a class="jxr_linenumber" name="L1180" href="#L1180">1180</a>                                         <span class="jxr_string">"The fractional seconds value in a timestamp must be greater than or "</span>
-<a class="jxr_linenumber" name="L1181" href="#L1181">1181</a>                                               + <span class="jxr_string">"equal to zero and less than one."</span>
-<a class="jxr_linenumber" name="L1182" href="#L1182">1182</a>                                 );
-<a class="jxr_linenumber" name="L1183" href="#L1183">1183</a>                             }
-<a class="jxr_linenumber" name="L1184" href="#L1184">1184</a>                         }
-<a class="jxr_linenumber" name="L1185" href="#L1185">1185</a>                     }
-<a class="jxr_linenumber" name="L1186" href="#L1186">1186</a>                 }
-<a class="jxr_linenumber" name="L1187" href="#L1187">1187</a>             }
-<a class="jxr_linenumber" name="L1188" href="#L1188">1188</a>         }
-<a class="jxr_linenumber" name="L1189" href="#L1189">1189</a>         <em class="jxr_comment">// restore out outer limit(s)</em>
-<a class="jxr_linenumber" name="L1190" href="#L1190">1190</a>         _local_remaining  = save_limit;
-<a class="jxr_linenumber" name="L1191" href="#L1191">1191</a>         <em class="jxr_comment">// now we let timestamp put it all together</em>
-<a class="jxr_linenumber" name="L1192" href="#L1192">1192</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L1193" href="#L1193">1193</a>             <a name="Timestamp" href="../../../../com/amazon/ion/Timestamp.html#Timestamp">Timestamp</a> val =
-<a class="jxr_linenumber" name="L1194" href="#L1194">1194</a>                 Timestamp.createFromUtcFields(p, year, month, day, hour,
-<a class="jxr_linenumber" name="L1195" href="#L1195">1195</a>                                               minute, second, frac, offset);
-<a class="jxr_linenumber" name="L1196" href="#L1196">1196</a>             <strong class="jxr_keyword">return</strong> val;
-<a class="jxr_linenumber" name="L1197" href="#L1197">1197</a>         }
-<a class="jxr_linenumber" name="L1198" href="#L1198">1198</a>         <strong class="jxr_keyword">catch</strong> (IllegalArgumentException e)
-<a class="jxr_linenumber" name="L1199" href="#L1199">1199</a>         {
-<a class="jxr_linenumber" name="L1200" href="#L1200">1200</a>             <em class="jxr_comment">// Rewrap to the expected type.</em>
-<a class="jxr_linenumber" name="L1201" href="#L1201">1201</a>             <strong class="jxr_keyword">throw</strong> newErrorAt(<span class="jxr_string">"Invalid timestamp encoding: "</span> + e.getMessage());
-<a class="jxr_linenumber" name="L1202" href="#L1202">1202</a>         }
-<a class="jxr_linenumber" name="L1203" href="#L1203">1203</a>     }
-<a class="jxr_linenumber" name="L1204" href="#L1204">1204</a> 
-<a class="jxr_linenumber" name="L1205" href="#L1205">1205</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> String readString(<strong class="jxr_keyword">int</strong> numberOfBytes) <strong class="jxr_keyword">throws</strong> IOException
-<a class="jxr_linenumber" name="L1206" href="#L1206">1206</a>     {
-<a class="jxr_linenumber" name="L1207" href="#L1207">1207</a>         <em class="jxr_comment">// If the string we're reading is small enough to fit in our reusable buffer, we can avoid the overhead</em>
-<a class="jxr_linenumber" name="L1208" href="#L1208">1208</a>         <em class="jxr_comment">// of looping and bounds checking.</em>
-<a class="jxr_linenumber" name="L1209" href="#L1209">1209</a>         <strong class="jxr_keyword">if</strong> (numberOfBytes &lt;= utf8InputBuffer.capacity()) {
-<a class="jxr_linenumber" name="L1210" href="#L1210">1210</a>             <strong class="jxr_keyword">return</strong> readStringWithReusableBuffer(numberOfBytes);
-<a class="jxr_linenumber" name="L1211" href="#L1211">1211</a>         }
-<a class="jxr_linenumber" name="L1212" href="#L1212">1212</a> 
-<a class="jxr_linenumber" name="L1213" href="#L1213">1213</a>         <em class="jxr_comment">// Otherwise, allocate a one-off decoding buffer that's large enough to hold the string</em>
-<a class="jxr_linenumber" name="L1214" href="#L1214">1214</a>         <em class="jxr_comment">// and prepare to decode the string in chunks.</em>
-<a class="jxr_linenumber" name="L1215" href="#L1215">1215</a>         CharBuffer decodingBuffer = CharBuffer.allocate(numberOfBytes);
-<a class="jxr_linenumber" name="L1216" href="#L1216">1216</a>         utf8CharsetDecoder.reset();
-<a class="jxr_linenumber" name="L1217" href="#L1217">1217</a> 
-<a class="jxr_linenumber" name="L1218" href="#L1218">1218</a>         <strong class="jxr_keyword">int</strong> save_limit = NO_LIMIT;
-<a class="jxr_linenumber" name="L1219" href="#L1219">1219</a>         <strong class="jxr_keyword">if</strong> (_local_remaining != NO_LIMIT) {
-<a class="jxr_linenumber" name="L1220" href="#L1220">1220</a>             save_limit = _local_remaining - numberOfBytes;
-<a class="jxr_linenumber" name="L1221" href="#L1221">1221</a>         }
-<a class="jxr_linenumber" name="L1222" href="#L1222">1222</a>         _local_remaining = numberOfBytes;
-<a class="jxr_linenumber" name="L1223" href="#L1223">1223</a> 
-<a class="jxr_linenumber" name="L1224" href="#L1224">1224</a>         <em class="jxr_comment">// The following loop will:</em>
-<a class="jxr_linenumber" name="L1225" href="#L1225">1225</a>         <em class="jxr_comment">// * Fill the input buffer with utf8 bytes</em>
-<a class="jxr_linenumber" name="L1226" href="#L1226">1226</a>         <em class="jxr_comment">// * Write decoded chars to the decoding buffer</em>
-<a class="jxr_linenumber" name="L1227" href="#L1227">1227</a>         <em class="jxr_comment">// * Move any remaining partial character bytes to the front of the buffer</em>
-<a class="jxr_linenumber" name="L1228" href="#L1228">1228</a>         <em class="jxr_comment">// * Repeat until the requested number of bytes have been decoded.</em>
-<a class="jxr_linenumber" name="L1229" href="#L1229">1229</a>         <em class="jxr_comment">// * Create a new String object from the contents of the decoding buffer.</em>
-<a class="jxr_linenumber" name="L1230" href="#L1230">1230</a>         <strong class="jxr_keyword">int</strong> totalBytesRead = 0;
-<a class="jxr_linenumber" name="L1231" href="#L1231">1231</a>         <strong class="jxr_keyword">int</strong> carryoverBytes = 0;
-<a class="jxr_linenumber" name="L1232" href="#L1232">1232</a>         <strong class="jxr_keyword">while</strong> (totalBytesRead &lt; numberOfBytes) {
-<a class="jxr_linenumber" name="L1233" href="#L1233">1233</a> 
-<a class="jxr_linenumber" name="L1234" href="#L1234">1234</a>             <strong class="jxr_keyword">int</strong> bytesRemaining = numberOfBytes - totalBytesRead;
-<a class="jxr_linenumber" name="L1235" href="#L1235">1235</a>             <em class="jxr_comment">// When decoding, it's possible to have 'carryover' bytes left in the buffer which represent</em>
-<a class="jxr_linenumber" name="L1236" href="#L1236">1236</a>             <em class="jxr_comment">// a partial unicode character. We need to leave these in the buffer so that we can complete the</em>
-<a class="jxr_linenumber" name="L1237" href="#L1237">1237</a>             <em class="jxr_comment">// partial character in the next call to read().</em>
-<a class="jxr_linenumber" name="L1238" href="#L1238">1238</a>             <strong class="jxr_keyword">int</strong> capacityRemaining = utf8InputBuffer.array().length - carryoverBytes;
-<a class="jxr_linenumber" name="L1239" href="#L1239">1239</a>             <strong class="jxr_keyword">int</strong> bytesToRead = Math.min(bytesRemaining, capacityRemaining);
-<a class="jxr_linenumber" name="L1240" href="#L1240">1240</a> 
-<a class="jxr_linenumber" name="L1241" href="#L1241">1241</a>             <strong class="jxr_keyword">int</strong> bytesRead = read(utf8InputBuffer.array(), carryoverBytes, bytesToRead);
-<a class="jxr_linenumber" name="L1242" href="#L1242">1242</a>             <strong class="jxr_keyword">if</strong> (bytesRead &lt;= 0) {
-<a class="jxr_linenumber" name="L1243" href="#L1243">1243</a>                 <em class="jxr_comment">// UnifiedInputStreamX doesn't adhere to InputStream's API. See the comments on</em>
-<a class="jxr_linenumber" name="L1244" href="#L1244">1244</a>                 <em class="jxr_comment">// UnifiedInputStreamX#read() for more information.</em>
-<a class="jxr_linenumber" name="L1245" href="#L1245">1245</a>                 throwUnexpectedEOFException();
-<a class="jxr_linenumber" name="L1246" href="#L1246">1246</a>             }
-<a class="jxr_linenumber" name="L1247" href="#L1247">1247</a> 
-<a class="jxr_linenumber" name="L1248" href="#L1248">1248</a>             totalBytesRead += bytesRead;
-<a class="jxr_linenumber" name="L1249" href="#L1249">1249</a> 
-<a class="jxr_linenumber" name="L1250" href="#L1250">1250</a>             utf8InputBuffer.position(0);
-<a class="jxr_linenumber" name="L1251" href="#L1251">1251</a>             utf8InputBuffer.limit(carryoverBytes + bytesRead);
-<a class="jxr_linenumber" name="L1252" href="#L1252">1252</a> 
-<a class="jxr_linenumber" name="L1253" href="#L1253">1253</a>             CoderResult coderResult = utf8CharsetDecoder.decode(
-<a class="jxr_linenumber" name="L1254" href="#L1254">1254</a>                     utf8InputBuffer,
-<a class="jxr_linenumber" name="L1255" href="#L1255">1255</a>                     decodingBuffer,
-<a class="jxr_linenumber" name="L1256" href="#L1256">1256</a>                     totalBytesRead &gt;= numberOfBytes
-<a class="jxr_linenumber" name="L1257" href="#L1257">1257</a>             );
-<a class="jxr_linenumber" name="L1258" href="#L1258">1258</a>             <strong class="jxr_keyword">if</strong> (coderResult.isError()) {
-<a class="jxr_linenumber" name="L1259" href="#L1259">1259</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="IonException" href="../../../../com/amazon/ion/IonException.html#IonException">IonException</a>(<span class="jxr_string">"Illegal value encountered while validating UTF-8 data in input stream. "</span> + coderResult.toString());
-<a class="jxr_linenumber" name="L1260" href="#L1260">1260</a>             }
-<a class="jxr_linenumber" name="L1261" href="#L1261">1261</a> 
-<a class="jxr_linenumber" name="L1262" href="#L1262">1262</a>             <em class="jxr_comment">// Shift leftover partial character bytes (if any) to the beginning of the buffer</em>
-<a class="jxr_linenumber" name="L1263" href="#L1263">1263</a>             carryoverBytes = utf8InputBuffer.remaining();
-<a class="jxr_linenumber" name="L1264" href="#L1264">1264</a>             <strong class="jxr_keyword">if</strong> (carryoverBytes &gt; 0) {
-<a class="jxr_linenumber" name="L1265" href="#L1265">1265</a>                 System.arraycopy(
-<a class="jxr_linenumber" name="L1266" href="#L1266">1266</a>                         utf8InputBuffer.array(),
-<a class="jxr_linenumber" name="L1267" href="#L1267">1267</a>                         utf8InputBuffer.position(),
-<a class="jxr_linenumber" name="L1268" href="#L1268">1268</a>                         utf8InputBuffer.array(),
-<a class="jxr_linenumber" name="L1269" href="#L1269">1269</a>                         0,
-<a class="jxr_linenumber" name="L1270" href="#L1270">1270</a>                         carryoverBytes
-<a class="jxr_linenumber" name="L1271" href="#L1271">1271</a>                 );
-<a class="jxr_linenumber" name="L1272" href="#L1272">1272</a>             }
-<a class="jxr_linenumber" name="L1273" href="#L1273">1273</a>         }
-<a class="jxr_linenumber" name="L1274" href="#L1274">1274</a> 
-<a class="jxr_linenumber" name="L1275" href="#L1275">1275</a>         _local_remaining = save_limit;
+<a class="jxr_linenumber" name="L1120" href="#L1120">1120</a>             _local_remaining = save_limit;
+<a class="jxr_linenumber" name="L1121" href="#L1121">1121</a>         }
+<a class="jxr_linenumber" name="L1122" href="#L1122">1122</a>         <strong class="jxr_keyword">return</strong> bd;
+<a class="jxr_linenumber" name="L1123" href="#L1123">1123</a>     }
+<a class="jxr_linenumber" name="L1124" href="#L1124">1124</a> 
+<a class="jxr_linenumber" name="L1125" href="#L1125">1125</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L1126" href="#L1126">1126</a> <em class="jxr_javadoccomment">     * @see IonBinary.Reader#readTimestampValue</em>
+<a class="jxr_linenumber" name="L1127" href="#L1127">1127</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L1128" href="#L1128">1128</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <a name="Timestamp" href="../../../../com/amazon/ion/Timestamp.html#Timestamp">Timestamp</a> readTimestamp(<strong class="jxr_keyword">int</strong> len) <strong class="jxr_keyword">throws</strong> IOException
+<a class="jxr_linenumber" name="L1129" href="#L1129">1129</a>     {
+<a class="jxr_linenumber" name="L1130" href="#L1130">1130</a>         <strong class="jxr_keyword">if</strong> (len &lt; 1) {
+<a class="jxr_linenumber" name="L1131" href="#L1131">1131</a>             <em class="jxr_comment">// nothing to do here - and the timestamp will be NULL</em>
+<a class="jxr_linenumber" name="L1132" href="#L1132">1132</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L1133" href="#L1133">1133</a>         }
+<a class="jxr_linenumber" name="L1134" href="#L1134">1134</a> 
+<a class="jxr_linenumber" name="L1135" href="#L1135">1135</a>         <strong class="jxr_keyword">int</strong>         year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0;
+<a class="jxr_linenumber" name="L1136" href="#L1136">1136</a>         BigDecimal  frac = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L1137" href="#L1137">1137</a>         <strong class="jxr_keyword">int</strong>         save_limit = NO_LIMIT;
+<a class="jxr_linenumber" name="L1138" href="#L1138">1138</a>         <strong class="jxr_keyword">if</strong> (_local_remaining != NO_LIMIT) {
+<a class="jxr_linenumber" name="L1139" href="#L1139">1139</a>             save_limit = _local_remaining - len;
+<a class="jxr_linenumber" name="L1140" href="#L1140">1140</a>         }
+<a class="jxr_linenumber" name="L1141" href="#L1141">1141</a>         _local_remaining = len;  <em class="jxr_comment">// &gt; 0</em>
+<a class="jxr_linenumber" name="L1142" href="#L1142">1142</a> 
+<a class="jxr_linenumber" name="L1143" href="#L1143">1143</a>         <em class="jxr_comment">// first up is the offset, which requires a special int reader</em>
+<a class="jxr_linenumber" name="L1144" href="#L1144">1144</a>         <em class="jxr_comment">// to return the -0 as a null Integer</em>
+<a class="jxr_linenumber" name="L1145" href="#L1145">1145</a>         Integer offset = readVarInteger();
+<a class="jxr_linenumber" name="L1146" href="#L1146">1146</a>         <em class="jxr_comment">// now we'll read the struct values from the input stream</em>
+<a class="jxr_linenumber" name="L1147" href="#L1147">1147</a> 
+<a class="jxr_linenumber" name="L1148" href="#L1148">1148</a>         <em class="jxr_comment">// year is from 0001 to 9999</em>
+<a class="jxr_linenumber" name="L1149" href="#L1149">1149</a>         <em class="jxr_comment">// or 0x1 to 0x270F or 14 bits - 1 or 2 bytes</em>
+<a class="jxr_linenumber" name="L1150" href="#L1150">1150</a>         year  = readVarUInt();
+<a class="jxr_linenumber" name="L1151" href="#L1151">1151</a>         Precision p = Precision.YEAR; <em class="jxr_comment">// our lowest significant option</em>
+<a class="jxr_linenumber" name="L1152" href="#L1152">1152</a> 
+<a class="jxr_linenumber" name="L1153" href="#L1153">1153</a>         <em class="jxr_comment">// now we look for months</em>
+<a class="jxr_linenumber" name="L1154" href="#L1154">1154</a>         <strong class="jxr_keyword">if</strong> (_local_remaining &gt; 0) {
+<a class="jxr_linenumber" name="L1155" href="#L1155">1155</a>             month = readVarUInt();
+<a class="jxr_linenumber" name="L1156" href="#L1156">1156</a>             p = Precision.MONTH;
+<a class="jxr_linenumber" name="L1157" href="#L1157">1157</a> 
+<a class="jxr_linenumber" name="L1158" href="#L1158">1158</a>             <em class="jxr_comment">// now we look for days</em>
+<a class="jxr_linenumber" name="L1159" href="#L1159">1159</a>             <strong class="jxr_keyword">if</strong> (_local_remaining &gt; 0) {
+<a class="jxr_linenumber" name="L1160" href="#L1160">1160</a>                 day   = readVarUInt();
+<a class="jxr_linenumber" name="L1161" href="#L1161">1161</a>                 p = Precision.DAY; <em class="jxr_comment">// our lowest significant option</em>
+<a class="jxr_linenumber" name="L1162" href="#L1162">1162</a> 
+<a class="jxr_linenumber" name="L1163" href="#L1163">1163</a>                 <em class="jxr_comment">// now we look for hours and minutes</em>
+<a class="jxr_linenumber" name="L1164" href="#L1164">1164</a>                 <strong class="jxr_keyword">if</strong> (_local_remaining &gt; 0) {
+<a class="jxr_linenumber" name="L1165" href="#L1165">1165</a>                     hour   = readVarUInt();
+<a class="jxr_linenumber" name="L1166" href="#L1166">1166</a>                     minute = readVarUInt();
+<a class="jxr_linenumber" name="L1167" href="#L1167">1167</a>                     p = Precision.MINUTE;
+<a class="jxr_linenumber" name="L1168" href="#L1168">1168</a>                     <strong class="jxr_keyword">if</strong> (_local_remaining &gt; 0) {
+<a class="jxr_linenumber" name="L1169" href="#L1169">1169</a>                         second = readVarUInt();
+<a class="jxr_linenumber" name="L1170" href="#L1170">1170</a>                         p = Precision.SECOND;
+<a class="jxr_linenumber" name="L1171" href="#L1171">1171</a>                         <strong class="jxr_keyword">if</strong> (_local_remaining &gt; 0) {
+<a class="jxr_linenumber" name="L1172" href="#L1172">1172</a>                             <em class="jxr_comment">// now we read in our actual "milliseconds since the epoch"</em>
+<a class="jxr_linenumber" name="L1173" href="#L1173">1173</a>                             frac = readDecimal(_local_remaining);
+<a class="jxr_linenumber" name="L1174" href="#L1174">1174</a>                             <strong class="jxr_keyword">if</strong> (frac.compareTo(BigDecimal.ZERO) &lt; 0 || frac.compareTo(BigDecimal.ONE) &gt;= 0) {
+<a class="jxr_linenumber" name="L1175" href="#L1175">1175</a>                                 throwErrorAt(
+<a class="jxr_linenumber" name="L1176" href="#L1176">1176</a>                                         <span class="jxr_string">"The fractional seconds value in a timestamp must be greater than or "</span>
+<a class="jxr_linenumber" name="L1177" href="#L1177">1177</a>                                               + <span class="jxr_string">"equal to zero and less than one."</span>
+<a class="jxr_linenumber" name="L1178" href="#L1178">1178</a>                                 );
+<a class="jxr_linenumber" name="L1179" href="#L1179">1179</a>                             }
+<a class="jxr_linenumber" name="L1180" href="#L1180">1180</a>                         }
+<a class="jxr_linenumber" name="L1181" href="#L1181">1181</a>                     }
+<a class="jxr_linenumber" name="L1182" href="#L1182">1182</a>                 }
+<a class="jxr_linenumber" name="L1183" href="#L1183">1183</a>             }
+<a class="jxr_linenumber" name="L1184" href="#L1184">1184</a>         }
+<a class="jxr_linenumber" name="L1185" href="#L1185">1185</a>         <em class="jxr_comment">// restore out outer limit(s)</em>
+<a class="jxr_linenumber" name="L1186" href="#L1186">1186</a>         _local_remaining  = save_limit;
+<a class="jxr_linenumber" name="L1187" href="#L1187">1187</a>         <em class="jxr_comment">// now we let timestamp put it all together</em>
+<a class="jxr_linenumber" name="L1188" href="#L1188">1188</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L1189" href="#L1189">1189</a>             <a name="Timestamp" href="../../../../com/amazon/ion/Timestamp.html#Timestamp">Timestamp</a> val =
+<a class="jxr_linenumber" name="L1190" href="#L1190">1190</a>                 Timestamp.createFromUtcFields(p, year, month, day, hour,
+<a class="jxr_linenumber" name="L1191" href="#L1191">1191</a>                                               minute, second, frac, offset);
+<a class="jxr_linenumber" name="L1192" href="#L1192">1192</a>             <strong class="jxr_keyword">return</strong> val;
+<a class="jxr_linenumber" name="L1193" href="#L1193">1193</a>         }
+<a class="jxr_linenumber" name="L1194" href="#L1194">1194</a>         <strong class="jxr_keyword">catch</strong> (IllegalArgumentException e)
+<a class="jxr_linenumber" name="L1195" href="#L1195">1195</a>         {
+<a class="jxr_linenumber" name="L1196" href="#L1196">1196</a>             <em class="jxr_comment">// Rewrap to the expected type.</em>
+<a class="jxr_linenumber" name="L1197" href="#L1197">1197</a>             <strong class="jxr_keyword">throw</strong> newErrorAt(<span class="jxr_string">"Invalid timestamp encoding: "</span> + e.getMessage());
+<a class="jxr_linenumber" name="L1198" href="#L1198">1198</a>         }
+<a class="jxr_linenumber" name="L1199" href="#L1199">1199</a>     }
+<a class="jxr_linenumber" name="L1200" href="#L1200">1200</a> 
+<a class="jxr_linenumber" name="L1201" href="#L1201">1201</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> String readString(<strong class="jxr_keyword">int</strong> numberOfBytes) <strong class="jxr_keyword">throws</strong> IOException
+<a class="jxr_linenumber" name="L1202" href="#L1202">1202</a>     {
+<a class="jxr_linenumber" name="L1203" href="#L1203">1203</a>         <em class="jxr_comment">// If the string we're reading is small enough to fit in our reusable buffer, we can avoid the overhead</em>
+<a class="jxr_linenumber" name="L1204" href="#L1204">1204</a>         <em class="jxr_comment">// of looping and bounds checking.</em>
+<a class="jxr_linenumber" name="L1205" href="#L1205">1205</a>         <strong class="jxr_keyword">if</strong> (numberOfBytes &lt;= utf8InputBuffer.capacity()) {
+<a class="jxr_linenumber" name="L1206" href="#L1206">1206</a>             <strong class="jxr_keyword">return</strong> readStringWithReusableBuffer(numberOfBytes);
+<a class="jxr_linenumber" name="L1207" href="#L1207">1207</a>         }
+<a class="jxr_linenumber" name="L1208" href="#L1208">1208</a> 
+<a class="jxr_linenumber" name="L1209" href="#L1209">1209</a>         <em class="jxr_comment">// Otherwise, allocate a one-off decoding buffer that's large enough to hold the string</em>
+<a class="jxr_linenumber" name="L1210" href="#L1210">1210</a>         <em class="jxr_comment">// and prepare to decode the string in chunks.</em>
+<a class="jxr_linenumber" name="L1211" href="#L1211">1211</a>         CharBuffer decodingBuffer = CharBuffer.allocate(numberOfBytes);
+<a class="jxr_linenumber" name="L1212" href="#L1212">1212</a>         utf8CharsetDecoder.reset();
+<a class="jxr_linenumber" name="L1213" href="#L1213">1213</a> 
+<a class="jxr_linenumber" name="L1214" href="#L1214">1214</a>         <strong class="jxr_keyword">int</strong> save_limit = NO_LIMIT;
+<a class="jxr_linenumber" name="L1215" href="#L1215">1215</a>         <strong class="jxr_keyword">if</strong> (_local_remaining != NO_LIMIT) {
+<a class="jxr_linenumber" name="L1216" href="#L1216">1216</a>             save_limit = _local_remaining - numberOfBytes;
+<a class="jxr_linenumber" name="L1217" href="#L1217">1217</a>         }
+<a class="jxr_linenumber" name="L1218" href="#L1218">1218</a>         _local_remaining = numberOfBytes;
+<a class="jxr_linenumber" name="L1219" href="#L1219">1219</a> 
+<a class="jxr_linenumber" name="L1220" href="#L1220">1220</a>         <em class="jxr_comment">// The following loop will:</em>
+<a class="jxr_linenumber" name="L1221" href="#L1221">1221</a>         <em class="jxr_comment">// * Fill the input buffer with utf8 bytes</em>
+<a class="jxr_linenumber" name="L1222" href="#L1222">1222</a>         <em class="jxr_comment">// * Write decoded chars to the decoding buffer</em>
+<a class="jxr_linenumber" name="L1223" href="#L1223">1223</a>         <em class="jxr_comment">// * Move any remaining partial character bytes to the front of the buffer</em>
+<a class="jxr_linenumber" name="L1224" href="#L1224">1224</a>         <em class="jxr_comment">// * Repeat until the requested number of bytes have been decoded.</em>
+<a class="jxr_linenumber" name="L1225" href="#L1225">1225</a>         <em class="jxr_comment">// * Create a new String object from the contents of the decoding buffer.</em>
+<a class="jxr_linenumber" name="L1226" href="#L1226">1226</a>         <strong class="jxr_keyword">int</strong> totalBytesRead = 0;
+<a class="jxr_linenumber" name="L1227" href="#L1227">1227</a>         <strong class="jxr_keyword">int</strong> carryoverBytes = 0;
+<a class="jxr_linenumber" name="L1228" href="#L1228">1228</a>         <strong class="jxr_keyword">while</strong> (totalBytesRead &lt; numberOfBytes) {
+<a class="jxr_linenumber" name="L1229" href="#L1229">1229</a> 
+<a class="jxr_linenumber" name="L1230" href="#L1230">1230</a>             <strong class="jxr_keyword">int</strong> bytesRemaining = numberOfBytes - totalBytesRead;
+<a class="jxr_linenumber" name="L1231" href="#L1231">1231</a>             <em class="jxr_comment">// When decoding, it's possible to have 'carryover' bytes left in the buffer which represent</em>
+<a class="jxr_linenumber" name="L1232" href="#L1232">1232</a>             <em class="jxr_comment">// a partial unicode character. We need to leave these in the buffer so that we can complete the</em>
+<a class="jxr_linenumber" name="L1233" href="#L1233">1233</a>             <em class="jxr_comment">// partial character in the next call to read().</em>
+<a class="jxr_linenumber" name="L1234" href="#L1234">1234</a>             <strong class="jxr_keyword">int</strong> capacityRemaining = utf8InputBuffer.array().length - carryoverBytes;
+<a class="jxr_linenumber" name="L1235" href="#L1235">1235</a>             <strong class="jxr_keyword">int</strong> bytesToRead = Math.min(bytesRemaining, capacityRemaining);
+<a class="jxr_linenumber" name="L1236" href="#L1236">1236</a> 
+<a class="jxr_linenumber" name="L1237" href="#L1237">1237</a>             <strong class="jxr_keyword">int</strong> bytesRead = read(utf8InputBuffer.array(), carryoverBytes, bytesToRead);
+<a class="jxr_linenumber" name="L1238" href="#L1238">1238</a>             <strong class="jxr_keyword">if</strong> (bytesRead &lt;= 0) {
+<a class="jxr_linenumber" name="L1239" href="#L1239">1239</a>                 <em class="jxr_comment">// UnifiedInputStreamX doesn't adhere to InputStream's API. See the comments on</em>
+<a class="jxr_linenumber" name="L1240" href="#L1240">1240</a>                 <em class="jxr_comment">// UnifiedInputStreamX#read() for more information.</em>
+<a class="jxr_linenumber" name="L1241" href="#L1241">1241</a>                 throwUnexpectedEOFException();
+<a class="jxr_linenumber" name="L1242" href="#L1242">1242</a>             }
+<a class="jxr_linenumber" name="L1243" href="#L1243">1243</a> 
+<a class="jxr_linenumber" name="L1244" href="#L1244">1244</a>             totalBytesRead += bytesRead;
+<a class="jxr_linenumber" name="L1245" href="#L1245">1245</a> 
+<a class="jxr_linenumber" name="L1246" href="#L1246">1246</a>             utf8InputBuffer.position(0);
+<a class="jxr_linenumber" name="L1247" href="#L1247">1247</a>             utf8InputBuffer.limit(carryoverBytes + bytesRead);
+<a class="jxr_linenumber" name="L1248" href="#L1248">1248</a> 
+<a class="jxr_linenumber" name="L1249" href="#L1249">1249</a>             CoderResult coderResult = utf8CharsetDecoder.decode(
+<a class="jxr_linenumber" name="L1250" href="#L1250">1250</a>                     utf8InputBuffer,
+<a class="jxr_linenumber" name="L1251" href="#L1251">1251</a>                     decodingBuffer,
+<a class="jxr_linenumber" name="L1252" href="#L1252">1252</a>                     totalBytesRead &gt;= numberOfBytes
+<a class="jxr_linenumber" name="L1253" href="#L1253">1253</a>             );
+<a class="jxr_linenumber" name="L1254" href="#L1254">1254</a>             <strong class="jxr_keyword">if</strong> (coderResult.isError()) {
+<a class="jxr_linenumber" name="L1255" href="#L1255">1255</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="IonException" href="../../../../com/amazon/ion/IonException.html#IonException">IonException</a>(<span class="jxr_string">"Illegal value encountered while validating UTF-8 data in input stream. "</span> + coderResult.toString());
+<a class="jxr_linenumber" name="L1256" href="#L1256">1256</a>             }
+<a class="jxr_linenumber" name="L1257" href="#L1257">1257</a> 
+<a class="jxr_linenumber" name="L1258" href="#L1258">1258</a>             <em class="jxr_comment">// Shift leftover partial character bytes (if any) to the beginning of the buffer</em>
+<a class="jxr_linenumber" name="L1259" href="#L1259">1259</a>             carryoverBytes = utf8InputBuffer.remaining();
+<a class="jxr_linenumber" name="L1260" href="#L1260">1260</a>             <strong class="jxr_keyword">if</strong> (carryoverBytes &gt; 0) {
+<a class="jxr_linenumber" name="L1261" href="#L1261">1261</a>                 System.arraycopy(
+<a class="jxr_linenumber" name="L1262" href="#L1262">1262</a>                         utf8InputBuffer.array(),
+<a class="jxr_linenumber" name="L1263" href="#L1263">1263</a>                         utf8InputBuffer.position(),
+<a class="jxr_linenumber" name="L1264" href="#L1264">1264</a>                         utf8InputBuffer.array(),
+<a class="jxr_linenumber" name="L1265" href="#L1265">1265</a>                         0,
+<a class="jxr_linenumber" name="L1266" href="#L1266">1266</a>                         carryoverBytes
+<a class="jxr_linenumber" name="L1267" href="#L1267">1267</a>                 );
+<a class="jxr_linenumber" name="L1268" href="#L1268">1268</a>             }
+<a class="jxr_linenumber" name="L1269" href="#L1269">1269</a>         }
+<a class="jxr_linenumber" name="L1270" href="#L1270">1270</a> 
+<a class="jxr_linenumber" name="L1271" href="#L1271">1271</a>         _local_remaining = save_limit;
+<a class="jxr_linenumber" name="L1272" href="#L1272">1272</a> 
+<a class="jxr_linenumber" name="L1273" href="#L1273">1273</a>         decodingBuffer.flip();
+<a class="jxr_linenumber" name="L1274" href="#L1274">1274</a>         <strong class="jxr_keyword">return</strong> decodingBuffer.toString();
+<a class="jxr_linenumber" name="L1275" href="#L1275">1275</a>     }
 <a class="jxr_linenumber" name="L1276" href="#L1276">1276</a> 
-<a class="jxr_linenumber" name="L1277" href="#L1277">1277</a>         decodingBuffer.flip();
-<a class="jxr_linenumber" name="L1278" href="#L1278">1278</a>         <strong class="jxr_keyword">return</strong> decodingBuffer.toString();
-<a class="jxr_linenumber" name="L1279" href="#L1279">1279</a>     }
-<a class="jxr_linenumber" name="L1280" href="#L1280">1280</a> 
-<a class="jxr_linenumber" name="L1281" href="#L1281">1281</a>     <strong class="jxr_keyword">private</strong> String readStringWithReusableBuffer(<strong class="jxr_keyword">int</strong> numberOfBytes) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L1282" href="#L1282">1282</a>         <strong class="jxr_keyword">int</strong> save_limit = NO_LIMIT;
-<a class="jxr_linenumber" name="L1283" href="#L1283">1283</a>         <strong class="jxr_keyword">if</strong> (_local_remaining != NO_LIMIT) {
-<a class="jxr_linenumber" name="L1284" href="#L1284">1284</a>             save_limit = _local_remaining - numberOfBytes;
-<a class="jxr_linenumber" name="L1285" href="#L1285">1285</a>         }
-<a class="jxr_linenumber" name="L1286" href="#L1286">1286</a>         _local_remaining = numberOfBytes;
-<a class="jxr_linenumber" name="L1287" href="#L1287">1287</a>         readAll(utf8InputBuffer.array(), 0, numberOfBytes);
-<a class="jxr_linenumber" name="L1288" href="#L1288">1288</a>         _local_remaining = save_limit;
-<a class="jxr_linenumber" name="L1289" href="#L1289">1289</a> 
-<a class="jxr_linenumber" name="L1290" href="#L1290">1290</a>         utf8InputBuffer.position(0);
-<a class="jxr_linenumber" name="L1291" href="#L1291">1291</a>         utf8InputBuffer.limit(numberOfBytes);
-<a class="jxr_linenumber" name="L1292" href="#L1292">1292</a> 
-<a class="jxr_linenumber" name="L1293" href="#L1293">1293</a>         utf8DecodingBuffer.position(0);
-<a class="jxr_linenumber" name="L1294" href="#L1294">1294</a>         utf8DecodingBuffer.limit(utf8DecodingBuffer.capacity());
-<a class="jxr_linenumber" name="L1295" href="#L1295">1295</a> 
-<a class="jxr_linenumber" name="L1296" href="#L1296">1296</a>         utf8CharsetDecoder.reset();
-<a class="jxr_linenumber" name="L1297" href="#L1297">1297</a>         CoderResult coderResult = utf8CharsetDecoder.decode(utf8InputBuffer, utf8DecodingBuffer, <strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="L1298" href="#L1298">1298</a>         <strong class="jxr_keyword">if</strong> (coderResult.isError()) {
-<a class="jxr_linenumber" name="L1299" href="#L1299">1299</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="IonException" href="../../../../com/amazon/ion/IonException.html#IonException">IonException</a>(<span class="jxr_string">"Illegal value encountered while validating UTF-8 data in input stream. "</span> + coderResult.toString());
-<a class="jxr_linenumber" name="L1300" href="#L1300">1300</a>         }
-<a class="jxr_linenumber" name="L1301" href="#L1301">1301</a>         utf8DecodingBuffer.flip();
-<a class="jxr_linenumber" name="L1302" href="#L1302">1302</a>         <strong class="jxr_keyword">return</strong> utf8DecodingBuffer.toString();
+<a class="jxr_linenumber" name="L1277" href="#L1277">1277</a>     <strong class="jxr_keyword">private</strong> String readStringWithReusableBuffer(<strong class="jxr_keyword">int</strong> numberOfBytes) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L1278" href="#L1278">1278</a>         <strong class="jxr_keyword">int</strong> save_limit = NO_LIMIT;
+<a class="jxr_linenumber" name="L1279" href="#L1279">1279</a>         <strong class="jxr_keyword">if</strong> (_local_remaining != NO_LIMIT) {
+<a class="jxr_linenumber" name="L1280" href="#L1280">1280</a>             save_limit = _local_remaining - numberOfBytes;
+<a class="jxr_linenumber" name="L1281" href="#L1281">1281</a>         }
+<a class="jxr_linenumber" name="L1282" href="#L1282">1282</a>         _local_remaining = numberOfBytes;
+<a class="jxr_linenumber" name="L1283" href="#L1283">1283</a>         readAll(utf8InputBuffer.array(), 0, numberOfBytes);
+<a class="jxr_linenumber" name="L1284" href="#L1284">1284</a>         _local_remaining = save_limit;
+<a class="jxr_linenumber" name="L1285" href="#L1285">1285</a> 
+<a class="jxr_linenumber" name="L1286" href="#L1286">1286</a>         utf8InputBuffer.position(0);
+<a class="jxr_linenumber" name="L1287" href="#L1287">1287</a>         utf8InputBuffer.limit(numberOfBytes);
+<a class="jxr_linenumber" name="L1288" href="#L1288">1288</a> 
+<a class="jxr_linenumber" name="L1289" href="#L1289">1289</a>         utf8DecodingBuffer.position(0);
+<a class="jxr_linenumber" name="L1290" href="#L1290">1290</a>         utf8DecodingBuffer.limit(utf8DecodingBuffer.capacity());
+<a class="jxr_linenumber" name="L1291" href="#L1291">1291</a> 
+<a class="jxr_linenumber" name="L1292" href="#L1292">1292</a>         utf8CharsetDecoder.reset();
+<a class="jxr_linenumber" name="L1293" href="#L1293">1293</a>         CoderResult coderResult = utf8CharsetDecoder.decode(utf8InputBuffer, utf8DecodingBuffer, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L1294" href="#L1294">1294</a>         <strong class="jxr_keyword">if</strong> (coderResult.isError()) {
+<a class="jxr_linenumber" name="L1295" href="#L1295">1295</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="IonException" href="../../../../com/amazon/ion/IonException.html#IonException">IonException</a>(<span class="jxr_string">"Illegal value encountered while validating UTF-8 data in input stream. "</span> + coderResult.toString());
+<a class="jxr_linenumber" name="L1296" href="#L1296">1296</a>         }
+<a class="jxr_linenumber" name="L1297" href="#L1297">1297</a>         utf8DecodingBuffer.flip();
+<a class="jxr_linenumber" name="L1298" href="#L1298">1298</a>         <strong class="jxr_keyword">return</strong> utf8DecodingBuffer.toString();
+<a class="jxr_linenumber" name="L1299" href="#L1299">1299</a>     }
+<a class="jxr_linenumber" name="L1300" href="#L1300">1300</a> 
+<a class="jxr_linenumber" name="L1301" href="#L1301">1301</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">void</strong> throwUnexpectedEOFException() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L1302" href="#L1302">1302</a>         throwErrorAt(<span class="jxr_string">"unexpected EOF in value"</span>);
 <a class="jxr_linenumber" name="L1303" href="#L1303">1303</a>     }
-<a class="jxr_linenumber" name="L1304" href="#L1304">1304</a> 
-<a class="jxr_linenumber" name="L1305" href="#L1305">1305</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">void</strong> throwUnexpectedEOFException() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L1306" href="#L1306">1306</a>         throwErrorAt(<span class="jxr_string">"unexpected EOF in value"</span>);
-<a class="jxr_linenumber" name="L1307" href="#L1307">1307</a>     }
-<a class="jxr_linenumber" name="L1308" href="#L1308">1308</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">void</strong> throwVarIntOverflowException() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L1309" href="#L1309">1309</a>         throwErrorAt(<span class="jxr_string">"int in stream is too long for a Java int 32"</span>);
-<a class="jxr_linenumber" name="L1310" href="#L1310">1310</a>     }
-<a class="jxr_linenumber" name="L1311" href="#L1311">1311</a> 
-<a class="jxr_linenumber" name="L1312" href="#L1312">1312</a>     <strong class="jxr_keyword">protected</strong> <a name="IonException" href="../../../../com/amazon/ion/IonException.html#IonException">IonException</a> newErrorAt(String msg) {
-<a class="jxr_linenumber" name="L1313" href="#L1313">1313</a>         String msg2 = msg + <span class="jxr_string">" at position "</span> + getPosition();
-<a class="jxr_linenumber" name="L1314" href="#L1314">1314</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="IonException" href="../../../../com/amazon/ion/IonException.html#IonException">IonException</a>(msg2);
-<a class="jxr_linenumber" name="L1315" href="#L1315">1315</a>     }
-<a class="jxr_linenumber" name="L1316" href="#L1316">1316</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> throwErrorAt(String msg) {
-<a class="jxr_linenumber" name="L1317" href="#L1317">1317</a>         <strong class="jxr_keyword">throw</strong> newErrorAt(msg);
-<a class="jxr_linenumber" name="L1318" href="#L1318">1318</a>     }
-<a class="jxr_linenumber" name="L1319" href="#L1319">1319</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> error(String msg) {
-<a class="jxr_linenumber" name="L1320" href="#L1320">1320</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="IonException" href="../../../../com/amazon/ion/IonException.html#IonException">IonException</a>(msg);
-<a class="jxr_linenumber" name="L1321" href="#L1321">1321</a>     }
-<a class="jxr_linenumber" name="L1322" href="#L1322">1322</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> error(Exception e) {
-<a class="jxr_linenumber" name="L1323" href="#L1323">1323</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="IonException" href="../../../../com/amazon/ion/IonException.html#IonException">IonException</a>(e);
-<a class="jxr_linenumber" name="L1324" href="#L1324">1324</a>     }
-<a class="jxr_linenumber" name="L1325" href="#L1325">1325</a> }
+<a class="jxr_linenumber" name="L1304" href="#L1304">1304</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">void</strong> throwVarIntOverflowException() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L1305" href="#L1305">1305</a>         throwErrorAt(<span class="jxr_string">"int in stream is too long for a Java int 32"</span>);
+<a class="jxr_linenumber" name="L1306" href="#L1306">1306</a>     }
+<a class="jxr_linenumber" name="L1307" href="#L1307">1307</a> 
+<a class="jxr_linenumber" name="L1308" href="#L1308">1308</a>     <strong class="jxr_keyword">protected</strong> <a name="IonException" href="../../../../com/amazon/ion/IonException.html#IonException">IonException</a> newErrorAt(String msg) {
+<a class="jxr_linenumber" name="L1309" href="#L1309">1309</a>         String msg2 = msg + <span class="jxr_string">" at position "</span> + getPosition();
+<a class="jxr_linenumber" name="L1310" href="#L1310">1310</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="IonException" href="../../../../com/amazon/ion/IonException.html#IonException">IonException</a>(msg2);
+<a class="jxr_linenumber" name="L1311" href="#L1311">1311</a>     }
+<a class="jxr_linenumber" name="L1312" href="#L1312">1312</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> throwErrorAt(String msg) {
+<a class="jxr_linenumber" name="L1313" href="#L1313">1313</a>         <strong class="jxr_keyword">throw</strong> newErrorAt(msg);
+<a class="jxr_linenumber" name="L1314" href="#L1314">1314</a>     }
+<a class="jxr_linenumber" name="L1315" href="#L1315">1315</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> error(String msg) {
+<a class="jxr_linenumber" name="L1316" href="#L1316">1316</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="IonException" href="../../../../com/amazon/ion/IonException.html#IonException">IonException</a>(msg);
+<a class="jxr_linenumber" name="L1317" href="#L1317">1317</a>     }
+<a class="jxr_linenumber" name="L1318" href="#L1318">1318</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> error(Exception e) {
+<a class="jxr_linenumber" name="L1319" href="#L1319">1319</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="IonException" href="../../../../com/amazon/ion/IonException.html#IonException">IonException</a>(e);
+<a class="jxr_linenumber" name="L1320" href="#L1320">1320</a>     }
+<a class="jxr_linenumber" name="L1321" href="#L1321">1321</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2020. All rights reserved.</div>
