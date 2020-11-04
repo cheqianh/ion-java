@@ -17,8 +17,8 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.amazon.ion</groupId>
-  <artifactId>ion-javaaaaaaaaaaaaaaa</artifactId>
-  <version>1.7.3-SNAPSHOT</version>
+  <artifactId>ion-java</artifactId>
+  <version>1.7.2-SNAPSHOT</version>
   <packaging>bundle</packaging>
 
   <name>${project.groupId}:${project.artifactId}</name>
