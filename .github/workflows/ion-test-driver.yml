@@ -1,6 +1,6 @@
 name: ion-test-driver
 
-on: [pull_request]
+on: [pull_request, push]
 
 jobs:
   ion-test-driver:
@@ -29,24 +29,27 @@ jobs:
       - name: Get main branch HEAD sha
         run: cd ion-java && echo `git rev-parse --short HEAD` && echo "sha=`git rev-parse --short HEAD`" >> $GITHUB_ENV
 
-      - name: Run ion-test-driver
-        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output
-          -i ion-java,${{ github.event.pull_request.head.repo.html_url }},${{ github.event.pull_request.head.sha }}
+#      - name: Run ion-test-driver
+#        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output
+#          -i ion-java,${{ github.event.pull_request.head.repo.html_url }},${{ github.event.pull_request.head.sha }}
+#
+#      - name: Upload result
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: ion-test-driver-result.ion
+#          path: output/results/ion-test-driver-results.ion
+#
+#      - name: showing result
+#        run: cat output/results/ion-test-driver-results.ion
 
-      - name: Upload result
-        uses: actions/upload-artifact@v2
-        with:
-          name: ion-test-driver-result.ion
-          path: output/results/ion-test-driver-results.ion
-
-      - name: showing result
-        run: cat output/results/ion-test-driver-results.ion
+      - name: output sha
+        run: echo $sha
 
       - name: Analyze two implementations
         continue-on-error: true
         id: result-diff
         run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -R
-          ion-java,https://github.com/amzn/ion-java,$sha
+          ion-java,https://github.com/amzn/ion-java,$main
           ion-java,${{ github.event.pull_request.head.repo.html_url }},${{ github.event.pull_request.head.sha }}
           output/results/ion-test-driver-results.ion
 
