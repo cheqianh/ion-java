@@ -42,15 +42,15 @@ jobs:
 #      - name: showing result
 #        run: cat output/results/ion-test-driver-results.ion
 
-      - name: output sha
-        run: echo $sha
+      - name: output PR
+        run: echo ${{ github.event.pull_request.head.sha }}
 
       - name: Analyze two implementations
         continue-on-error: true
         id: result-diff
         run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -R
-          ion-java,https://github.com/amzn/ion-java,$main
-          ion-java,${{ github.event.pull_request.head.repo.html_url }},${{ github.event.pull_request.head.sha }}
+          ion-java,https://github.com/amzn/ion-java,$sha
+          ion-java,${{ github.event.pull_request.head.sha }}
           output/results/ion-test-driver-results.ion
 
       - name: Upload analysis report
