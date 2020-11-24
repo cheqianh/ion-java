@@ -27,34 +27,29 @@ jobs:
         run: pip3 install -r ion-test-driver/requirements.txt && pip3 install -e ion-test-driver
 
       - name: Get main branch HEAD sha
-        run: cd ion-java && echo `git rev-parse --short HEAD` && echo "sha=`git rev-parse --short HEAD`" >> $GITHUB_ENV
+        run: cd ion-java && echo `git rev-parse --short HEAD` && echo "main=`git rev-parse --short HEAD`" >> $GITHUB_ENV
 
-#      - name: Run ion-test-driver
-#        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output
-#          -i ion-java,${{ github.event.pull_request.head.repo.html_url }},${{ github.event.pull_request.head.sha }}
-#
-#      - name: Upload result
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: ion-test-driver-result.ion
-#          path: output/results/ion-test-driver-results.ion
-#
-#      - name: showing result
-#        run: cat output/results/ion-test-driver-results.ion
+      - name: Get current branch HEAD sha
+          run: cd ion-java && echo `git rev-parse --short HEAD` && echo "cur=`git rev-parse --short ${{ github.event.pull_request.head.sha }}`" >> $GITHUB_ENV
 
-      - name: output ${{ github.event.pull_request.head.sha }}
-        run: echo ${{ github.event.pull_request.head.sha }}
+      - name: Run ion-test-driver
+        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output
+          -i ion-java,${{ github.event.pull_request.head.repo.html_url }},${{ github.event.pull_request.head.sha }}
 
-      - name: output ${{ github.event.pull_request.head.sha }}
-        run: echo github.event.pull_request.head.sha
+      - name: Upload result
+        uses: actions/upload-artifact@v2
+        with:
+          name: ion-test-driver-result.ion
+          path: output/results/ion-test-driver-results.ion
+
+      - name: showing result
+        run: cat output/results/ion-test-driver-results.ion
 
       - name: Analyze two implementations
         continue-on-error: true
         id: result-diff
         run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -R
-          ion-java,https://github.com/amzn/ion-java,$sha
-          ion-java,${{ github.event.pull_request.head.sha }}
-          output/results/ion-test-driver-results.ion
+          ion-java,$main ion-java,$cur output/results/ion-test-driver-results.ion
 
       - name: Upload analysis report
         uses: actions/upload-artifact@v2
