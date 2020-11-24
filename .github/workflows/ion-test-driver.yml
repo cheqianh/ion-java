@@ -42,8 +42,11 @@ jobs:
 #      - name: showing result
 #        run: cat output/results/ion-test-driver-results.ion
 
-      - name: output PR
+      - name: output ${{ github.event.pull_request.head.sha }}
         run: echo ${{ github.event.pull_request.head.sha }}
+
+      - name: output ${{ github.event.pull_request.head.sha }}
+        run: echo github.event.pull_request.head.sha
 
       - name: Analyze two implementations
         continue-on-error: true
