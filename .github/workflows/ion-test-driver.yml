@@ -29,15 +29,15 @@ jobs:
       - name: Get main branch HEAD sha
         run: cd ion-java && echo `git rev-parse --short HEAD` && echo "main=`git rev-parse --short HEAD`" >> $GITHUB_ENV
 
-#      - name: Get current branch HEAD sha
+#      - name: Get current sha
 #          run: cd ion-java && echo `git rev-parse --short HEAD` && echo "cur=`git rev-parse --short ${{ github.event.pull_request.head.sha }}`" >> $GITHUB_ENV
 
       - name: Get main branch HEAD sha
         run: cd ion-java && echo `git rev-parse --short ${{ github.event.pull_request.head.sha }}`
 
-      - name: Run ion-test-driver
-        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output
-          -i ion-java,${{ github.event.pull_request.head.repo.html_url }},${{ github.event.pull_request.head.sha }}
+#      - name: Run ion-test-driver
+#        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output
+#          -i ion-java,${{ github.event.pull_request.head.repo.html_url }},${{ github.event.pull_request.head.sha }}
 
       - name: Upload result
         uses: actions/upload-artifact@v2
