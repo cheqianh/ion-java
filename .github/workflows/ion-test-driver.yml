@@ -1,6 +1,6 @@
 name: ion-test-driver
 
-on: [pull_request, push]
+on: [pull_request]
 
 jobs:
   ion-test-driver:
@@ -29,7 +29,7 @@ jobs:
       - name: Get main branch HEAD sha
         run: cd ion-java && echo `git rev-parse --short=7 HEAD` && echo "main=`git rev-parse --short=7 HEAD`" >> $GITHUB_ENV
 
-      - name: Get current ${{ github.event.pull_request.head.sha }}
+      - name: Get current commit sha
         run: cd ion-java && echo `git rev-parse --short=7 ${{ github.event.pull_request.head.sha }}`
           && echo "cur=`git rev-parse --short=7 ${{ github.event.pull_request.head.sha }}`" >> $GITHUB_ENV
 
