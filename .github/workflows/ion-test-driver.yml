@@ -27,14 +27,11 @@ jobs:
         run: pip3 install -r ion-test-driver/requirements.txt && pip3 install -e ion-test-driver
 
       - name: Get main branch HEAD sha
-        run: cd ion-java && echo `git rev-parse --short HEAD` && echo "main=`git rev-parse --short HEAD`" >> $GITHUB_ENV
+        run: cd ion-java && echo `git rev-parse --short=7 HEAD` && echo "main=`git rev-parse --short=7 HEAD`" >> $GITHUB_ENV
 
       - name: Get current ${{ github.event.pull_request.head.sha }}
-        run: cd ion-java && echo `git rev-parse --short ${{ github.event.pull_request.head.sha }}`
-          && echo "cur=`git rev-parse --short ${{ github.event.pull_request.head.sha }}`" >> $GITHUB_ENV
-
-      - name: get main
-        run: cd ion-java && git rev-parse --short HEAD
+        run: cd ion-java && echo `git rev-parse --short=7 ${{ github.event.pull_request.head.sha }}`
+          && echo "cur=`git rev-parse --short=7 ${{ github.event.pull_request.head.sha }}`" >> $GITHUB_ENV
 
       - name: Run ion-test-driver
         run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output
