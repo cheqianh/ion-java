@@ -30,7 +30,7 @@ jobs:
         run: cd ion-java && echo `git rev-parse --short HEAD` && echo "main=`git rev-parse --short HEAD`" >> $GITHUB_ENV
 
       - name: Get main branch HEAD sha
-        run: cd ion-java && echo `git rev-parse --short ${{ github.event.pull_request.head.sha }}` echo "cur=`git rev-parse --short ${{ github.event.pull_request.head.sha }}` >> $GITHUB_ENV
+        run: cd ion-java && echo `git rev-parse --short ${{ github.event.pull_request.head.sha }}` echo "cur=`git rev-parse --short ${{ github.event.pull_request.head.sha }}`" >> $GITHUB_ENV
 
       - name: Get main branch HEAD sha
         run: echo $cur
