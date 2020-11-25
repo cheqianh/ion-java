@@ -637,7 +637,7 @@ static final boolean test_with_no_version_checking = false;
 <span class="fc bfc" id="L637" title="All 2 branches covered.">        if (newblocksize &lt; _blockSizeUpperLimit) {</span>
             // if we don't need an oversize block then find a block
             // size that will be big enough
-<span class="pc bpc" id="L640" title="1 of 2 branches missed.">            while ((newblocksize = this.nextBlockSize(caller, version)) &lt; minimumBlockSize) {</span>
+<span class="fc bfc" id="L640" title="All 2 branches covered.">            while ((newblocksize = this.nextBlockSize(caller, version)) &lt; minimumBlockSize) {</span>
                 // bump up requested block capacity until we get
                 // at least enough to hold the request, or we
                 // hit the max blocksize whichever comes first
@@ -1481,7 +1481,7 @@ static final boolean test_with_no_version_checking = false;
 <span class="fc" id="L1481">                    writeInThisBlock = end_b - off;</span>
                 }
 <span class="pc bpc" id="L1483" title="2 of 4 branches missed.">                assert writeInThisBlock &gt;= 0;</span>
-<span class="fc bfc" id="L1484" title="All 2 branches covered.">                if (writeInThisBlock &gt; 0) {</span>
+<span class="pc bpc" id="L1484" title="1 of 2 branches missed.">                if (writeInThisBlock &gt; 0) {</span>
 <span class="fc" id="L1485">                    System.arraycopy(b, off, _curr._buffer, _blockPosition, writeInThisBlock);</span>
 <span class="fc" id="L1486">                    off += writeInThisBlock;</span>
 <span class="fc" id="L1487">                    _pos += writeInThisBlock;</span>
