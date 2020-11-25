@@ -33,6 +33,9 @@ jobs:
         run: cd ion-java && echo `git rev-parse --short ${{ github.event.pull_request.head.sha }}`
           && echo "cur=`git rev-parse --short ${{ github.event.pull_request.head.sha }}`" >> $GITHUB_ENV
 
+      - name: get main
+        run: cd ion-java && git rev-parse --short HEAD
+
       - name: Run ion-test-driver
         run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output
           -i ion-java,${{ github.event.pull_request.head.repo.html_url }},${{ github.event.pull_request.head.sha }}
