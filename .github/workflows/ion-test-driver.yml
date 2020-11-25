@@ -29,13 +29,11 @@ jobs:
       - name: Get main branch HEAD sha
         run: cd ion-java && echo `git rev-parse --short HEAD` && echo "main=`git rev-parse --short HEAD`" >> $GITHUB_ENV
 
-      - name: Get current sha
+      - name: Get current ${{ github.event.pull_request.head.sha }}
         run: cd ion-java && echo `git rev-parse --short ${{ github.event.pull_request.head.sha }}`
+          && echo "cur=`git rev-parse --short ${{ github.event.pull_request.head.sha }}`" >> $GITHUB_ENV
 
-      - name: store current sha into env
-        run: echo "cur=`git rev-parse --short ${{ github.event.pull_request.head.sha }}`" >> $GITHUB_ENV
-
-      - name: Get cur
+      - name: Get $cur
         run: echo $cur
 
       - name: Run ion-test-driver
