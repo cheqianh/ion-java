@@ -35,8 +35,8 @@ jobs:
 #      - name: store
 #        run: echo "cur=`git rev-parse --short ${{ github.event.pull_request.head.sha }}`" >> $GITHUB_ENV
 #
-#      - name: Get cur
-#        run: echo $cur
+      - name: Get cur
+        run: echo $cur
 
 #      - name: Run ion-test-driver
 #        run: python3 ion-test-driver/amazon/iontest/ion_test_driver.py -o output
