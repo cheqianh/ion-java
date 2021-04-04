@@ -6,18 +6,21 @@ jobs:
   ion-test-driver:
     runs-on: macos-10.15
     steps:
+      - name: python version
+        run: python3 --version
+
       - name: Checkout ion-java
         uses: actions/checkout@master
         with:
-          repository: amzn/ion-java
+          repository: cheqianh/ion-java
           ref: master
           path: ion-java
 
       - name: Checkout ion-test-driver
         uses: actions/checkout@master
         with:
-          repository: amzn/ion-test-driver
-          ref: master
+          repository: cheqianh/ion-test-driver
+          ref: fix
           path: ion-test-driver
 
       - name: Set up python3 env
@@ -25,6 +28,9 @@ jobs:
 
       - name: Pip install
         run: pip3 install -r ion-test-driver/requirements.txt && pip3 install -e ion-test-driver
+
+      - name: install whl from testpypi
+          run: pip3 install -i https://test.pypi.org/simple/ amazon.ion==0.7.92
 
       - name: Get main branch HEAD sha
         run: cd ion-java && echo `git rev-parse --short=7 HEAD` && echo "main=`git rev-parse --short=7 HEAD`" >> $GITHUB_ENV
