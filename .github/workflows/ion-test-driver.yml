@@ -32,6 +32,7 @@ jobs:
       - name: install whl from testpypi
         run: pip3 install -i https://test.pypi.org/simple/ amazon.ion==0.7.92
 
+
       - name: Get main branch HEAD sha
         run: cd ion-java && echo `git rev-parse --short=7 HEAD` && echo "main=`git rev-parse --short=7 HEAD`" >> $GITHUB_ENV
 
