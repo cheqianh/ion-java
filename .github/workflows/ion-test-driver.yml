@@ -9,9 +9,6 @@ jobs:
       - name: python version
         run: python3 --version
 
-      - name: which python3.7
-        run: ls /usr/bin
-
       - name: Checkout ion-java
         uses: actions/checkout@master
         with:
