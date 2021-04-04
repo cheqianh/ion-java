@@ -30,8 +30,7 @@ jobs:
         run: pip3 install -r ion-test-driver/requirements.txt && pip3 install -e ion-test-driver
 
       - name: install whl from testpypi
-        run: pip3 install -i https://test.pypi.org/simple/ amazon.ion==0.7.92
-
+        run: pip3 install -i https://test.pypi.org/simple/ amazon.ion==0.7.93
 
       - name: Get main branch HEAD sha
         run: cd ion-java && echo `git rev-parse --short=7 HEAD` && echo "main=`git rev-parse --short=7 HEAD`" >> $GITHUB_ENV
