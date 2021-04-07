@@ -16,7 +16,6 @@ jobs:
           ref: master
           path: ion-java
 
-
       - name: Checkout ion-test-driver
         uses: actions/checkout@master
         with:
