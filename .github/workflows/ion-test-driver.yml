@@ -53,9 +53,6 @@ jobs:
       - name: showing result
         run: cat output/results/ion-test-driver-results.ion
 
-      - name: test performance 1
-        run:
-
       - name: Analyze two implementations
         continue-on-error: true
         id: result-diff
